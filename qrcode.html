@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>设备信息</title>
+    <link rel="stylesheet" href="../css/crema.css">
+    <link rel="stylesheet" href="../css/app.css">     
+</head>
+<body>
+<div class="pages">
+    <a id="qrcode" class="button button-xs">识别二维码</a>
+</div>
+</body>
+<script name="baidu-tc-cerfication" type="text/javascript" charset="utf-8" src="http://apps.bdimg.com/cloudaapi/lightapp.js"></script>
+<script src="http://libs.baidu.com/zepto/0.8/zepto.min.js"></script>
+<script type="text/javascript">
+    Blend.lightInit({
+        ak: "wzC8sIYz0csMhD08TLuvOF74",// 运用百度云能力必须申请，若不用可删除本行
+        module:["app","account","blendui","qr"] // Blend的ui能力、本地设备能力和云能力按照module分别加载使用
+    });
+
+    $("#qrcode").bind("click",function(e){
+       Blend.device.qr.startCapture({
+           onsuccess:function(code){
+                alert(JSON.stringify(code));
+            },
+            onfail:function(e){
+                alert("err:"+JSON.stringify(e));
+            },
+            type:Blend.device.qr.QRCODE
+        });
+    });
+
+</script>
+</html>
