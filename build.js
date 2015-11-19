@@ -16560,6 +16560,37 @@ webpackJsonp([0,1],[
 	    return str;
 	}
 	
+	/** 获取标签样式
+	 *  @param {string} tab Tab分类
+	 *  @param {bool} good 是否是精华帖
+	 *  @param {bool} top 是否是置顶帖
+	 */
+	exports.getTabClassName = function(tab, good, top) {
+	    var className = '';
+	
+	    if (top) {
+	        className = "top";
+	    } else if (good) {
+	        className = "good";
+	    } else {
+	        switch (tab) {
+	            case "share":
+	                className = "share";
+	                break;
+	            case "ask":
+	                className = "ask";
+	                break;
+	            case "job":
+	                className = "job";
+	                break;
+	            default:
+	                className = "default";
+	                break;
+	        }
+	    }
+	    return className;
+	}
+	
 	/** 获取title文字
 	 *  @param {string} tab Tab分类
 	 */
@@ -40763,7 +40794,7 @@ webpackJsonp([0,1],[
 /* 204 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head :page-type=\"searchKey.tab | getTitleStr\" \n            fix-head=\"true\" \n            :need-add=\"true\" \n            :show-menu.sync=\"showMenu\"></nv-head>\n    <div id=\"page\" v-class=\"show-menu:showMenu\">\n\t    <section class=\"module-enter\">\n\t\t\t<ul>\n\t\t\t\t<li v-for=\"item in topics\" v-link=\"{name:'topic',params:{id:item.id}}\">\n\t\t\t\t\t<div class=\"til\">\n\t\t\t\t\t\t<span class=\"tab\" :class=\"{'good':item.good || item.top}\"\n\t\t\t\t\t\t\tv-text=\"item.tab | getTabStr item.good item.top\"></span>\n\t\t\t\t\t\t<span class=\"title\" v-text=\"item.title\"></span>\n\t\t\t\t\t</div>\n\t\t\t\t\t<div class=\"til mt10\">\n\t\t\t\t\t\t<img class=\"head\" :src=\"item.author.avatar_url\" />\n\t\t\t\t\t\t<div class=\"content\">\n\t\t\t\t\t\t\t<span class=\"cl\">\n\t\t\t\t\t\t\t\t<span class=\"name\" v-text=\"item.author.loginname\"></span>\n\t\t\t\t\t\t\t\t<span class=\"name mt10\">\n\t\t\t\t\t\t\t\t\t创建于:{{item.create_at | getLastTimeStr}}</span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t\t<span class=\"cr\">\n\t\t\t\t\t\t\t\t<span>\n\t\t\t\t\t\t\t\t\t<span class=\"color80\" v-if=\"item.reply_count>0\">\n\t\t\t\t\t\t\t\t\t\t{{item.reply_count}}/</span>{{item.visit_count}}</span>\n\t\t\t\t\t\t\t\t<span class=\"name mt10\" v-if=\"item.reply_count > 0\" \n\t\t\t\t\t\t\t\t\tv-text=\"item.last_reply_at | getLastTimeStr true\"></span>\n\t\t\t\t\t\t\t\t<span v-else class=\"name mt10\" \n\t\t\t\t\t\t\t\t\tv-text=\"item.create_at | getLastTimeStr true\"></span>\n\t\t\t\t\t\t\t</span>\n\t\t\t\t\t\t</div>\n\t\t\t\t\t</div> \n\t\t\t\t</li>\n\t\t\t</ul>\n\t\t</section>\n    </div>";
+	module.exports = "<!-- 全局header -->\n    <nv-head :page-type=\"searchKey.tab | getTitleStr\" \n            fix-head=\"true\" \n            :need-add=\"true\" \n            :show-menu.sync=\"showMenu\">\n    </nv-head>\n    \n\n    <section id=\"page\">\n\n        <!-- 首页列表 -->\n\t\t<ul class=\"posts-list\">\n\t\t\t<li v-for=\"item in topics\" \n                    v-link=\"{name:'topic',params:{id:item.id}}\">\n\n\t\t\t\t<h3 v-text=\"item.title\"\n                        :class=\"item.tab | getTabClassName item.good item.top\"\n                        :title=\"item.tab | getTabStr item.good item.top\">\n                </h3>\n                <div class=\"content\">\n                    <img class=\"avatar\" :src=\"item.author.avatar_url\" />\n                    <div class=\"info\">\n                        <p>\n                            <span class=\"name\">\n                                {{item.author.loginname}}\n                            </span>\n                            <span class=\"status\" v-if=\"item.reply_count > 0\">\n                                <b>{{item.reply_count}}</b>\n                                /{{item.visit_count}}\n                            </span>\n                        </p>\n                        <p>\n                            <time>\n                                {{item.create_at | getLastTimeStr true}}\n                            </time>\n                            <time>\n                                {{item.last_reply_at | getLastTimeStr true}}\n                            </time>\n                        </p>\n                    </div>\n                </div>\n\t\t\t</li>\n\t\t</ul>\n\n    </section>";
 
 /***/ },
 /* 205 */
@@ -40778,6 +40809,7 @@ webpackJsonp([0,1],[
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(207);
+	    __webpack_require__(192);
 	    __webpack_require__(208);
 	    var $ = __webpack_require__(95);
 	
@@ -40787,6 +40819,7 @@ webpackJsonp([0,1],[
 	            return {
 	                showMenu: false,    //是否展开左侧菜单
 	                topic:{},           //主题
+	                noData:false,
 	                topicId:'',
 	                curReplyId:'',
 	                userId:localStorage.userId || '',
@@ -40818,6 +40851,9 @@ webpackJsonp([0,1],[
 	                $.get('https://cnodejs.org/api/v1/topic/'+_self.topicId,function(d){
 	                    if(d && d.data){
 	                        _self.topic = d.data;
+	                    }
+	                    else{
+	                        _self.noData = true;
 	                    }
 	                });
 	            }
@@ -40940,7 +40976,7 @@ webpackJsonp([0,1],[
 	                hasErr:false,
 	                content:'',
 	                userId:localStorage.userId || '',
-	                authorTxt:'<a href="https://github.com/shinygang/Vue-cnodejs">From CNodeJS-VueJS</a>',
+	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">From CNodeJS-VueJS</a>',
 	            }
 	        },
 	        ready: function(){
@@ -43385,7 +43421,7 @@ webpackJsonp([0,1],[
 /* 221 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head page-type=\"主题\" \n            :show-menu.sync=\"showMenu\" \n            :need-add=\"true\" \n            fix-head=\"true\"></nv-head>\n    <div id=\"page\" class=\"page markdown-body\" v-class=\"show-menu:showMenu\">\n        <h2 class=\"title\" v-text=\"topic.title\"></h2>\n        <section class=\"user\">\n            <img class=\"head\" :src=\"topic.author.avatar_url\" />\n            <div class=\"info\">\n                <span class=\"cl\">\n                    <span class=\"name\">{{topic.author.loginname}}</span>\n                    <span class=\"name\">\n                        发布于:{{topic.create_at | getLastTimeStr true}}</span>\n                </span>\n                <span class=\"cr\">\n                    <span class=\"tab\" :class=\"{'good':topic.good || topic.top}\"\n                            v-text=\"topic.tab | getTabStr topic.good topic.top\"></span>\n                    <span class=\"name\">{{topic.visit_count}}次浏览</span>\n                </span>\n            </div>\n        </section>\n        <section class='topic_content' v-html=\"topic.content\"></section>\n        <section class=\"reply_num\">\n            {{topic.reply_count}} 回复\n        </section>\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\" \n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\" \n                                    :class=\"{'uped':isUps(item.ups)}\" \n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\" \n                            :topic-id=\"topicId\" \n                            :reply-id=\"item.id\" \n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-reply :topic.sync=\"topic\" :topic-id=\"topicId\" :reply-id=\"\" v-if=\"userId\"></nv-reply>\n</template>";
+	module.exports = "<nv-head page-type=\"主题\" \n            :show-menu.sync=\"showMenu\" \n            :need-add=\"true\" \n            fix-head=\"true\"></nv-head>\n\n    <div id=\"page\" class=\"page markdown-body\" v-class=\"show-menu:showMenu\" v-if=\"topic.title\">\n        <h2 class=\"title\" v-text=\"topic.title\"></h2>\n        <section class=\"user\">\n            <img class=\"head\" :src=\"topic.author.avatar_url\" />\n            <div class=\"info\">\n                <span class=\"cl\">\n                    <span class=\"name\">{{topic.author.loginname}}</span>\n                    <span class=\"name\">\n                        发布于:{{topic.create_at | getLastTimeStr true}}</span>\n                </span>\n                <span class=\"cr\">\n                    <span class=\"tab\" :class=\"{'good':topic.good || topic.top}\"\n                            v-text=\"topic.tab | getTabStr topic.good topic.top\"></span>\n                    <span class=\"name\">{{topic.visit_count}}次浏览</span>\n                </span>\n            </div>\n        </section>\n        <section class='topic_content' v-html=\"topic.content\"></section>\n        <section class=\"reply_num\">\n            {{topic.reply_count}} 回复\n        </section>\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\" \n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\" \n                                    :class=\"{'uped':isUps(item.ups)}\" \n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\" \n                            :topic-id=\"topicId\" \n                            :reply-id=\"item.id\" \n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-reply :topic.sync=\"topic\" :topic-id=\"topicId\" :reply-id=\"\" v-if=\"userId\"></nv-reply>\n    </div>\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
 
 /***/ },
 /* 222 */
@@ -43504,6 +43540,7 @@ webpackJsonp([0,1],[
 	                selectItem:2,
 	                token:localStorage.token || '',
 	                message:{},
+	                noData:false,
 	                currentData:[]
 	            }
 	        },
@@ -43520,6 +43557,10 @@ webpackJsonp([0,1],[
 	                            _self.currentData = d.data.has_read_messages;
 	                            _self.selectItem = 2;
 	                        }
+	                        _self.noData = _self.currentData.length === 0 ? true : false;
+	                    }
+	                    else{
+	                        _self.noData = true;
 	                    }
 	                });
 	            }
@@ -43529,6 +43570,7 @@ webpackJsonp([0,1],[
 	            changeItem:function(idx){
 	                this.selectItem = idx;
 	                this.currentData = idx ===1?this.message.hasnot_read_messages:this.message.has_read_messages;
+	                this.noData = this.currentData.length === 0 ? true : false;
 	            },
 	            //标记所有为已读
 	            markall:function(){
@@ -43549,7 +43591,7 @@ webpackJsonp([0,1],[
 /* 228 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head page-type=\"消息\" fix-head=\"true\" :show-menu.sync=\"showMenu\" \n            :message-count=\"message.hasnot_read_messages.length\" :need-add=\"true\" ></nv-head>\n    <div class=\"page\" >\n        <ul class=\"tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">已读消息</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">\n                未读消息\n                <i class=\"iconfont read\" v-show=\"message.hasnot_read_messages.length > 0\" \n                    @click=\"markall\">&#xe60c;</i>\n            </li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\" />\n                <div class=\"info\">\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                        <span class=\"name\" v-if=\"item.type==='at'\">在回复中@了您</span>\n                        <span class=\"name\" v-if=\"item.type==='reply'\">回复了您的话题</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.reply.create_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n            <div class=\"reply_content\" v-html=\"item.reply.content\"></div>\n            <div class=\"topic-title\" v-link=\"{name:'topic',params:{id:item.topic.id}}\">\n                话题：{{item.topic.title}}\n            </div>\n        </div>\n        <div class=\"no-data\" v-show=\"currentData.length === 0\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </div>";
+	module.exports = "<nv-head page-type=\"消息\" fix-head=\"true\" :show-menu.sync=\"showMenu\" \n            :message-count=\"message.hasnot_read_messages.length\" :need-add=\"true\" ></nv-head>\n    <div class=\"page\" >\n        <ul class=\"tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">已读消息</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">\n                未读消息\n                <i class=\"iconfont read\" v-show=\"message.hasnot_read_messages.length > 0\" \n                    @click=\"markall\">&#xe60c;</i>\n            </li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\" />\n                <div class=\"info\">\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                        <span class=\"name\" v-if=\"item.type==='at'\">在回复中@了您</span>\n                        <span class=\"name\" v-if=\"item.type==='reply'\">回复了您的话题</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.reply.create_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n            <div class=\"reply_content\" v-html=\"item.reply.content\"></div>\n            <div class=\"topic-title\" v-link=\"{name:'topic',params:{id:item.topic.id}}\">\n                话题：{{item.topic.title}}\n            </div>\n        </div>\n        <div class=\"no-data\" v-show=\"noData\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </div>";
 
 /***/ },
 /* 229 */
