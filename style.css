@@ -108,7 +108,7 @@ body {
   display: flexbox;
   display: flex; }
 
-.flex1, .user .title, .user .posts-list h3, .posts-list .user h3, .user .info {
+.flex1, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .info {
   -webkit-flex: 1;
   -ms-flex: 1;
   -webkit-box-flex: 1;
@@ -135,7 +135,7 @@ body {
   -ms-flex-pack: justify-content;
   justify-content: justify-content; }
 
-.break, .user .title, .user .posts-list h3, .posts-list .user h3, .user .info .t-title {
+.break, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .info .t-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
@@ -158,17 +158,20 @@ body {
   .user .good {
     background-color: #80bd01;
     color: #fff; }
-  .user .title, .user .posts-list h3, .posts-list .user h3 {
+  .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt {
     font-size: 18px;
     font-weight: bold; }
   .user .head {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #fff6e6;
     border-radius: 50%;
     margin-right: 10px; }
   .user .info {
-    display: inline-block; }
+    display: block; }
+    .user .info:after {
+      clear: both; }
     .user .info .t-title {
       font-size: 18px;
       font-weight: bold;
@@ -179,13 +182,15 @@ body {
       .user .info .cl .name {
         display: block;
         color: #626262; }
+      .user .info .cl .mt10 {
+        margin-top: 10px; }
     .user .info .cr {
-      float: right;
+      float: left;
       width: 30%;
       text-align: right; }
       .user .info .cr .name {
         display: block;
-        margin-top: 5px;
+        margin-top: 10px;
         color: #80bd01;
         font-size: 12px; }
 
@@ -199,6 +204,8 @@ body {
     vertical-align: middle;
     border: 0;
     -ms-interpolation-mode: bicubic; }
+  .reply_content p {
+    line-height: 1.3; }
 
 .no-data {
   width: 100%;
@@ -216,12 +223,12 @@ body {
 /* 颜色 */
 /* 基础布局 */
 /* 综合布局 */
-.text-overflow, .title, .posts-list h3 {
+.text-overflow, .title, .posts-list h3, .about-info dt {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden; }
 
-.title, .posts-list h3 {
+.title, .posts-list h3, .about-info dt {
   color: #2c3e50;
   font-size: 16px;
   line-height: 1.5; }
@@ -317,6 +324,19 @@ body {
       font-size: 14px; }
     .posts-list p b {
       color: #42b983; }
+
+.about-info {
+  padding: 50px 15px;
+  line-height: 1.5; }
+  .about-info dt {
+    padding: 1em 0;
+    font-weight: bold; }
+  .about-info dd {
+    padding-bottom: 15px;
+    font-size: 14px;
+    border-bottom: 1px solid #d5dbdb; }
+  .about-info a {
+    color: #42b983; }
 #hd {
   border-bottom: 1px solid #e8e8e8; }
   #hd.fix-header {
@@ -437,11 +457,11 @@ body {
   margin: 0 24px;
   border-top: 1px solid #d4d4d4;
   overflow: hidden;
-  padding-top: 2.5vh; }
+  padding-top: 9%; }
   .list-ul li {
     font-size: 14px;
     font-weight: 200;
-    padding: 2.5vh 0;
+    padding: 9% 0;
     text-align: left;
     text-indent: 1px;
     line-height: 15px;
@@ -687,12 +707,15 @@ body {
     font-weight: bold; }
   .user .head {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #fff6e6;
     border-radius: 50%;
     margin-right: 10px; }
   .user .info {
-    display: inline-block; }
+    display: block; }
+    .user .info:after {
+      clear: both; }
     .user .info .t-title {
       font-size: 18px;
       font-weight: bold;
@@ -703,13 +726,15 @@ body {
       .user .info .cl .name {
         display: block;
         color: #626262; }
+      .user .info .cl .mt10 {
+        margin-top: 10px; }
     .user .info .cr {
-      float: right;
+      float: left;
       width: 30%;
       text-align: right; }
       .user .info .cr .name {
         display: block;
-        margin-top: 5px;
+        margin-top: 10px;
         color: #80bd01;
         font-size: 12px; }
 
@@ -723,6 +748,8 @@ body {
     vertical-align: middle;
     border: 0;
     -ms-interpolation-mode: bicubic; }
+  .reply_content p {
+    line-height: 1.3; }
 
 .no-data {
   width: 100%;
@@ -1576,8 +1603,9 @@ body {
       padding: 5px 15px;
       border-radius: 5px; }
     .add-container .line .add-tab {
+      display: inline-block;
       width: calc(100% - 140px);
-      padding: 5px;
+      min-width: 50%;
       font-size: 16px;
       background: transparent; }
       .add-container .line .add-tab :after {
@@ -1597,35 +1625,12 @@ body {
     color: #000; }
   .add-container .err {
     border: solid 1px red; }
-.ainfo {
-  width: 100%;
-  list-style: none;
-  margin-top: 50px; }
-  .ainfo li {
-    padding: 15px;
-    border-bottom: solid 1px #d4d4d4;
-    line-height: 1.5; }
-    .ainfo li .v-title {
-      font-weight: bold;
-      margin-bottom: 5px;
-      color: #000; }
-    .ainfo li .v-info {
-      color: #626262;
-      font-size: 13px; }
 .page-body {
   padding: 50px 15px; }
   .page-body .label {
+    display: inline-block;
     width: 100%;
     margin-top: 15px;
-    /* Firefox */
-    display: -ms-flexbox;
-    /* IE10 */
-    display: -webkit-box;
-    /* Safari */
-    display: -webkit-flex;
-    /* Chrome, WebKit */
-    display: flexbox;
-    display: flex;
     position: relative;
     left: 0;
     top: 0; }
@@ -1634,12 +1639,7 @@ body {
       border: none;
       border-bottom: 1px solid #4fc08d;
       background-color: transparent;
-      display: block;
-      -webkit-flex: 1;
-      -ms-flex: 1;
-      -webkit-box-flex: 1;
-      box-flex: 1;
-      flex: 1;
+      width: 100%;
       font-size: 14px;
       color: #313131; }
     .page-body .label .button {
@@ -1656,7 +1656,7 @@ body {
       text-align: center;
       vertical-align: middle; }
     .page-body .label .button:first-child {
-      margin-right: 10px; }
+      margin-right: 2%; }
     .page-body .label .file {
       position: absolute;
       top: 0;
@@ -1880,12 +1880,15 @@ body {
     font-weight: bold; }
   .user .head {
     display: inline-block;
-    width: 40px;
-    height: 40px;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #fff6e6;
     border-radius: 50%;
     margin-right: 10px; }
   .user .info {
-    display: inline-block; }
+    display: block; }
+    .user .info:after {
+      clear: both; }
     .user .info .t-title {
       font-size: 18px;
       font-weight: bold;
@@ -1896,13 +1899,15 @@ body {
       .user .info .cl .name {
         display: block;
         color: #626262; }
+      .user .info .cl .mt10 {
+        margin-top: 10px; }
     .user .info .cr {
-      float: right;
+      float: left;
       width: 30%;
       text-align: right; }
       .user .info .cr .name {
         display: block;
-        margin-top: 5px;
+        margin-top: 10px;
         color: #80bd01;
         font-size: 12px; }
 
@@ -1916,6 +1921,8 @@ body {
     vertical-align: middle;
     border: 0;
     -ms-interpolation-mode: bicubic; }
+  .reply_content p {
+    line-height: 1.3; }
 
 .no-data {
   width: 100%;

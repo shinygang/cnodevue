@@ -28112,11 +28112,11 @@ webpackJsonp([0,1],[
 	        },
 	        '/login':{               //登录
 	            name:'login',
-	            component:__webpack_require__(234)
+	            component:__webpack_require__(233)
 	        },
 	        '/user/:loginname':{               //用户信息
 	            name:'user',
-	            component:__webpack_require__(243)
+	            component:__webpack_require__(242)
 	        }
 	    })
 	}
@@ -43422,7 +43422,7 @@ webpackJsonp([0,1],[
 /* 222 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head page-type=\"主题\" \n            :show-menu.sync=\"showMenu\" \n            :need-add=\"true\" \n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\" class=\"page \" \n            v-class=\"show-menu:showMenu\" \n            v-if=\"topic.title\">\n        \n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>\n\n        <section class=\"user\">\n            <img class=\"head\" :src=\"topic.author.avatar_url\" />\n            <div class=\"info\">\n                <span class=\"cl\">\n                    <span class=\"name\">{{topic.author.loginname}}</span>\n                    <span class=\"name\">\n                        发布于:{{topic.create_at | getLastTimeStr true}}</span>\n                </span>\n                <span class=\"cr\">\n                    <span class=\"tab\" :class=\"{'good':topic.good || topic.top}\"\n                            v-text=\"topic.tab | getTabStr topic.good topic.top\"></span>\n                    <span class=\"name\">{{topic.visit_count}}次浏览</span>\n                </span>\n            </div>\n        </section>\n        <section class='topic_content markdown-body' v-html=\"topic.content\"></section>\n        <section class=\"reply_num\">\n            {{topic.reply_count}} 回复\n        </section>\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\" \n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\" \n                                    :class=\"{'uped':isUps(item.ups)}\" \n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\" \n                            :topic-id=\"topicId\" \n                            :reply-id=\"item.id\" \n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-reply :topic.sync=\"topic\" :topic-id=\"topicId\" :reply-id=\"\" v-if=\"userId\"></nv-reply>\n    </div>\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
+	module.exports = "<nv-head page-type=\"主题\" \n            :show-menu.sync=\"showMenu\" \n            :need-add=\"true\" \n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\" class=\"page \" \n            v-class=\"show-menu:showMenu\" \n            v-if=\"topic.title\">\n        \n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>\n\n        <section class=\"user\">\n            <img class=\"head\" :src=\"topic.author.avatar_url\" />\n            <div class=\"info\">\n                <span class=\"cl\">\n                    <span class=\"name\">{{topic.author.loginname}}</span>\n                    <span class=\"name mt10\">\n                        发布于:{{topic.create_at | getLastTimeStr true}}</span>\n                </span>\n                <span class=\"cr\">\n                    <span class=\"tab\" :class=\"{'good':topic.good || topic.top}\"\n                            v-text=\"topic.tab | getTabStr topic.good topic.top\"></span>\n                    <span class=\"name\">{{topic.visit_count}}次浏览</span>\n                </span>\n            </div>\n        </section>\n        <section class='topic_content markdown-body' v-html=\"topic.content\"></section>\n        <section class=\"reply_num\">\n            {{topic.reply_count}} 回复\n        </section>\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\" \n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name mt10\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\" \n                                    :class=\"{'uped':isUps(item.ups)}\" \n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\" \n                            :topic-id=\"topicId\" \n                            :reply-id=\"item.id\" \n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-reply :topic.sync=\"topic\" :topic-id=\"topicId\" :reply-id=\"\" v-if=\"userId\"></nv-reply>\n    </div>\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
 
 /***/ },
 /* 223 */
@@ -43598,19 +43598,12 @@ webpackJsonp([0,1],[
 /* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(231)
-	module.exports = __webpack_require__(232)
-	module.exports.template = __webpack_require__(233)
+	module.exports = __webpack_require__(231)
+	module.exports.template = __webpack_require__(232)
 
 
 /***/ },
 /* 231 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 232 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
@@ -43620,31 +43613,31 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 233 */
+/* 232 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head page-type=\"关于\" fix-head=\"true\" :need-add=\"true\" ></nv-head>\n    <ul class=\"ainfo\">\n        <li>\n            <div class=\"v-title\">关于项目</div>\n            <div class=\"v-info\">该项目是基于Cnodejs的api，采用vue.js重写的webapp。</div>\n        </li>\n        <li>\n            <div class=\"v-title\">源码地址</div>\n            <div class=\"v-info\">\n                <a href=\"https://github.com/shinygang/Vue-cnodejs\">\n                https://github.com/shinygang/Vue-cnodejs</a>\n            </div>\n        </li>\n        <li>\n            <div class=\"v-title\">意见反馈</div>\n            <div class=\"v-info\">\n                <a href=\"https://github.com/shinygang/Vue-cnodejs/issues\">\n                发表意见或者提需求</a>\n            </div>\n        </li>\n        <li>\n            <div class=\"v-title\">当前版本</div>\n            <div class=\"v-info\">V 1.0 beta。</div>\n        </li>\n    </ul>";
+	module.exports = "<nv-head page-type=\"关于\" fix-head=\"true\" :need-add=\"true\" ></nv-head>\n    \n    <dl class=\"about-info\">\n\n        <dt>关于项目</dt>\n        <dd>该项目是基于Cnodejs的api，采用vue.js重写的webapp。</dd>\n    \n        <dt>源码地址</dt>\n        \n        <dd>\n            <a href=\"https://github.com/shinygang/Vue-cnodejs\">\n                https://github.com/shinygang/Vue-cnodejs</a>\n        </dd>\n        \n        <dt>意见反馈</dt>\n        <dd>\n            <a href=\"https://github.com/shinygang/Vue-cnodejs/issues\">\n                发表意见或者提需求</a>\n        </dd>\n        \n        <dt>当前版本</dt>\n        <dd>V1.0 beta</dd>\n\n    </dl>";
+
+/***/ },
+/* 233 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(234)
+	module.exports = __webpack_require__(235)
+	module.exports.template = __webpack_require__(241)
+
 
 /***/ },
 /* 234 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(235)
-	module.exports = __webpack_require__(236)
-	module.exports.template = __webpack_require__(242)
-
-
-/***/ },
-/* 235 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 236 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var $ = __webpack_require__(96),qrcode = __webpack_require__(237).qrcode;
+	var $ = __webpack_require__(96),qrcode = __webpack_require__(236).qrcode;
 	
 	    var browser = {
 	        versions: function() {
@@ -43702,7 +43695,7 @@ webpackJsonp([0,1],[
 	                        localStorage.userId = res.id;
 	                        localStorage.token = self.token;
 	                        //e44d5f6d-6648-4eb8-96e3-e1bfb34f3635
-	                        var redirect = decodeURIComponent(self.$route.query.redirect);
+	                        var redirect = decodeURIComponent(self.$route.query.redirect || '/');
 	                        self.$route.router.go(redirect);
 	                    },
 	                    error:function(res){
@@ -43725,8 +43718,8 @@ webpackJsonp([0,1],[
 	                    var base64 = dataURL.split('base64,');
 	                    var param = { "img": base64[1] };
 	                    
+	                    self.loading.show = true;
 	                    if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
-	                        self.loading.show = true;
 	                        $.post('http://m.yueqingwang.com/common.ashx', param, function (d) {
 	                            self.loading.show = false;
 	                            if(d == "qrcode error"){
@@ -43745,6 +43738,7 @@ webpackJsonp([0,1],[
 	                    else{
 	                        qrcode.decode(dataURL);
 	                        qrcode.callback = function (data) {
+	                            self.loading.show = false;
 	                            self.token = data;
 	                        }
 	                    }
@@ -43755,12 +43749,12 @@ webpackJsonp([0,1],[
 	        components:{
 	            "nvHead":__webpack_require__(190),
 	            "nvAlert":__webpack_require__(210),
-	            "nvLoading":__webpack_require__(238)
+	            "nvLoading":__webpack_require__(237)
 	        }
 	    }
 
 /***/ },
-/* 237 */
+/* 236 */
 /***/ function(module, exports) {
 
 	_aa = {};
@@ -46259,22 +46253,22 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 238 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(239)
-	module.exports = __webpack_require__(240)
-	module.exports.template = __webpack_require__(241)
+	__webpack_require__(238)
+	module.exports = __webpack_require__(239)
+	module.exports.template = __webpack_require__(240)
 
 
 /***/ },
-/* 239 */
+/* 238 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 240 */
+/* 239 */
 /***/ function(module, exports) {
 
 	module.exports={
@@ -46283,30 +46277,30 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 241 */
+/* 240 */
 /***/ function(module, exports) {
 
 	module.exports = "<div v-show=\"show\" id=\"wxloading\" class=\"wx_loading\">\n        <div class=\"wx_loading_inner\">\n            <i class=\"wx_loading_icon\"></i>{{showTxt}}...\n        </div>\n    </div>";
 
 /***/ },
-/* 242 */
+/* 241 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head page-type=\"登录\">\n    </nv-head>\n    <section class=\"page-body\">\n        <label class=\"label\">\n            <input class=\"txt\" type=\"text\" placeholder=\"Access Token\" v-model=\"token\" maxlength=\"36\">\n        </label>\n        <div class=\"label\">\n            <a class=\"button\">选择二维码图片</a>\n            <input class=\"file\" type=\"file\" id=\"file_upload\" @change=\"readPic\" \n                accept=\"image/*\" capture=\"camera\"/>\n            <a class=\"button\" @click=\"logon\">登录</a>\n        </div>\n    </section>\n    <nv-alert :content=\"alert.txt\" :show=\"alert.show\"></nv-alert>\n    <nv-loading :show=\"loading.show\" :show-txt=\"loading.showTxt\"></nv-loading>";
+	module.exports = "<nv-head page-type=\"登录\">\n    </nv-head>\n    <section class=\"page-body\">\n        <div class=\"label\">\n            <input class=\"txt\" type=\"text\" placeholder=\"Access Token\" v-model=\"token\" maxlength=\"36\">\n        </div>\n        <div class=\"label\">\n            <a class=\"button\">选择二维码图片</a>\n            <input class=\"file\" type=\"file\" id=\"file_upload\" @change=\"readPic\" \n                accept=\"image/*\" capture=\"camera\"/>\n            <a class=\"button\" @click=\"logon\">登录</a>\n        </div>\n    </section>\n    <nv-alert :content=\"alert.txt\" :show=\"alert.show\"></nv-alert>\n    <nv-loading :show=\"loading.show\" :show-txt=\"loading.showTxt\"></nv-loading>";
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(243)
+	module.exports.template = __webpack_require__(245)
+
 
 /***/ },
 /* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(244)
-	module.exports.template = __webpack_require__(246)
-
-
-/***/ },
-/* 244 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(245);
+	__webpack_require__(244);
 	    __webpack_require__(193);
 	
 	    var $ = __webpack_require__(96);
@@ -46352,13 +46346,13 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"用户信息\" fix-head=\"true\" :show-menu=\"false\" :need-add=\"true\" ></nv-head>\n    <section class=\"userinfo\">\n        <img class=\"u-img\" :src=\"user.avatar_url\" /><br/>\n        <span class=\"u-name\" v-text=\"user.loginname\"></span>\n        <div class=\"u-bottom\">\n            <span class=\"u-time\" v-text=\"user.create_at | getLastTimeStr false\"></span>\n            <span class=\"u-score\">积分：{{user.score}}</span>\n        </div>\n    </section>\n    <section class=\"topics\">\n        <ul class=\"user-tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">最近回复</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">最新发布</li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\" \n                    v-link=\"{name:'user',params:{loginname:item.author.loginname}}\" />\n                <div class=\"info\" v-link=\"{name:'topic',params:{id:item.id}}\">\n                    <div class=\"t-title\">{{item.title}}</div>\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.last_reply_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n        </div>\n        <div class=\"no-data\" v-show=\"currentData.length === 0\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </section>";
