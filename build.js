@@ -28098,12 +28098,12 @@ webpackJsonp([0,1],[
 	        },
 	        '/add':{               //首页
 	            name:'add',
-	            component:__webpack_require__(223),
+	            component:__webpack_require__(222),
 	            auth: true
 	        },
 	        '/message':{               //消息
 	            name:'message',
-	            component:__webpack_require__(227),
+	            component:__webpack_require__(226),
 	            auth: true
 	        },
 	        '/about':{               //关于
@@ -28178,12 +28178,13 @@ webpackJsonp([0,1],[
 	                $.get('https://cnodejs.org/api/v1/topics?'+params,function(d){
 	                    _self.scroll = true;
 	                    if(d && d.data){
-	                        if(_self.searchKey.page == 0){
-	                            _self.topics = d.data;
-	                        }
-	                        else{
-	                            _self.topics = _self.topics.concat(d.data);
-	                        }
+	                        _self.topics = d.data;
+	                        // if(_self.searchKey.page == 0){
+	                        //     _self.topics = d.data;
+	                        // }
+	                        // else{
+	                        //     _self.topics = _self.topics.concat(d.data);
+	                        // }
 	                    }
 	                })
 	            },
@@ -28194,7 +28195,7 @@ webpackJsonp([0,1],[
 	                    var totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
 	                    if ($(document).height() <= totalheight + 100) {
 	                        _self.scroll = false;
-	                        _self.searchKey.page += 1;
+	                        _self.searchKey.limit += 20;
 	                        _self.getTopics();
 	                    }
 	                }
@@ -40802,16 +40803,15 @@ webpackJsonp([0,1],[
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = __webpack_require__(207)
-	module.exports.template = __webpack_require__(222)
+	module.exports.template = __webpack_require__(221)
 
 
 /***/ },
 /* 207 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(208);
-	    __webpack_require__(193);
-	    __webpack_require__(209);
+	__webpack_require__(193);
+	    __webpack_require__(208);
 	    var $ = __webpack_require__(96);
 	
 	    module.exports = {
@@ -40906,8 +40906,8 @@ webpackJsonp([0,1],[
 	        },
 	        components:{
 	            "nvHead":__webpack_require__(190),
-	            "nvAlert":__webpack_require__(210),
-	            "nvReply":__webpack_require__(214)
+	            "nvAlert":__webpack_require__(209),
+	            "nvReply":__webpack_require__(213)
 	        }
 	    }
 
@@ -40919,27 +40919,21 @@ webpackJsonp([0,1],[
 
 /***/ },
 /* 209 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	__webpack_require__(210)
+	module.exports = __webpack_require__(211)
+	module.exports.template = __webpack_require__(212)
+
 
 /***/ },
 /* 210 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(211)
-	module.exports = __webpack_require__(212)
-	module.exports.template = __webpack_require__(213)
-
-
-/***/ },
-/* 211 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 212 */
+/* 211 */
 /***/ function(module, exports) {
 
 	module.exports={
@@ -40948,26 +40942,26 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 213 */
+/* 212 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"wxAlert\" class=\"wx_loading\" v-show=\"show\">\n        <div class=\"wx_alert_inner\" id=\"wx_alert_inner\" v-text=\"content\"></div>\n    </div>";
 
 /***/ },
-/* 214 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(215)
-	module.exports.template = __webpack_require__(221)
+	module.exports = __webpack_require__(214)
+	module.exports.template = __webpack_require__(220)
 
 
 /***/ },
-/* 215 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var $ = __webpack_require__(96),
 	        utils = __webpack_require__(194),
-	        markdown = __webpack_require__(216).markdown;
+	        markdown = __webpack_require__(215).markdown;
 	
 	    module.exports={
 	        replace:true,
@@ -40977,7 +40971,7 @@ webpackJsonp([0,1],[
 	                hasErr:false,
 	                content:'',
 	                userId:localStorage.userId || '',
-	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">From CNodeJS-VueJS</a>',
+	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
 	            }
 	        },
 	        ready: function(){
@@ -41040,16 +41034,16 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 216 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// super simple module for the most common nodejs use case.
-	exports.markdown = __webpack_require__(217);
+	exports.markdown = __webpack_require__(216);
 	exports.parse = exports.markdown.toHTML;
 
 
 /***/ },
-/* 217 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Released under MIT license
@@ -41181,7 +41175,7 @@ webpackJsonp([0,1],[
 	
 	// node
 	function mk_block_inspect() {
-	  var util = __webpack_require__(218);
+	  var util = __webpack_require__(217);
 	  return "Markdown.mk_block( " +
 	          util.inspect(this.toString()) +
 	          ", " +
@@ -42780,7 +42774,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 218 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -43308,7 +43302,7 @@ webpackJsonp([0,1],[
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(219);
+	exports.isBuffer = __webpack_require__(218);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -43352,7 +43346,7 @@ webpackJsonp([0,1],[
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(220);
+	exports.inherits = __webpack_require__(219);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -43373,7 +43367,7 @@ webpackJsonp([0,1],[
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(16)))
 
 /***/ },
-/* 219 */
+/* 218 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -43384,7 +43378,7 @@ webpackJsonp([0,1],[
 	}
 
 /***/ },
-/* 220 */
+/* 219 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -43413,34 +43407,34 @@ webpackJsonp([0,1],[
 
 
 /***/ },
+/* 220 */
+/***/ function(module, exports) {
+
+	module.exports = "<section class=\"reply\">\n        <textarea id=\"content\" rows=\"8\" class=\"text\" \n            :class=\"{'err':hasErr}\"\n            v-model=\"content\" \n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n        <a class=\"button\" @click=\"addReply\">确定</a>\n    </section>";
+
+/***/ },
 /* 221 */
 /***/ function(module, exports) {
 
-	module.exports = "<section class=\"reply\">\n        <textarea id=\"content\" rows=\"8\" class=\"text\" \n            :class=\"{'err':hasErr}\"\n            v-model=\"content\" \n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n        <a class=\"btn\" @click=\"addReply()\">确定</a>\n    </section>";
+	module.exports = "<nv-head page-type=\"主题\" \n            :show-menu.sync=\"showMenu\" \n            :need-add=\"true\" \n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\"\n            v-class=\"show-menu:showMenu\" \n            v-if=\"topic.title\">\n        \n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>        \n        <section class=\"author-info\">\n            <img class=\"avatar\" :src=\"topic.author.avatar_url\" />\n            <div class=\"col\">\n                <span>{{topic.author.loginname}}</span>\n                <time>\n                    发布于:{{topic.create_at | getLastTimeStr true}}\n                </time>\n            </div>\n            <div class=\"right\">\n                <span class=\"tag\" \n                        :class=\"topic.tab|getTabClassName item.good item.top\">\n                        {{topic.tab|getTabStr topic.good topic.top}}\n                </span>\n                <span class=\"name\">{{topic.visit_count}}次浏览</span>\n            </div>\n        </section>\n\n        <section class='markdown-body topic-content' v-html=\"topic.content\">\n            \n        </section>\n\n        <h3 class=\"topic-reply\">\n            <strong>{{topic.reply_count}}</strong> 回复\n        </h3>\n\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\" \n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name mt10\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\" \n                                    :class=\"{'uped':isUps(item.ups)}\" \n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\" \n                            :topic-id=\"topicId\" \n                            :reply-id=\"item.id\" \n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        \n        <nv-reply v-if=\"userId\" \n                :topic.sync=\"topic\" \n                :topic-id=\"topicId\" \n                :reply-id=\"\" >\n        </nv-reply>\n        \n    </div>\n\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
 
 /***/ },
 /* 222 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<nv-head page-type=\"主题\" \n            :show-menu.sync=\"showMenu\" \n            :need-add=\"true\" \n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\" class=\"page \" \n            v-class=\"show-menu:showMenu\" \n            v-if=\"topic.title\">\n        \n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>\n\n        <section class=\"user\">\n            <img class=\"head\" :src=\"topic.author.avatar_url\" />\n            <div class=\"info\">\n                <span class=\"cl\">\n                    <span class=\"name\">{{topic.author.loginname}}</span>\n                    <span class=\"name mt10\">\n                        发布于:{{topic.create_at | getLastTimeStr true}}</span>\n                </span>\n                <span class=\"cr\">\n                    <span class=\"tab\" :class=\"{'good':topic.good || topic.top}\"\n                            v-text=\"topic.tab | getTabStr topic.good topic.top\"></span>\n                    <span class=\"name\">{{topic.visit_count}}次浏览</span>\n                </span>\n            </div>\n        </section>\n        <section class='topic_content markdown-body' v-html=\"topic.content\"></section>\n        <section class=\"reply_num\">\n            {{topic.reply_count}} 回复\n        </section>\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\" \n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name mt10\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\" \n                                    :class=\"{'uped':isUps(item.ups)}\" \n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\" \n                            :topic-id=\"topicId\" \n                            :reply-id=\"item.id\" \n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-reply :topic.sync=\"topic\" :topic-id=\"topicId\" :reply-id=\"\" v-if=\"userId\"></nv-reply>\n    </div>\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
+	__webpack_require__(223)
+	module.exports = __webpack_require__(224)
+	module.exports.template = __webpack_require__(225)
+
 
 /***/ },
 /* 223 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(224)
-	module.exports = __webpack_require__(225)
-	module.exports.template = __webpack_require__(226)
-
-
-/***/ },
-/* 224 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 225 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	__webpack_require__(193);
@@ -43457,7 +43451,7 @@ webpackJsonp([0,1],[
 	                    accesstoken:localStorage.token
 	                },
 	                err:'',
-	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">From CNodeJS-VueJS</a>',
+	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
 	                alert: {
 	                    txt: '',
 	                    show: false,
@@ -43507,31 +43501,31 @@ webpackJsonp([0,1],[
 	        },
 	        components:{
 	            "nvHead":__webpack_require__(190),
-	            "nvAlert":__webpack_require__(210)
+	            "nvAlert":__webpack_require__(209)
 	        }
 	    }
 
 /***/ },
-/* 226 */
+/* 225 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"主题\" \n        :show-menu=\"false\" \n        fix-head=\"true\"></nv-head>\n    <div class=\"add-container\">\n        <div class=\"line\">选择分类：\n            <select class=\"add-tab\" v-model=\"topic.tab\">\n                <option value=\"share\">分享</option>\n                <option value=\"ask\">问答</option>\n                <option value=\"job\">招聘</option>\n            </select>\n            <a class=\"add-btn\" @click=\"addTopic\">发布</a>\n        </div>\n        <div class=\"line\">\n            <input class=\"add-title\" v-model=\"topic.title\" \n                    type=\"text\" :class=\"{'err':err=='title'}\" \n                    placeholder=\"标题，字数10字以上\" max-length=\"100\"/>\n        </div>\n        <textarea v-model=\"topic.content\" rows=\"35\" class=\"add-content\" \n            :class=\"{'err':err=='content'}\" \n            v-model=\"content\" \n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n    </div>";
 
 /***/ },
-/* 227 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(228)
+	module.exports = __webpack_require__(227)
 	module.exports.template = __webpack_require__(229)
 
 
 /***/ },
-/* 228 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(208);
+	__webpack_require__(228);
 	    __webpack_require__(193);
-	    __webpack_require__(209);
+	    __webpack_require__(208);
 	    var $ = __webpack_require__(96);
 	
 	    module.exports = {
@@ -43587,6 +43581,12 @@ webpackJsonp([0,1],[
 	            "nvHead":__webpack_require__(190)
 	        }
 	    }
+
+/***/ },
+/* 228 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
 
 /***/ },
 /* 229 */
@@ -43748,7 +43748,7 @@ webpackJsonp([0,1],[
 	        },
 	        components:{
 	            "nvHead":__webpack_require__(190),
-	            "nvAlert":__webpack_require__(210),
+	            "nvAlert":__webpack_require__(209),
 	            "nvLoading":__webpack_require__(237)
 	        }
 	    }

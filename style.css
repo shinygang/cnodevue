@@ -97,7 +97,7 @@ body {
     display: table;
     clear: both; }
 
-.display-flex, .user, .posts-list .content, .posts-list p {
+.display-flex, .user, .posts-list .content, .posts-list p, .author-info {
   /* Firefox */
   display: -ms-flexbox;
   /* IE10 */
@@ -108,7 +108,7 @@ body {
   display: flexbox;
   display: flex; }
 
-.flex1, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .info {
+.flex1, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .topic-reply, .user .info {
   -webkit-flex: 1;
   -ms-flex: 1;
   -webkit-box-flex: 1;
@@ -135,7 +135,7 @@ body {
   -ms-flex-pack: justify-content;
   justify-content: justify-content; }
 
-.break, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .info .t-title {
+.break, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .topic-reply, .user .info .t-title {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
@@ -158,7 +158,7 @@ body {
   .user .good {
     background-color: #80bd01;
     color: #fff; }
-  .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt {
+  .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .topic-reply {
     font-size: 18px;
     font-weight: bold; }
   .user .head {
@@ -223,17 +223,17 @@ body {
 /* 颜色 */
 /* 基础布局 */
 /* 综合布局 */
-.text-overflow, .title, .posts-list h3, .about-info dt {
+.text-overflow, .title, .posts-list h3, .about-info dt, .topic-reply {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden; }
 
-.title, .posts-list h3, .about-info dt {
+.title, .posts-list h3, .about-info dt, .topic-reply {
   color: #2c3e50;
   font-size: 16px;
   line-height: 1.5; }
 
-.display-flex, .user, .posts-list .content, .posts-list p {
+.display-flex, .user, .posts-list .content, .posts-list p, .author-info {
   /* Firefox */
   display: -ms-flexbox;
   /* IE10 */
@@ -244,7 +244,7 @@ body {
   display: flexbox;
   display: flex; }
 
-.flex, .posts-list .info, .posts-list p .name, .posts-list p time:first-child {
+.flex, .posts-list .info, .posts-list p .name, .posts-list p time:first-child, .author-info .col {
   display: block;
   width: 100%;
   -webkit-flex: 1;
@@ -253,7 +253,7 @@ body {
   box-flex: 1;
   flex: 1; }
 
-.tag, .posts-list h3:before {
+.tag, .posts-list h3:before, .author-info .tag {
   padding: 5px 6px;
   font-size: 10px;
   font-weight: 400;
@@ -337,6 +337,107 @@ body {
     border-bottom: 1px solid #d5dbdb; }
   .about-info a {
     color: #42b983; }
+
+.topic-title {
+  padding: 15px;
+  font-size: 18px;
+  color: #2c3e50;
+  line-height: 1.5; }
+
+.author-info {
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  padding: 0 15px;
+  color: #34495e;
+  font-size: 12px; }
+  .author-info .avatar {
+    display: block;
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+    border-radius: 50%; }
+  .author-info .right {
+    text-align: right; }
+  .author-info span, .author-info time {
+    display: block;
+    padding: 5px 0; }
+  .author-info .posts-list h3:before, .posts-list .author-info h3:before, .author-info .tag {
+    color: #ffffff; }
+    .author-info .posts-list h3.top:before, .posts-list .author-info h3.top:before, .author-info .top.tag {
+      background: #E74C3C; }
+    .author-info .posts-list h3.ask:before, .posts-list .author-info h3.ask:before, .author-info .ask.tag {
+      background: #3498DB; }
+    .author-info .posts-list h3.good:before, .posts-list .author-info h3.good:before, .author-info .good.tag {
+      background: #E67E22; }
+    .author-info .posts-list h3.job:before, .posts-list .author-info h3.job:before, .author-info .job.tag {
+      background: #9B59B6; }
+    .author-info .posts-list h3.share:before, .posts-list .author-info h3.share:before, .author-info .share.tag {
+      background: #1ABC9C; }
+
+.topic-content {
+  padding: 15px;
+  margin-top: 15px;
+  background: #ffffff;
+  border-bottom: solid 1px #d4d4d4; }
+
+.topic-reply {
+  padding: 15px;
+  border-bottom: solid 1px #d4d4d4; }
+  .topic-reply strong {
+    color: #42b983; }
+
+.reply_num {
+  margin-top: 20px;
+  background-color: #e7e7e7;
+  padding: 10px 0 10px 10px;
+  border-top: solid 1px #d4d4d4;
+  border-bottom: solid 1px #d4d4d4; }
+
+.reply-list {
+  width: 100%;
+  margin-top: 15px; }
+  .reply-list ul {
+    width: 100%;
+    list-style: none;
+    padding-left: 0; }
+    .reply-list ul li {
+      width: 100%;
+      list-style: none;
+      border-bottom: solid 1px #d4d4d4; }
+      .reply-list ul li:last-child {
+        border-bottom: none; }
+      .reply-list ul li .uped {
+        color: #80bd01; }
+      .reply-list ul li .icon {
+        font-size: 26px; }
+
+/* 回复框样式 */
+.reply {
+  margin: 0 15px; }
+  .reply textarea {
+    display: block;
+    -webkit-box-flex: 1;
+    width: 100%;
+    border: 1px solid #d5dbdb;
+    background-color: #fff;
+    font-size: 14px;
+    padding: 15px;
+    color: #313131; }
+  .reply .button {
+    display: inline-block;
+    width: 100%;
+    height: 42px;
+    margin: 15px 0;
+    line-height: 42px;
+    color: #fff;
+    font-size: 16px;
+    background-color: #4fc08d;
+    border: none;
+    border-bottom: 2px solid #3aa373;
+    text-align: center;
+    vertical-align: middle; }
 #hd {
   border-bottom: 1px solid #e8e8e8; }
   #hd.fix-header {
@@ -542,374 +643,6 @@ body {
     display: block;
     background: url(images/0d6e28274d02050cc49a67eeef5f1c70.png) no-repeat center right;
     background-size: 7px 7px; }
-@charset "UTF-8";
-/**
- * Global Reset of all HTML Elements
- *
- * Resetting all of our HTML Elements ensures a smoother
- * visual transition between browsers. If you don't believe me,
- * try temporarily commenting out this block of code, then go
- * and look at Mozilla versus Safari, both good browsers with
- * a good implementation of CSS. The thing is, all browser CSS
- * defaults are different and at the end of the day if visual
- * consistency is what we're shooting for, then we need to
- * make sure we're resetting all spacing elements.
- *
- */
-html, body {
-  border: 0;
-  font-family: "Helvetica-Neue", "Helvetica", Arial, sans-serif;
-  line-height: 1.5;
-  margin: 0;
-  padding: 0; }
-
-div, span, object, iframe, img, table, caption, thead, tbody,
-tfoot, tr, tr, td, article, aside, canvas, details, figure, hgroup, menu,
-nav, footer, header, section, summary, mark, audio, video {
-  border: 0;
-  margin: 0;
-  padding: 0; }
-
-h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,
-del, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,
-ol, ul, li, fieldset, legend, label {
-  border: 0;
-  font-size: 100%;
-  vertical-align: baseline;
-  margin: 0;
-  padding: 0; }
-
-article, aside, canvas, figure, figure img, figcaption, hgroup,
-footer, header, nav, section, audio, video {
-  display: block; }
-
-table {
-  border-collapse: separate;
-  border-spacing: 0; }
-  table caption, table th, table td {
-    text-align: left;
-    vertical-align: middle; }
-
-li {
-  list-style: none; }
-
-a {
-  text-decoration: none; }
-
-a img {
-  border: 0; }
-
-:focus {
-  outline: 0; }
-
-* {
-  -webkit-box-sizing: border-box; }
-
-textarea {
-  resize: none;
-  -webkit-appearance: none; }
-
-input {
-  -webkit-appearance: none; }
-
-select {
-  -webkit-appearance: none;
-  background-color: #fff; }
-
-body {
-  height: 100%;
-  width: 100%;
-  background: #f7f7f7;
-  font-size: 14px;
-  color: #313131;
-  overflow-x: hidden;
-  line-height: 1; }
-
-.mt5 {
-  margin-top: 5px; }
-
-.mt10 {
-  margin-top: 10px; }
-
-.color80 {
-  color: #42b983; }
-
-.clear {
-  zoom: 1; }
-  .clear:after {
-    content: '';
-    display: table;
-    clear: both; }
-
-.display-flex, .user {
-  /* Firefox */
-  display: -ms-flexbox;
-  /* IE10 */
-  display: -webkit-box;
-  /* Safari */
-  display: -webkit-flex;
-  /* Chrome, WebKit */
-  display: flexbox;
-  display: flex; }
-
-.flex1, .user .title, .user .info {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -webkit-box-flex: 1;
-  box-flex: 1;
-  flex: 1; }
-
-.align-justify {
-  -moz-box-align: justify-content;
-  -ms-flex-align: align-content;
-  -ms-flex-item-align: justify-content;
-  -webkit-box-align: justify-content;
-  /*老语法*/
-  -webkit-align-items: justify-content;
-  /*新语法*/
-  -webkit-align-content: justify-content;
-  -ms-flex-line-pack: justify-content;
-  align-content: justify-content;
-  -webkit-box-align: justify-content;
-  -webkit-align-items: justify-content;
-  -ms-flex-align: justify-content;
-  align-items: justify-content;
-  -webkit-box-pack: justify-content;
-  -webkit-justify-content: justify-content;
-  -ms-flex-pack: justify-content;
-  justify-content: justify-content; }
-
-.break, .user .title, .user .info .t-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap; }
-
-.user {
-  width: 100%;
-  margin: 15px 0;
-  padding: 0 10px; }
-  .user .tab {
-    display: inline-block;
-    width: 40px;
-    color: #626262;
-    border-radius: 5px;
-    background-color: #e7e7e7;
-    margin-right: 10px;
-    text-align: center;
-    height: 20px;
-    line-height: 20px;
-    vertical-align: middle; }
-  .user .good {
-    background-color: #80bd01;
-    color: #fff; }
-  .user .title {
-    font-size: 18px;
-    font-weight: bold; }
-  .user .head {
-    display: inline-block;
-    width: 45px;
-    height: 45px;
-    border: 2px solid #fff6e6;
-    border-radius: 50%;
-    margin-right: 10px; }
-  .user .info {
-    display: block; }
-    .user .info:after {
-      clear: both; }
-    .user .info .t-title {
-      font-size: 18px;
-      font-weight: bold;
-      width: 100%; }
-    .user .info .cl {
-      float: left;
-      width: 70%; }
-      .user .info .cl .name {
-        display: block;
-        color: #626262; }
-      .user .info .cl .mt10 {
-        margin-top: 10px; }
-    .user .info .cr {
-      float: left;
-      width: 30%;
-      text-align: right; }
-      .user .info .cr .name {
-        display: block;
-        margin-top: 10px;
-        color: #80bd01;
-        font-size: 12px; }
-
-.reply_content {
-  padding: 0 15px;
-  margin-bottom: 15px; }
-  .reply_content img {
-    width: auto\9;
-    height: auto;
-    max-width: 100%;
-    vertical-align: middle;
-    border: 0;
-    -ms-interpolation-mode: bicubic; }
-  .reply_content p {
-    line-height: 1.3; }
-
-.no-data {
-  width: 100%;
-  height: 100%;
-  padding: 40% 0;
-  color: #d4d4d4;
-  display: inline-block;
-  font-size: 18px;
-  text-align: center; }
-
-/*
-**   rework 分界线
-**   ------------
-*/
-/* 颜色 */
-/* 基础布局 */
-/* 综合布局 */
-.text-overflow, .title {
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden; }
-
-.title {
-  color: #2c3e50;
-  font-size: 16px;
-  line-height: 1.5; }
-
-.display-flex, .user {
-  /* Firefox */
-  display: -ms-flexbox;
-  /* IE10 */
-  display: -webkit-box;
-  /* Safari */
-  display: -webkit-flex;
-  /* Chrome, WebKit */
-  display: flexbox;
-  display: flex; }
-
-.flex {
-  display: block;
-  width: 100%;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  -webkit-box-flex: 1;
-  box-flex: 1;
-  flex: 1; }
-
-.tag {
-  padding: 5px 6px;
-  font-size: 10px;
-  font-weight: 400;
-  border-radius: 4px;
-  background-color: #e7e7e7;
-  text-align: center;
-  vertical-align: middle; }
-
-.user-avatar {
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  margin-right: 10px;
-  border: 1px solid #F3F3F3; }
-
-#page {
-  padding-top: 60px;
-  -webkit-transition: all .3s ease;
-  transition: all .3s ease; }
-
-.page {
-  background-color: #fff;
-  height: 100%;
-  padding: 15px 0; }
-  .page .title {
-    font-size: 20px;
-    margin: 0 10px; }
-  .page .reply_num {
-    margin-top: 20px;
-    background-color: #e7e7e7;
-    padding: 10px 0 10px 10px;
-    border-top: solid 1px #d4d4d4;
-    border-bottom: solid 1px #d4d4d4; }
-  .page .reply-list {
-    width: 100%;
-    margin-top: 15px; }
-    .page .reply-list ul {
-      width: 100%;
-      list-style: none;
-      padding-left: 0; }
-      .page .reply-list ul li {
-        width: 100%;
-        list-style: none;
-        border-bottom: solid 1px #d4d4d4; }
-        .page .reply-list ul li:last-child {
-          border-bottom: none; }
-        .page .reply-list ul li .uped {
-          color: #80bd01; }
-        .page .reply-list ul li .icon {
-          font-size: 26px; }
-  .page .topic_content {
-    margin: 0 10px; }
-  .page .reply {
-    width: 100%;
-    margin-top: 15px;
-    border-top: solid 1px #d4d4d4; }
-    .page .reply .text {
-      margin: 15px 2%;
-      width: 96%;
-      border-color: #d4d4d4;
-      color: #000; }
-    .page .reply .btn {
-      display: inline-block;
-      border-radius: 5px;
-      text-align: center;
-      font-size: 16px;
-      margin: 0 2% 15px;
-      width: 96%;
-      background-color: #80bd01;
-      padding: 10px 0;
-      color: #fff; }
-    .page .reply .err {
-      border-color: red; }
-  .page .message {
-    border-bottom: solid 1px #d4d4d4;
-    padding: 10px 0; }
-  .page .topic-title {
-    margin: 5px 10px;
-    background-color: #e7e7e7;
-    padding: 5px;
-    font-weight: bold;
-    border-radius: 5px; }
-  .page .tabs {
-    width: 100%;
-    height: 41px;
-    margin-top: 30px;
-    list-style: none;
-    border-bottom: solid 1px #d4d4d4;
-    position: relative; }
-    .page .tabs .item {
-      width: 50%;
-      padding: 12.5px 0;
-      float: left;
-      font-size: 16;
-      text-align: center;
-      font-weight: bold; }
-    .page .tabs .read {
-      font-size: 25px;
-      color: #80bd01;
-      position: absolute;
-      right: 5px;
-      top: 7.5px;
-      font-weight: bold; }
-    .page .tabs .br {
-      border-right: solid 1px #d4d4d4; }
-    .page .tabs .selected {
-      color: #ff5a5f;
-      border-bottom: solid 2px #ff5a5f; }
-  .page .icon-empty {
-    font-size: 125px;
-    display: block; }
 @font-face {
   font-family: octicons-anchor;
   src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
@@ -1625,6 +1358,360 @@ body {
     color: #000; }
   .add-container .err {
     border: solid 1px red; }
+@charset "UTF-8";
+/**
+ * Global Reset of all HTML Elements
+ *
+ * Resetting all of our HTML Elements ensures a smoother
+ * visual transition between browsers. If you don't believe me,
+ * try temporarily commenting out this block of code, then go
+ * and look at Mozilla versus Safari, both good browsers with
+ * a good implementation of CSS. The thing is, all browser CSS
+ * defaults are different and at the end of the day if visual
+ * consistency is what we're shooting for, then we need to
+ * make sure we're resetting all spacing elements.
+ *
+ */
+html, body {
+  border: 0;
+  font-family: "Helvetica-Neue", "Helvetica", Arial, sans-serif;
+  line-height: 1.5;
+  margin: 0;
+  padding: 0; }
+
+div, span, object, iframe, img, table, caption, thead, tbody,
+tfoot, tr, tr, td, article, aside, canvas, details, figure, hgroup, menu,
+nav, footer, header, section, summary, mark, audio, video {
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,
+del, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,
+ol, ul, li, fieldset, legend, label {
+  border: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  margin: 0;
+  padding: 0; }
+
+article, aside, canvas, figure, figure img, figcaption, hgroup,
+footer, header, nav, section, audio, video {
+  display: block; }
+
+table {
+  border-collapse: separate;
+  border-spacing: 0; }
+  table caption, table th, table td {
+    text-align: left;
+    vertical-align: middle; }
+
+li {
+  list-style: none; }
+
+a {
+  text-decoration: none; }
+
+a img {
+  border: 0; }
+
+:focus {
+  outline: 0; }
+
+* {
+  -webkit-box-sizing: border-box; }
+
+textarea {
+  resize: none;
+  -webkit-appearance: none; }
+
+input {
+  -webkit-appearance: none; }
+
+select {
+  -webkit-appearance: none;
+  background-color: #fff; }
+
+body {
+  height: 100%;
+  width: 100%;
+  background: #f7f7f7;
+  font-size: 14px;
+  color: #313131;
+  overflow-x: hidden;
+  line-height: 1; }
+
+.mt5 {
+  margin-top: 5px; }
+
+.mt10 {
+  margin-top: 10px; }
+
+.color80 {
+  color: #42b983; }
+
+.clear {
+  zoom: 1; }
+  .clear:after {
+    content: '';
+    display: table;
+    clear: both; }
+
+.display-flex, .user {
+  /* Firefox */
+  display: -ms-flexbox;
+  /* IE10 */
+  display: -webkit-box;
+  /* Safari */
+  display: -webkit-flex;
+  /* Chrome, WebKit */
+  display: flexbox;
+  display: flex; }
+
+.flex1, .user .title, .user .info {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  flex: 1; }
+
+.align-justify {
+  -moz-box-align: justify-content;
+  -ms-flex-align: align-content;
+  -ms-flex-item-align: justify-content;
+  -webkit-box-align: justify-content;
+  /*老语法*/
+  -webkit-align-items: justify-content;
+  /*新语法*/
+  -webkit-align-content: justify-content;
+  -ms-flex-line-pack: justify-content;
+  align-content: justify-content;
+  -webkit-box-align: justify-content;
+  -webkit-align-items: justify-content;
+  -ms-flex-align: justify-content;
+  align-items: justify-content;
+  -webkit-box-pack: justify-content;
+  -webkit-justify-content: justify-content;
+  -ms-flex-pack: justify-content;
+  justify-content: justify-content; }
+
+.break, .user .title, .user .info .t-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap; }
+
+.user {
+  width: 100%;
+  margin: 15px 0;
+  padding: 0 10px; }
+  .user .tab {
+    display: inline-block;
+    width: 40px;
+    color: #626262;
+    border-radius: 5px;
+    background-color: #e7e7e7;
+    margin-right: 10px;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    vertical-align: middle; }
+  .user .good {
+    background-color: #80bd01;
+    color: #fff; }
+  .user .title {
+    font-size: 18px;
+    font-weight: bold; }
+  .user .head {
+    display: inline-block;
+    width: 45px;
+    height: 45px;
+    border: 2px solid #fff6e6;
+    border-radius: 50%;
+    margin-right: 10px; }
+  .user .info {
+    display: block; }
+    .user .info:after {
+      clear: both; }
+    .user .info .t-title {
+      font-size: 18px;
+      font-weight: bold;
+      width: 100%; }
+    .user .info .cl {
+      float: left;
+      width: 70%; }
+      .user .info .cl .name {
+        display: block;
+        color: #626262; }
+      .user .info .cl .mt10 {
+        margin-top: 10px; }
+    .user .info .cr {
+      float: left;
+      width: 30%;
+      text-align: right; }
+      .user .info .cr .name {
+        display: block;
+        margin-top: 10px;
+        color: #80bd01;
+        font-size: 12px; }
+
+.reply_content {
+  padding: 0 15px;
+  margin-bottom: 15px; }
+  .reply_content img {
+    width: auto\9;
+    height: auto;
+    max-width: 100%;
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic; }
+  .reply_content p {
+    line-height: 1.3; }
+
+.no-data {
+  width: 100%;
+  height: 100%;
+  padding: 40% 0;
+  color: #d4d4d4;
+  display: inline-block;
+  font-size: 18px;
+  text-align: center; }
+
+/*
+**   rework 分界线
+**   ------------
+*/
+/* 颜色 */
+/* 基础布局 */
+/* 综合布局 */
+.text-overflow, .title {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden; }
+
+.title {
+  color: #2c3e50;
+  font-size: 16px;
+  line-height: 1.5; }
+
+.display-flex, .user {
+  /* Firefox */
+  display: -ms-flexbox;
+  /* IE10 */
+  display: -webkit-box;
+  /* Safari */
+  display: -webkit-flex;
+  /* Chrome, WebKit */
+  display: flexbox;
+  display: flex; }
+
+.flex {
+  display: block;
+  width: 100%;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  -webkit-box-flex: 1;
+  box-flex: 1;
+  flex: 1; }
+
+.tag {
+  padding: 5px 6px;
+  font-size: 10px;
+  font-weight: 400;
+  border-radius: 4px;
+  background-color: #e7e7e7;
+  text-align: center;
+  vertical-align: middle; }
+
+.user-avatar {
+  display: block;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid #F3F3F3; }
+
+.page {
+  background-color: #fff;
+  height: 100%;
+  padding: 15px 0; }
+  .page .reply_num {
+    margin-top: 20px;
+    background-color: #e7e7e7;
+    padding: 10px 0 10px 10px;
+    border-top: solid 1px #d4d4d4;
+    border-bottom: solid 1px #d4d4d4; }
+  .page .reply-list {
+    width: 100%;
+    margin-top: 15px; }
+    .page .reply-list ul {
+      width: 100%;
+      list-style: none;
+      padding-left: 0; }
+      .page .reply-list ul li {
+        width: 100%;
+        list-style: none;
+        border-bottom: solid 1px #d4d4d4; }
+        .page .reply-list ul li:last-child {
+          border-bottom: none; }
+        .page .reply-list ul li .uped {
+          color: #80bd01; }
+        .page .reply-list ul li .icon {
+          font-size: 26px; }
+  .page .topic_content {
+    margin: 0 10px; }
+  .page .reply {
+    width: 100%;
+    margin-top: 15px;
+    border-top: solid 1px #d4d4d4; }
+    .page .reply .text {
+      margin: 15px 2%;
+      width: 96%;
+      border-color: #d4d4d4;
+      color: #000; }
+    .page .reply .btn {
+      display: inline-block;
+      border-radius: 5px;
+      text-align: center;
+      font-size: 16px;
+      margin: 0 2% 15px;
+      width: 96%;
+      background-color: #80bd01;
+      padding: 10px 0;
+      color: #fff; }
+    .page .reply .err {
+      border-color: red; }
+  .page .message {
+    border-bottom: solid 1px #d4d4d4;
+    padding: 10px 0; }
+  .page .tabs {
+    width: 100%;
+    height: 41px;
+    margin-top: 30px;
+    list-style: none;
+    border-bottom: solid 1px #d4d4d4;
+    position: relative; }
+    .page .tabs .item {
+      width: 50%;
+      padding: 12.5px 0;
+      float: left;
+      font-size: 16;
+      text-align: center;
+      font-weight: bold; }
+    .page .tabs .read {
+      font-size: 25px;
+      color: #80bd01;
+      position: absolute;
+      right: 5px;
+      top: 7.5px;
+      font-weight: bold; }
+    .page .tabs .br {
+      border-right: solid 1px #d4d4d4; }
+    .page .tabs .selected {
+      color: #ff5a5f;
+      border-bottom: solid 2px #ff5a5f; }
+  .page .icon-empty {
+    font-size: 125px;
+    display: block; }
 .page-body {
   padding: 50px 15px; }
   .page-body .label {
@@ -1986,11 +2073,6 @@ body {
   border-radius: 50%;
   margin-right: 10px;
   border: 1px solid #F3F3F3; }
-
-#page {
-  padding-top: 60px;
-  -webkit-transition: all .3s ease;
-  transition: all .3s ease; }
 
 .userinfo {
   margin-top: 45px;
