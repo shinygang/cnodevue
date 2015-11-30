@@ -275,8 +275,10 @@ body {
 
 #page {
   padding-top: 44px;
+  background-color: #fff;
   -webkit-transition: all .3s ease;
-  transition: all .3s ease; }
+  transition: all .3s ease;
+  overflow-x: hidden; }
 
 .show-menu {
   -webkit-transform: translateX(200px);
@@ -381,6 +383,8 @@ body {
   margin-top: 15px;
   background: #ffffff;
   border-bottom: solid 1px #d4d4d4; }
+  .topic-content .from {
+    color: #ff5a5f; }
 
 .topic-reply {
   padding: 15px;
@@ -412,6 +416,11 @@ body {
         color: #80bd01; }
       .reply-list ul li .icon {
         font-size: 26px; }
+      .reply-list ul li .from {
+        color: #ff5a5f; }
+      .reply-list ul li .language-javascript {
+        background-color: #f0f0f0;
+        overflow-x: auto; }
 
 /* 回复框样式 */
 .reply {
@@ -1326,7 +1335,8 @@ body {
     vertical-align: middle;
     margin-top: 50%; }
 .add-container {
-  margin-top: 50px; }
+  margin-top: 50px;
+  background-color: #fff; }
   .add-container .line {
     padding: 10px 15px;
     border-bottom: solid 1px #d4d4d4; }

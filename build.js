@@ -28154,7 +28154,8 @@ webpackJsonp([0,1],[
 	        	data:function(transition){
 	                var _self = this;
 	
-	                _self.searchKey.page = 1;
+	                //_self.searchKey.page = 1;
+	                _self.searchKey.limit = 20;
 	        		if(transition.to.query.tab){
 	                    _self.searchKey.tab = transition.to.query.tab;
 	                }
@@ -28162,14 +28163,18 @@ webpackJsonp([0,1],[
 	                _self.showMenu = false;
 	
 	                //页面初次加载获取的数据
-	                _self.getTopics(self.searchData);
+	                _self.getTopics();
 	
 	                //滚动加载
 	                $(window).on('scroll', function() {
 	                    _self.getScrollData();
 	                });
 	               
-	        	}
+	        	},
+	            deactivate:function(transition){
+	                $(window).off('scroll');
+	                transition.next();
+	            }
 	        },
 	        methods:{
 	            getTopics:function(){
@@ -40971,7 +40976,7 @@ webpackJsonp([0,1],[
 	                hasErr:false,
 	                content:'',
 	                userId:localStorage.userId || '',
-	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
+	                authorTxt:'<br/><br/><a class="form" href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
 	            }
 	        },
 	        ready: function(){
@@ -43451,7 +43456,7 @@ webpackJsonp([0,1],[
 	                    accesstoken:localStorage.token
 	                },
 	                err:'',
-	                authorTxt:'<br/><a href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
+	                authorTxt:'<br/><br/><a class="from" href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
 	                alert: {
 	                    txt: '',
 	                    show: false,
