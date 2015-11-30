@@ -28154,7 +28154,7 @@ webpackJsonp([0,1],[
 	        	data:function(transition){
 	                var _self = this;
 	
-	                _self.searchKey.page = 0;
+	                _self.searchKey.page = 1;
 	        		if(transition.to.query.tab){
 	                    _self.searchKey.tab = transition.to.query.tab;
 	                }
