@@ -2,7 +2,7 @@ webpackJsonp([0,1],[
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(14);
+	module.exports = __webpack_require__(16);
 
 
 /***/ },
@@ -19,24 +19,26 @@ webpackJsonp([0,1],[
 /* 11 */,
 /* 12 */,
 /* 13 */,
-/* 14 */
+/* 14 */,
+/* 15 */,
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {'use strict'
 	
-	var Vue = __webpack_require__(16);
+	var Vue = __webpack_require__(18);
 	var app = Vue.extend({});
-	var VueResource = __webpack_require__(84);
+	var VueResource = __webpack_require__(86);
 	Vue.use(VueResource);
-	var VueRouter = __webpack_require__(92);
+	var VueRouter = __webpack_require__(94);
 	Vue.use(VueRouter);
-	var validator = __webpack_require__(93);
+	var validator = __webpack_require__(95);
 	Vue.use(validator);
 	
 	$.ajaxSettings.crossDomain = true;
 	
 	//实例化Vue的filter
-	var filters = __webpack_require__(97);
+	var filters = __webpack_require__(99);
 	Object.keys(filters).forEach(function(k) {
 	        Vue.filter(k, filters[k]);
 	    })
@@ -64,14 +66,14 @@ webpackJsonp([0,1],[
 	    }
 	})
 	
-	__webpack_require__(101)(router);
+	__webpack_require__(103)(router);
 	
 	router.start(app, "#app");
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 15 */
+/* 17 */
 /***/ function(module, exports) {
 
 	/* Zepto v1.1.6 - zepto event ajax form ie - zeptojs.com/license */
@@ -1660,10 +1662,10 @@ webpackJsonp([0,1],[
 	})(Zepto)
 
 /***/ },
-/* 16 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	var extend = _.extend
 	
 	/**
@@ -1688,7 +1690,7 @@ webpackJsonp([0,1],[
 	 * Mixin global API
 	 */
 	
-	extend(Vue, __webpack_require__(30))
+	extend(Vue, __webpack_require__(32))
 	
 	/**
 	 * Vue and every constructor that extends Vue has an
@@ -1701,9 +1703,9 @@ webpackJsonp([0,1],[
 	
 	Vue.options = {
 	  replace: true,
-	  directives: __webpack_require__(33),
-	  elementDirectives: __webpack_require__(67),
-	  filters: __webpack_require__(70),
+	  directives: __webpack_require__(35),
+	  elementDirectives: __webpack_require__(69),
+	  filters: __webpack_require__(72),
 	  transitions: {},
 	  components: {},
 	  partials: {}
@@ -1735,20 +1737,20 @@ webpackJsonp([0,1],[
 	 * Mixin internal instance methods
 	 */
 	
-	extend(p, __webpack_require__(72))
-	extend(p, __webpack_require__(73))
 	extend(p, __webpack_require__(74))
-	extend(p, __webpack_require__(77))
+	extend(p, __webpack_require__(75))
+	extend(p, __webpack_require__(76))
 	extend(p, __webpack_require__(79))
+	extend(p, __webpack_require__(81))
 	
 	/**
 	 * Mixin public API methods
 	 */
 	
-	extend(p, __webpack_require__(80))
-	extend(p, __webpack_require__(81))
 	extend(p, __webpack_require__(82))
 	extend(p, __webpack_require__(83))
+	extend(p, __webpack_require__(84))
+	extend(p, __webpack_require__(85))
 	
 	Vue.version = '1.0.8'
 	module.exports = _.Vue = Vue
@@ -1760,10 +1762,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 17 */
+/* 19 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -1860,22 +1862,22 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 18 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var lang = __webpack_require__(19)
+	var lang = __webpack_require__(21)
 	var extend = lang.extend
 	
 	extend(exports, lang)
-	extend(exports, __webpack_require__(20))
-	extend(exports, __webpack_require__(21))
-	extend(exports, __webpack_require__(27))
-	extend(exports, __webpack_require__(28))
+	extend(exports, __webpack_require__(22))
+	extend(exports, __webpack_require__(23))
 	extend(exports, __webpack_require__(29))
+	extend(exports, __webpack_require__(30))
+	extend(exports, __webpack_require__(31))
 
 
 /***/ },
-/* 19 */
+/* 21 */
 /***/ function(module, exports) {
 
 	/**
@@ -2271,7 +2273,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 20 */
+/* 22 */
 /***/ function(module, exports) {
 
 	// can we use __proto__?
@@ -2362,12 +2364,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 21 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var config = __webpack_require__(22)
-	var transition = __webpack_require__(26)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var config = __webpack_require__(24)
+	var transition = __webpack_require__(28)
 	
 	/**
 	 * Query an element selector if it's not an element already.
@@ -2729,10 +2731,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 22 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
@@ -2826,7 +2828,7 @@ webpackJsonp([0,1],[
 	
 	var delimiters = ['{{', '}}']
 	var unsafeDelimiters = ['{{{', '}}}']
-	var textParser = __webpack_require__(23)
+	var textParser = __webpack_require__(25)
 	
 	Object.defineProperty(module.exports, 'delimiters', {
 	  get: function () {
@@ -2850,12 +2852,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 23 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Cache = __webpack_require__(24)
-	var config = __webpack_require__(22)
-	var dirParser = __webpack_require__(25)
+	var Cache = __webpack_require__(26)
+	var config = __webpack_require__(24)
+	var dirParser = __webpack_require__(27)
 	var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g
 	var cache, tagRE, htmlRE
 	
@@ -3016,7 +3018,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 24 */
+/* 26 */
 /***/ function(module, exports) {
 
 	/**
@@ -3134,11 +3136,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 25 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var Cache = __webpack_require__(24)
+	var _ = __webpack_require__(20)
+	var Cache = __webpack_require__(26)
 	var cache = new Cache(1000)
 	var filterTokenRE = /[^\s'"]+|'[^']*'|"[^"]*"/g
 	var reservedArgRE = /^in$|^-?\d+/
@@ -3274,10 +3276,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 26 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	/**
 	 * Append with transition.
@@ -3359,11 +3361,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 27 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var config = __webpack_require__(22)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var config = __webpack_require__(24)
 	var extend = _.extend
 	
 	/**
@@ -3722,13 +3724,13 @@ webpackJsonp([0,1],[
 	    assets[camelizedId.charAt(0).toUpperCase() + camelizedId.slice(1)]
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 28 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	
 	/**
 	 * Check if an element is a component, if yes return its
@@ -3879,10 +3881,10 @@ webpackJsonp([0,1],[
 	  return Object.prototype.toString.call(val).slice(8, -1)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 29 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3891,7 +3893,7 @@ webpackJsonp([0,1],[
 	
 	if (process.env.NODE_ENV !== 'production') {
 	
-	  var config = __webpack_require__(22)
+	  var config = __webpack_require__(24)
 	  var hasConsole = typeof console !== 'undefined'
 	
 	  /**
@@ -3933,14 +3935,14 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 30 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var config = __webpack_require__(22)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var config = __webpack_require__(24)
 	
 	/**
 	 * Expose useful internals
@@ -3956,15 +3958,15 @@ webpackJsonp([0,1],[
 	 * The following are exposed for advanced usage / plugins
 	 */
 	
-	exports.compiler = __webpack_require__(31)
-	exports.FragmentFactory = __webpack_require__(38)
-	exports.internalDirectives = __webpack_require__(53)
+	exports.compiler = __webpack_require__(33)
+	exports.FragmentFactory = __webpack_require__(40)
+	exports.internalDirectives = __webpack_require__(55)
 	exports.parsers = {
-	  path: __webpack_require__(60),
-	  text: __webpack_require__(23),
-	  template: __webpack_require__(36),
-	  directive: __webpack_require__(25),
-	  expression: __webpack_require__(59)
+	  path: __webpack_require__(62),
+	  text: __webpack_require__(25),
+	  template: __webpack_require__(38),
+	  directive: __webpack_require__(27),
+	  expression: __webpack_require__(61)
 	}
 	
 	/**
@@ -4101,29 +4103,29 @@ webpackJsonp([0,1],[
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 31 */
+/* 33 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
-	_.extend(exports, __webpack_require__(32))
-	_.extend(exports, __webpack_require__(66))
+	_.extend(exports, __webpack_require__(34))
+	_.extend(exports, __webpack_require__(68))
 
 
 /***/ },
-/* 32 */
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var publicDirectives = __webpack_require__(33)
-	var internalDirectives = __webpack_require__(53)
-	var compileProps = __webpack_require__(65)
-	var textParser = __webpack_require__(23)
-	var dirParser = __webpack_require__(25)
-	var templateParser = __webpack_require__(36)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var publicDirectives = __webpack_require__(35)
+	var internalDirectives = __webpack_require__(55)
+	var compileProps = __webpack_require__(67)
+	var textParser = __webpack_require__(25)
+	var dirParser = __webpack_require__(27)
+	var templateParser = __webpack_require__(38)
 	var resolveAsset = _.resolveAsset
 	
 	// special binding prefixes
@@ -4889,43 +4891,43 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 33 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// text & html
-	exports.text = __webpack_require__(34)
-	exports.html = __webpack_require__(35)
+	exports.text = __webpack_require__(36)
+	exports.html = __webpack_require__(37)
 	
 	// logic control
-	exports['for'] = __webpack_require__(37)
-	exports['if'] = __webpack_require__(40)
-	exports.show = __webpack_require__(41)
+	exports['for'] = __webpack_require__(39)
+	exports['if'] = __webpack_require__(42)
+	exports.show = __webpack_require__(43)
 	
 	// two-way binding
-	exports.model = __webpack_require__(42)
+	exports.model = __webpack_require__(44)
 	
 	// event handling
-	exports.on = __webpack_require__(47)
+	exports.on = __webpack_require__(49)
 	
 	// attributes
-	exports.bind = __webpack_require__(48)
+	exports.bind = __webpack_require__(50)
 	
 	// ref & el
-	exports.el = __webpack_require__(50)
-	exports.ref = __webpack_require__(51)
+	exports.el = __webpack_require__(52)
+	exports.ref = __webpack_require__(53)
 	
 	// cloak
-	exports.cloak = __webpack_require__(52)
+	exports.cloak = __webpack_require__(54)
 
 
 /***/ },
-/* 34 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	module.exports = {
 	
@@ -4942,11 +4944,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 35 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var templateParser = __webpack_require__(36)
+	var _ = __webpack_require__(20)
+	var templateParser = __webpack_require__(38)
 	
 	module.exports = {
 	
@@ -4988,11 +4990,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 36 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var Cache = __webpack_require__(24)
+	var _ = __webpack_require__(20)
+	var Cache = __webpack_require__(26)
 	var templateCache = new Cache(1000)
 	var idSelectorCache = new Cache(1000)
 	
@@ -5282,11 +5284,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 37 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var FragmentFactory = __webpack_require__(38)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var FragmentFactory = __webpack_require__(40)
 	var isObject = _.isObject
 	var uid = 0
 	
@@ -5875,17 +5877,17 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 38 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var compiler = __webpack_require__(31)
-	var templateParser = __webpack_require__(36)
-	var Fragment = __webpack_require__(39)
-	var Cache = __webpack_require__(24)
+	var _ = __webpack_require__(20)
+	var compiler = __webpack_require__(33)
+	var templateParser = __webpack_require__(38)
+	var Fragment = __webpack_require__(41)
+	var Cache = __webpack_require__(26)
 	var linkerCache = new Cache(5000)
 	
 	/**
@@ -5940,11 +5942,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 39 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var transition = __webpack_require__(26)
+	var _ = __webpack_require__(20)
+	var transition = __webpack_require__(28)
 	
 	/**
 	 * Abstraction for a partially-compiled fragment.
@@ -6132,11 +6134,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 40 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var FragmentFactory = __webpack_require__(38)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var FragmentFactory = __webpack_require__(40)
 	
 	module.exports = {
 	
@@ -6202,14 +6204,14 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 41 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var transition = __webpack_require__(26)
+	var _ = __webpack_require__(20)
+	var transition = __webpack_require__(28)
 	
 	module.exports = {
 	
@@ -6237,16 +6239,16 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 42 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	
 	var handlers = {
-	  text: __webpack_require__(43),
-	  radio: __webpack_require__(44),
-	  select: __webpack_require__(45),
-	  checkbox: __webpack_require__(46)
+	  text: __webpack_require__(45),
+	  radio: __webpack_require__(46),
+	  select: __webpack_require__(47),
+	  checkbox: __webpack_require__(48)
 	}
 	
 	module.exports = {
@@ -6323,13 +6325,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 43 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	module.exports = {
 	
@@ -6459,10 +6461,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 44 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	module.exports = {
 	
@@ -6499,10 +6501,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 45 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	module.exports = {
 	
@@ -6623,10 +6625,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 46 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	module.exports = {
 	
@@ -6691,10 +6693,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 47 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	
 	// keyCode aliases
 	var keyCodes = {
@@ -6819,13 +6821,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 48 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	
 	// xlink
 	var xlinkNS = 'http://www.w3.org/1999/xlink'
@@ -6913,7 +6915,7 @@ webpackJsonp([0,1],[
 	  },
 	
 	  // share object handler with v-bind:class
-	  handleObject: __webpack_require__(49).handleObject,
+	  handleObject: __webpack_require__(51).handleObject,
 	
 	  handleSingle: function (attr, value) {
 	    if (inputProps[attr] && attr in this.el) {
@@ -6949,13 +6951,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 49 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	var prefixes = ['-webkit-', '-moz-', '-ms-']
 	var camelPrefixes = ['Webkit', 'Moz', 'ms']
 	var importantRE = /!important;?$/
@@ -7065,10 +7067,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 50 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	module.exports = {
 	
@@ -7098,13 +7100,13 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 51 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {if (process.env.NODE_ENV !== 'production') {
 	  module.exports = {
 	    bind: function () {
-	      __webpack_require__(18).warn(
+	      __webpack_require__(20).warn(
 	        'v-ref:' + this.arg + ' must be used on a child ' +
 	        'component. Found on <' + this.el.tagName.toLowerCase() + '>.'
 	      )
@@ -7112,10 +7114,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 52 */
+/* 54 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -7129,21 +7131,21 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 53 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.style = __webpack_require__(49)
-	exports['class'] = __webpack_require__(54)
-	exports.component = __webpack_require__(55)
-	exports.prop = __webpack_require__(56)
-	exports.transition = __webpack_require__(62)
+	exports.style = __webpack_require__(51)
+	exports['class'] = __webpack_require__(56)
+	exports.component = __webpack_require__(57)
+	exports.prop = __webpack_require__(58)
+	exports.transition = __webpack_require__(64)
 
 
 /***/ },
-/* 54 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	var addClass = _.addClass
 	var removeClass = _.removeClass
 	
@@ -7217,11 +7219,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 55 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var templateParser = __webpack_require__(36)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var templateParser = __webpack_require__(38)
 	
 	module.exports = {
 	
@@ -7569,10 +7571,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 56 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// NOTE: the prop internal directive is compiled and linked
@@ -7580,9 +7582,9 @@ webpackJsonp([0,1],[
 	// The purpose is to make the initial prop values available
 	// inside `created` hooks and `data` functions.
 	
-	var _ = __webpack_require__(18)
-	var Watcher = __webpack_require__(57)
-	var bindingModes = __webpack_require__(22)._propBindingModes
+	var _ = __webpack_require__(20)
+	var Watcher = __webpack_require__(59)
+	var bindingModes = __webpack_require__(24)._propBindingModes
 	
 	module.exports = {
 	
@@ -7647,14 +7649,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 57 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var config = __webpack_require__(22)
-	var Dep = __webpack_require__(58)
-	var expParser = __webpack_require__(59)
-	var batcher = __webpack_require__(61)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var config = __webpack_require__(24)
+	var Dep = __webpack_require__(60)
+	var expParser = __webpack_require__(61)
+	var batcher = __webpack_require__(63)
 	var uid = 0
 	
 	/**
@@ -7987,13 +7989,13 @@ webpackJsonp([0,1],[
 	
 	module.exports = Watcher
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 58 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	var uid = 0
 	
 	/**
@@ -8057,12 +8059,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 59 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var Path = __webpack_require__(60)
-	var Cache = __webpack_require__(24)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var Path = __webpack_require__(62)
+	var Cache = __webpack_require__(26)
 	var expressionCache = new Cache(1000)
 	
 	var allowedKeywords =
@@ -8325,14 +8327,14 @@ webpackJsonp([0,1],[
 	    exp.slice(0, 5) !== 'Math.'
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 60 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var Cache = __webpack_require__(24)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var Cache = __webpack_require__(26)
 	var pathCache = new Cache(1000)
 	var identRE = exports.identRE = /^[$_a-zA-Z]+[\w$]*$/
 	
@@ -8690,14 +8692,14 @@ webpackJsonp([0,1],[
 	  return true
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 61 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var config = __webpack_require__(22)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var config = __webpack_require__(24)
 	
 	// we have two separate queues: one for directive updates
 	// and one for user watcher registered via $watch().
@@ -8802,14 +8804,14 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 62 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var Transition = __webpack_require__(63)
+	var _ = __webpack_require__(20)
+	var Transition = __webpack_require__(65)
 	
 	module.exports = {
 	
@@ -8831,11 +8833,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 63 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var queue = __webpack_require__(64)
+	var _ = __webpack_require__(20)
+	var queue = __webpack_require__(66)
 	var addClass = _.addClass
 	var removeClass = _.removeClass
 	var transitionEndEvent = _.transitionEndEvent
@@ -9204,10 +9206,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 64 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	var queue = []
 	var queued = false
 	
@@ -9245,17 +9247,17 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 65 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var dirParser = __webpack_require__(25)
-	var propDef = __webpack_require__(56)
-	var propBindingModes = __webpack_require__(22)._propBindingModes
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var dirParser = __webpack_require__(27)
+	var propDef = __webpack_require__(58)
+	var propBindingModes = __webpack_require__(24)._propBindingModes
 	var empty = {}
 	
 	// regexes
-	var identRE = __webpack_require__(60).identRE
+	var identRE = __webpack_require__(62).identRE
 	var settablePathRE = /^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*|\[[^\[\]]+\])*$/
 	
 	/**
@@ -9456,14 +9458,14 @@ webpackJsonp([0,1],[
 	    : def
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 66 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var templateParser = __webpack_require__(36)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var templateParser = __webpack_require__(38)
 	var specialCharRE = /[^\w\-:\.]/
 	
 	/**
@@ -9611,22 +9613,22 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 67 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.slot = __webpack_require__(68)
-	exports.partial = __webpack_require__(69)
+	exports.slot = __webpack_require__(70)
+	exports.partial = __webpack_require__(71)
 
 
 /***/ },
-/* 68 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var templateParser = __webpack_require__(36)
+	var _ = __webpack_require__(20)
+	var templateParser = __webpack_require__(38)
 	
 	// This is the elementDirective that handles <content>
 	// transclusions. It relies on the raw content of an
@@ -9752,12 +9754,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 69 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var vIf = __webpack_require__(40)
-	var FragmentFactory = __webpack_require__(38)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var vIf = __webpack_require__(42)
+	var FragmentFactory = __webpack_require__(40)
 	
 	module.exports = {
 	
@@ -9799,13 +9801,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 70 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	/**
 	 * Stringify value.
@@ -9922,16 +9924,16 @@ webpackJsonp([0,1],[
 	 * Install special array filters
 	 */
 	
-	_.extend(exports, __webpack_require__(71))
+	_.extend(exports, __webpack_require__(73))
 
 
 /***/ },
-/* 71 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var Path = __webpack_require__(60)
-	var toArray = __webpack_require__(37)._postProcess
+	var _ = __webpack_require__(20)
+	var Path = __webpack_require__(62)
+	var toArray = __webpack_require__(39)._postProcess
 	
 	/**
 	 * Limit filter for arrays
@@ -10050,10 +10052,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 72 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mergeOptions = __webpack_require__(18).mergeOptions
+	var mergeOptions = __webpack_require__(20).mergeOptions
 	var uid = 0
 	
 	/**
@@ -10168,10 +10170,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 73 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	var inDoc = _.inDoc
 	var eventRE = /^v-on:|^@/
 	
@@ -10335,17 +10337,17 @@ webpackJsonp([0,1],[
 	  this.$emit('hook:' + hook)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 74 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var compiler = __webpack_require__(31)
-	var Observer = __webpack_require__(75)
-	var Dep = __webpack_require__(58)
-	var Watcher = __webpack_require__(57)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var compiler = __webpack_require__(33)
+	var Observer = __webpack_require__(77)
+	var Dep = __webpack_require__(60)
+	var Watcher = __webpack_require__(59)
 	
 	/**
 	 * Setup the scope of an instance, which contains:
@@ -10583,16 +10585,16 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 75 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var config = __webpack_require__(22)
-	var Dep = __webpack_require__(58)
-	var arrayMethods = __webpack_require__(76)
+	var _ = __webpack_require__(20)
+	var config = __webpack_require__(24)
+	var Dep = __webpack_require__(60)
+	var arrayMethods = __webpack_require__(78)
 	var arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 	
 	/**
@@ -10819,10 +10821,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 76 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	var arrayProto = Array.prototype
 	var arrayMethods = Object.create(arrayProto)
 	
@@ -10915,12 +10917,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 77 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var Directive = __webpack_require__(78)
-	var compiler = __webpack_require__(31)
+	var _ = __webpack_require__(20)
+	var Directive = __webpack_require__(80)
+	var compiler = __webpack_require__(33)
 	
 	/**
 	 * Update v-ref for component.
@@ -11158,12 +11160,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 78 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var Watcher = __webpack_require__(57)
-	var expParser = __webpack_require__(59)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var Watcher = __webpack_require__(59)
+	var expParser = __webpack_require__(61)
 	function noop () {}
 	
 	/**
@@ -11484,13 +11486,13 @@ webpackJsonp([0,1],[
 	
 	module.exports = Directive
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 79 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
 	
 	/**
 	 * Apply a list of filter (descriptors) to a value.
@@ -11584,18 +11586,18 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 80 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var Watcher = __webpack_require__(57)
-	var Path = __webpack_require__(60)
-	var textParser = __webpack_require__(23)
-	var dirParser = __webpack_require__(25)
-	var expParser = __webpack_require__(59)
+	var _ = __webpack_require__(20)
+	var Watcher = __webpack_require__(59)
+	var Path = __webpack_require__(62)
+	var textParser = __webpack_require__(25)
+	var dirParser = __webpack_require__(27)
+	var expParser = __webpack_require__(61)
 	var filterRE = /[^|]\|[^|]/
 	
 	/**
@@ -11767,11 +11769,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 81 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
-	var transition = __webpack_require__(26)
+	var _ = __webpack_require__(20)
+	var transition = __webpack_require__(28)
 	
 	/**
 	 * Convenience on-instance nextTick. The callback is
@@ -11977,10 +11979,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 82 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(18)
+	var _ = __webpack_require__(20)
 	
 	/**
 	 * Listen on the given `event` with `fn`.
@@ -12152,11 +12154,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 83 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(18)
-	var compiler = __webpack_require__(31)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	var compiler = __webpack_require__(33)
 	
 	/**
 	 * Set instance target element and kick off the compilation
@@ -12224,10 +12226,10 @@ webpackJsonp([0,1],[
 	  )
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
 
 /***/ },
-/* 84 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12236,11 +12238,11 @@ webpackJsonp([0,1],[
 	
 	function install(Vue) {
 	
-	    var _ = __webpack_require__(85)(Vue);
+	    var _ = __webpack_require__(87)(Vue);
 	
-	    Vue.url = __webpack_require__(86)(_);
-	    Vue.http = __webpack_require__(87)(_);
-	    Vue.resource = __webpack_require__(91)(_);
+	    Vue.url = __webpack_require__(88)(_);
+	    Vue.http = __webpack_require__(89)(_);
+	    Vue.resource = __webpack_require__(93)(_);
 	
 	    Object.defineProperties(Vue.prototype, {
 	
@@ -12272,7 +12274,7 @@ webpackJsonp([0,1],[
 	module.exports = install;
 
 /***/ },
-/* 85 */
+/* 87 */
 /***/ function(module, exports) {
 
 	/**
@@ -12358,7 +12360,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 86 */
+/* 88 */
 /***/ function(module, exports) {
 
 	/**
@@ -12521,16 +12523,16 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 87 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Service for sending network requests.
 	 */
 	
-	var xhr = __webpack_require__(88);
-	var jsonp = __webpack_require__(90);
-	var Promise = __webpack_require__(89);
+	var xhr = __webpack_require__(90);
+	var jsonp = __webpack_require__(92);
+	var Promise = __webpack_require__(91);
 	
 	module.exports = function (_) {
 	
@@ -12687,14 +12689,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 88 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * XMLHttp request.
 	 */
 	
-	var Promise = __webpack_require__(89);
+	var Promise = __webpack_require__(91);
 	var XDomain = window.XDomainRequest;
 	
 	module.exports = function (_, options) {
@@ -12744,7 +12746,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 89 */
+/* 91 */
 /***/ function(module, exports) {
 
 	/**
@@ -12960,14 +12962,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 90 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * JSONP request.
 	 */
 	
-	var Promise = __webpack_require__(89);
+	var Promise = __webpack_require__(91);
 	
 	module.exports = function (_, options) {
 	
@@ -13016,7 +13018,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 91 */
+/* 93 */
 /***/ function(module, exports) {
 
 	/**
@@ -13133,7 +13135,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 92 */
+/* 94 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15661,15 +15663,15 @@ webpackJsonp([0,1],[
 	module.exports = Router;
 
 /***/ },
-/* 93 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Import(s)
 	 */
 	
-	var validates = __webpack_require__(94)
-	var _ = __webpack_require__(95)
+	var validates = __webpack_require__(96)
+	var _ = __webpack_require__(97)
 	
 	
 	/**
@@ -15767,7 +15769,7 @@ webpackJsonp([0,1],[
 	      if (!$validator) {
 	        vm[componentName] = $validator = vm.$addChild(
 	          {}, // null option
-	          Vue.extend(__webpack_require__(96))
+	          Vue.extend(__webpack_require__(98))
 	        )
 	      }
 	
@@ -15882,7 +15884,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 94 */
+/* 96 */
 /***/ function(module, exports) {
 
 	/**
@@ -16027,7 +16029,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 95 */
+/* 97 */
 /***/ function(module, exports) {
 
 	/**
@@ -16105,15 +16107,15 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 96 */
+/* 98 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Import(s)
 	 */
 	
-	var validates = __webpack_require__(94)
-	var _ = __webpack_require__(95)
+	var validates = __webpack_require__(96)
+	var _ = __webpack_require__(97)
 	
 	
 	/**
@@ -16509,12 +16511,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 97 */
+/* 99 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict"
 	
-	var utils = __webpack_require__(98)
+	var utils = __webpack_require__(100)
 	
 	
 	/**格式化时间
@@ -16617,12 +16619,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 98 */
+/* 100 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
 	
-	var _ = __webpack_require__(99);
+	var _ = __webpack_require__(101);
 	
 	
 	var getCheck = {
@@ -16763,7 +16765,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 99 */
+/* 101 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -29118,10 +29120,10 @@ webpackJsonp([0,1],[
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(100)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(102)(module), (function() { return this; }())))
 
 /***/ },
-/* 100 */
+/* 102 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -29137,7 +29139,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 101 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict'
@@ -29146,72 +29148,135 @@ webpackJsonp([0,1],[
 	    router.map({
 	        '/':{				//首页
 	            name:'home',
-	            component:__webpack_require__(102)
+	            component:__webpack_require__(104)
 	        },
 	        '/cnodevue':{               //首页
 	            name:'home',
-	            component:__webpack_require__(102)
+	            component:__webpack_require__(104)
+	        },
+	        '/list':{               //首页
+	            name:'list',
+	            component:__webpack_require__(112)
 	        },
 	        '/topic/:id':{               //专题
 	            name:'topic',
-	            component:__webpack_require__(119)
+	            component:__webpack_require__(131)
 	        },
 	        '/add':{               //首页
 	            name:'add',
-	            component:__webpack_require__(135),
+	            component:__webpack_require__(146),
 	            auth: true
 	        },
 	        '/message':{               //消息
 	            name:'message',
-	            component:__webpack_require__(139),
+	            component:__webpack_require__(150),
 	            auth: true
 	        },
 	        '/about':{               //关于
 	            name:'about',
-	            component:__webpack_require__(143)
+	            component:__webpack_require__(154)
 	        },
 	        '/login':{               //登录
 	            name:'login',
-	            component:__webpack_require__(146)
+	            component:__webpack_require__(157)
 	        },
 	        '/user/:loginname':{               //用户信息
 	            name:'user',
-	            component:__webpack_require__(155)
+	            component:__webpack_require__(166)
 	        }
 	    })
 	}
 
 /***/ },
-/* 102 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(103)
-	module.exports.template = __webpack_require__(118)
+	__webpack_require__(105)
+	module.exports = __webpack_require__(106)
+	module.exports.template = __webpack_require__(110)
 
 
 /***/ },
-/* 103 */
+/* 105 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(104);
-	
+	__webpack_require__(107);
+	    __webpack_require__(108);
+	    __webpack_require__(109);
 	    module.exports = {
+	        ready:function(){
+	            var _self = this;
+	            setTimeout(function(){
+	                _self.$route.router.go({ name: 'list'});
+	            },2000);
+	        }
+	    }
+
+/***/ },
+/* 107 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 108 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 109 */
+/***/ function(module, exports) {
+
+	// removed by extract-text-webpack-plugin
+
+/***/ },
+/* 110 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = "<!-- 全局header -->\n    <div>\n        <img class=\"index\" src=\"" + __webpack_require__(111) + "\">\n    </div>";
+
+/***/ },
+/* 111 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/cacb291c14df7cb98ff0f118132d5ac0.png"
+
+/***/ },
+/* 112 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(113)
+	module.exports.template = __webpack_require__(130)
+
+
+/***/ },
+/* 113 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {module.exports = {
 	        data: function(){
 	            return {
 	                showMenu: false,
 	                scroll:true,
 	                topics:[],
 	                searchKey:{
-	                	page:1,
-	                	limit:20,
-	                	tab:'all',
-	                	mdrender:true
+	                    page:1,
+	                    limit:20,
+	                    tab:'all',
+	                    mdrender:true
 	                },
 	                searchDataStr:''
 	            }
 	        },
 	        route:{
-	        	data:function(transition){
+	            data:function(transition){
 	                var _self = this,query = transition.to.query,tab = query.tab || 'all';
 	
 	                //记录首次加载的查询条件
@@ -29229,8 +29294,8 @@ webpackJsonp([0,1],[
 	                //如果从详情返回并且typeid一样才去sessionStorge
 	                if(sessionStorage.searchKey && transition.from.name === "topic"  
 	                    && sessionStorage.tab == tab){
-	                    _self.searchKey = JSON.parse(sessionStorage.searchKey);
 	                    _self.topics = JSON.parse(sessionStorage.topics);
+	                    _self.searchKey = JSON.parse(sessionStorage.searchKey);
 	                    setTimeout(function(){
 	                        $(window).scrollTop(sessionStorage.scrollTop);
 	                    },100);
@@ -29247,7 +29312,7 @@ webpackJsonp([0,1],[
 	                    _self.getScrollData();
 	                });
 	
-	        	},
+	            },
 	            deactivate:function(transition){
 	                $(window).off('scroll');
 	                if(transition.to.name === "topic"){
@@ -29295,38 +29360,33 @@ webpackJsonp([0,1],[
 	            }
 	        },
 	        components:{
-	            "nvHead":__webpack_require__(105)
+	            "nvHead":__webpack_require__(114),
+	            "nvTop":__webpack_require__(126)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 104 */
+/* 114 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(115)
+	module.exports = __webpack_require__(116)
+	module.exports.template = __webpack_require__(125)
+
+
+/***/ },
+/* 115 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 105 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(106)
-	module.exports = __webpack_require__(107)
-	module.exports.template = __webpack_require__(117)
-
-
-/***/ },
-/* 106 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 107 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(108);
-	    var utils = __webpack_require__(98);       //加载公用函数
+	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(107);
+	    var utils = __webpack_require__(100);       //加载公用函数
 	
 	    module.exports={
 	        replace:true,
@@ -29348,63 +29408,57 @@ webpackJsonp([0,1],[
 	            }
 	        },
 	        components:{
-	            'nvMenu':__webpack_require__(109)
+	            'nvMenu':__webpack_require__(117)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 108 */
+/* 117 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(118)
+	module.exports = __webpack_require__(119)
+	module.exports.template = __webpack_require__(124)
+
+
+/***/ },
+/* 118 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 109 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(110)
-	module.exports = __webpack_require__(111)
-	module.exports.template = __webpack_require__(116)
-
-
-/***/ },
-/* 110 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 111 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(108);
+	__webpack_require__(107);
 	
 	    module.exports={
 	        replace:true,
 	        props: ['showMenu','pageType','nickName','profileUrl'],
 	        components:{
-	            'userInfo':__webpack_require__(112)
+	            'userInfo':__webpack_require__(120)
 	        }
 	    }
 
 /***/ },
-/* 112 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(113)
-	module.exports = __webpack_require__(114)
-	module.exports.template = __webpack_require__(115)
+	__webpack_require__(121)
+	module.exports = __webpack_require__(122)
+	module.exports.template = __webpack_require__(123)
 
 
 /***/ },
-/* 113 */
+/* 121 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 114 */
+/* 122 */
 /***/ function(module, exports) {
 
 	module.exports={
@@ -29427,45 +29481,94 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 115 */
+/* 123 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"user-info\">\n        <!-- 未登录 -->\n        <ul class=\"login-no\" v-if=\"!loginname\">\n            <li class=\"login\" @click=\"goEnter\"><a >登录</a></li>\n        </ul>\n        <!-- 已登录 -->\n        <div class=\"login-yes\" v-if=\"loginname\" @click=\"goUser\">\n            <div class=\"avertar\"><img v-if=\"avatar_url\" :src=\"avatar_url\"></div>\n            <div class=\"info\">\n                <p v-if=\"loginname\" v-text=\"loginname\"></p>\n            </div>\n        </div>\n    </div>";
 
 /***/ },
-/* 116 */
+/* 124 */
 /***/ function(module, exports) {
 
-	module.exports = "<section id=\"sideBar\" class=\"nav-list\" :class=\"{'show':showMenu}\">\n        <user-info></user-info>\n        <ul class=\"list-ul\">\n            <li class=\"icon-quanbu iconfont\" v-link=\"{'name':'home',query:{tab:'all'}}\">全部</li>\n            <li class=\"icon-hao iconfont\" v-link=\"{name:'home',query:{tab:'good'}}\">精华</li>\n            <li class=\"icon-fenxiang iconfont\" v-link=\"{name:'home',query:{tab:'share'}}\">分享</li>\n            <li class=\"icon-wenda iconfont\" v-link=\"{name:'home',query:{tab:'ask'}}\">问答</li>\n            <li class=\"icon-zhaopin iconfont\" v-link=\"{name:'home',query:{tab:'job'}}\">招聘</li>\n            <li class=\"icon-xiaoxi iconfont line\" v-link=\"{name:'message'}\" class=\"line\">消息</li>\n            <li class=\"icon-about iconfont\" v-link=\"{name:'about'}\">关于</li>\n        </ul>\n    </section>";
+	module.exports = "<section id=\"sideBar\" class=\"nav-list\" :class=\"{'show':showMenu}\">\n        <user-info></user-info>\n        <ul class=\"list-ul\">\n            <li class=\"icon-quanbu iconfont\" v-link=\"{'name':'list',query:{tab:'all'}}\">全部</li>\n            <li class=\"icon-hao iconfont\" v-link=\"{name:'list',query:{tab:'good'}}\">精华</li>\n            <li class=\"icon-fenxiang iconfont\" v-link=\"{name:'list',query:{tab:'share'}}\">分享</li>\n            <li class=\"icon-wenda iconfont\" v-link=\"{name:'list',query:{tab:'ask'}}\">问答</li>\n            <li class=\"icon-zhaopin iconfont\" v-link=\"{name:'list',query:{tab:'job'}}\">招聘</li>\n            <li class=\"icon-xiaoxi iconfont line\" v-link=\"{name:'message'}\" class=\"line\">消息</li>\n            <li class=\"icon-about iconfont\" v-link=\"{name:'about'}\">关于</li>\n        </ul>\n    </section>";
 
 /***/ },
-/* 117 */
+/* 125 */
 /***/ function(module, exports) {
 
 	module.exports = "<div class=\"page-cover\"\n            v-if=\"showMenu&&fixHead\"\n            @click=\"showMenus\">\n    </div>\n    <header :class=\"{'show':showMenu&&fixHead,'fix-header':fixHead,'no-fix':!fixHead}\" id=\"hd\">\n        <div class=\"nv-toolbar\">\n            <div class=\"toolbar-nav\"\n                    @click=\"openMenu\"\n                    v-if=\"fixHead\">\n            </div>\n            <span v-text=\"pageType\"></span>\n            <i class=\"num\" v-if=\"messageCount > 0\"> {{messageCount}}</i>\n            <i v-if=\"needAdd\" v-show=\"!messageCount || messageCount <= 0\"\n                class=\"iconfont add-icon\" v-link=\"{name:'add'}\">&#xe60f;</i>\n        </div>\n    </header>\n    <nv-menu :show-menu=\"showMenu\"\n            :page-type=\"pageType\"\n            :nick-name=\"nickname\"\n            :profile-url=\"profileimgurl\"\n            v-if=\"fixHead\" ></nv-menu>";
 
 /***/ },
-/* 118 */
+/* 126 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(127)
+	module.exports = __webpack_require__(128)
+	module.exports.template = __webpack_require__(129)
+
+
+/***/ },
+/* 127 */
 /***/ function(module, exports) {
 
-	module.exports = "<!-- 全局header -->\n    <nv-head :page-type=\"searchKey.tab | getTitleStr\"\n            fix-head=\"true\"\n            :need-add=\"true\"\n            :show-menu.sync=\"showMenu\">\n    </nv-head>\n\n\n    <section id=\"page\">\n\n        <!-- 首页列表 -->\n\t\t<ul class=\"posts-list\">\n\t\t\t<li v-for=\"item in topics\"\n                    v-link=\"{name:'topic',params:{id:item.id}}\">\n\n\t\t\t\t<h3 v-text=\"item.title\"\n                        :class=\"item.tab | getTabClassName item.good item.top\"\n                        :title=\"item.tab | getTabStr item.good item.top\">\n                </h3>\n                <div class=\"content\">\n                    <img class=\"avatar\" :src=\"item.author.avatar_url\" />\n                    <div class=\"info\">\n                        <p>\n                            <span class=\"name\">\n                                {{item.author.loginname}}\n                            </span>\n                            <span class=\"status\" v-if=\"item.reply_count > 0\">\n                                <b>{{item.reply_count}}</b>\n                                /{{item.visit_count}}\n                            </span>\n                        </p>\n                        <p>\n                            <time>\n                                {{item.create_at | getLastTimeStr true}}\n                            </time>\n                            <time>\n                                {{item.last_reply_at | getLastTimeStr true}}\n                            </time>\n                        </p>\n                    </div>\n                </div>\n\t\t\t</li>\n\t\t</ul>\n\n    </section>\n    <script src=\"../lib/llqrcode.js\"></script>";
+	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 119 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(120)
-	module.exports.template = __webpack_require__(134)
+	/* WEBPACK VAR INJECTION */(function($) {module.exports={
+	        replace:true,
+	        data: function(){
+	            return {
+	                show: false,
+	            }
+	        },
+	        ready: function(){
+	            var _self = this;
+	            $(window).on('scroll', function() {
+	                if($(window).scrollTop() > 100){
+	                    _self.show = true;
+	                }
+	            });
+	        },
+	        beforeDestory:function(){
+	            $(window).off('scroll');
+	        },
+	        methods:{
+	            goTop:function(){
+	                $(window).scrollTop(0);
+	                this.show = false;
+	            }
+	        }
+	    }
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+
+/***/ },
+/* 129 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"iconfont icon-top\" v-show=\"show\" @click=\"goTop\">&#xe611;</div>";
+
+/***/ },
+/* 130 */
+/***/ function(module, exports) {
+
+	module.exports = "<!-- 全局header -->\n    <nv-head :page-type=\"searchKey.tab | getTitleStr\"\n            fix-head=\"true\"\n            :need-add=\"true\"\n            :show-menu.sync=\"showMenu\">\n    </nv-head>\n\n\n    <section id=\"page\">\n\n        <!-- 首页列表 -->\n        <ul class=\"posts-list\">\n            <li v-for=\"item in topics\"\n                    v-link=\"{name:'topic',params:{id:item.id}}\">\n\n                <h3 v-text=\"item.title\"\n                        :class=\"item.tab | getTabClassName item.good item.top\"\n                        :title=\"item.tab | getTabStr item.good item.top\">\n                </h3>\n                <div class=\"content\">\n                    <img class=\"avatar\" :src=\"item.author.avatar_url\" />\n                    <div class=\"info\">\n                        <p>\n                            <span class=\"name\">\n                                {{item.author.loginname}}\n                            </span>\n                            <span class=\"status\" v-if=\"item.reply_count > 0\">\n                                <b>{{item.reply_count}}</b>\n                                /{{item.visit_count}}\n                            </span>\n                        </p>\n                        <p>\n                            <time>\n                                {{item.create_at | getLastTimeStr true}}\n                            </time>\n                            <time>\n                                {{item.last_reply_at | getLastTimeStr true}}\n                            </time>\n                        </p>\n                    </div>\n                </div>\n            </li>\n        </ul>\n    </section>\n    <nv-top></nv-top>";
+
+/***/ },
+/* 131 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(132)
+	module.exports.template = __webpack_require__(145)
 
 
 /***/ },
-/* 120 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(108);
-	    __webpack_require__(121);
-	
-	    module.exports = {
+	/* WEBPACK VAR INJECTION */(function($) {module.exports = {
 	        data: function(){
 	            var _self = this;
 	            return {
@@ -29555,36 +29658,31 @@ webpackJsonp([0,1],[
 	            }
 	        },
 	        components:{
-	            "nvHead":__webpack_require__(105),
-	            "nvAlert":__webpack_require__(122),
-	            "nvReply":__webpack_require__(126)
+	            "nvHead":__webpack_require__(114),
+	            "nvAlert":__webpack_require__(133),
+	            "nvReply":__webpack_require__(137),
+	            "nvTop":__webpack_require__(126)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 121 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 122 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(123)
-	module.exports = __webpack_require__(124)
-	module.exports.template = __webpack_require__(125)
+	__webpack_require__(134)
+	module.exports = __webpack_require__(135)
+	module.exports.template = __webpack_require__(136)
 
 
 /***/ },
-/* 123 */
+/* 134 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 124 */
+/* 135 */
 /***/ function(module, exports) {
 
 	module.exports={
@@ -29593,25 +29691,25 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 125 */
+/* 136 */
 /***/ function(module, exports) {
 
 	module.exports = "<div id=\"wxAlert\" class=\"wx_loading\" v-show=\"show\">\n        <div class=\"wx_alert_inner\" id=\"wx_alert_inner\" v-text=\"content\"></div>\n    </div>";
 
 /***/ },
-/* 126 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(127)
-	module.exports.template = __webpack_require__(133)
+	module.exports = __webpack_require__(138)
+	module.exports.template = __webpack_require__(144)
 
 
 /***/ },
-/* 127 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var utils = __webpack_require__(98),
-	        markdown = __webpack_require__(128).markdown;
+	/* WEBPACK VAR INJECTION */(function($) {var utils = __webpack_require__(100),
+	        markdown = __webpack_require__(139).markdown;
 	
 	    module.exports={
 	        replace:true,
@@ -29682,19 +29780,19 @@ webpackJsonp([0,1],[
 	            }
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 128 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// super simple module for the most common nodejs use case.
-	exports.markdown = __webpack_require__(129);
+	exports.markdown = __webpack_require__(140);
 	exports.parse = exports.markdown.toHTML;
 
 
 /***/ },
-/* 129 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Released under MIT license
@@ -29826,7 +29924,7 @@ webpackJsonp([0,1],[
 	
 	// node
 	function mk_block_inspect() {
-	  var util = __webpack_require__(130);
+	  var util = __webpack_require__(141);
 	  return "Markdown.mk_block( " +
 	          util.inspect(this.toString()) +
 	          ", " +
@@ -31425,7 +31523,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 130 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -31953,7 +32051,7 @@ webpackJsonp([0,1],[
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(131);
+	exports.isBuffer = __webpack_require__(142);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -31997,7 +32095,7 @@ webpackJsonp([0,1],[
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(132);
+	exports.inherits = __webpack_require__(143);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -32015,10 +32113,10 @@ webpackJsonp([0,1],[
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(17)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(19)))
 
 /***/ },
-/* 131 */
+/* 142 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -32029,7 +32127,7 @@ webpackJsonp([0,1],[
 	}
 
 /***/ },
-/* 132 */
+/* 143 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -32058,37 +32156,37 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 133 */
+/* 144 */
 /***/ function(module, exports) {
 
 	module.exports = "<section class=\"reply\">\n        <textarea id=\"content\" rows=\"8\" class=\"text\"\n            :class=\"{'err':hasErr}\"\n            v-model=\"content\"\n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n        <a class=\"button\" @click=\"addReply\">确定</a>\n    </section>";
 
 /***/ },
-/* 134 */
+/* 145 */
 /***/ function(module, exports) {
 
-	module.exports = "<nv-head page-type=\"主题\"\n            :show-menu.sync=\"showMenu\"\n            :need-add=\"true\"\n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\"\n            v-class=\"show-menu:showMenu\"\n            v-if=\"topic.title\">\n\n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>\n        <section class=\"author-info\">\n            <img class=\"avatar\" :src=\"topic.author.avatar_url\" />\n            <div class=\"col\">\n                <span>{{topic.author.loginname}}</span>\n                <time>\n                    发布于:{{topic.create_at | getLastTimeStr true}}\n                </time>\n            </div>\n            <div class=\"right\">\n                <span class=\"tag\"\n                        :class=\"topic.tab|getTabClassName item.good item.top\">\n                        {{topic.tab|getTabStr topic.good topic.top}}\n                </span>\n                <span class=\"name\">{{topic.visit_count}}次浏览</span>\n            </div>\n        </section>\n\n        <section class='markdown-body topic-content' v-html=\"topic.content\">\n\n        </section>\n\n        <h3 class=\"topic-reply\">\n            <strong>{{topic.reply_count}}</strong> 回复\n        </h3>\n\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\"\n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name mt10\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\"\n                                    :class=\"{'uped':isUps(item.ups)}\"\n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\"\n                            :topic-id=\"topicId\"\n                            :reply-id=\"item.id\"\n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n\n        <nv-reply v-if=\"userId\"\n                :topic.sync=\"topic\"\n                :topic-id=\"topicId\"\n                :reply-id=\"\" >\n        </nv-reply>\n\n    </div>\n\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
+	module.exports = "<nv-head page-type=\"主题\"\n            :show-menu.sync=\"showMenu\"\n            :need-add=\"true\"\n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\" \n            v-class=\"show-menu:showMenu\"\n            v-if=\"topic.title\">\n\n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>\n        <section class=\"author-info\">\n            <img class=\"avatar\" :src=\"topic.author.avatar_url\" />\n            <div class=\"col\">\n                <span>{{topic.author.loginname}}</span>\n                <time>\n                    发布于:{{topic.create_at | getLastTimeStr true}}\n                </time>\n            </div>\n            <div class=\"right\">\n                <span class=\"tag\"\n                        :class=\"topic.tab|getTabClassName item.good item.top\">\n                        {{topic.tab|getTabStr topic.good topic.top}}\n                </span>\n                <span class=\"name\">{{topic.visit_count}}次浏览</span>\n            </div>\n        </section>\n\n        <section class='markdown-body topic-content' v-html=\"topic.content\">\n\n        </section>\n\n        <h3 class=\"topic-reply\">\n            <strong>{{topic.reply_count}}</strong> 回复\n        </h3>\n\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\"\n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name mt10\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\"\n                                    :class=\"{'uped':isUps(item.ups)}\"\n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\"\n                            :topic-id=\"topicId\"\n                            :reply-id=\"item.id\"\n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-top></nv-top>\n        <nv-reply v-if=\"userId\"\n                :topic.sync=\"topic\"\n                :topic-id=\"topicId\"\n                :reply-id=\"\" >\n        </nv-reply>\n\n    </div>\n\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
 
 /***/ },
-/* 135 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(136)
-	module.exports = __webpack_require__(137)
-	module.exports.template = __webpack_require__(138)
+	__webpack_require__(147)
+	module.exports = __webpack_require__(148)
+	module.exports.template = __webpack_require__(149)
 
 
 /***/ },
-/* 136 */
+/* 147 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 137 */
+/* 148 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(108);
+	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(107);
 	
 	    module.exports = {
 	        data: function () {
@@ -32150,33 +32248,33 @@ webpackJsonp([0,1],[
 	            }
 	        },
 	        components:{
-	            "nvHead":__webpack_require__(105),
-	            "nvAlert":__webpack_require__(122)
+	            "nvHead":__webpack_require__(114),
+	            "nvAlert":__webpack_require__(133)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 138 */
+/* 149 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"主题\"\n        :show-menu=\"false\"\n        fix-head=\"true\"></nv-head>\n    <div class=\"add-container\">\n        <div class=\"line\">选择分类：\n            <select class=\"add-tab\" v-model=\"topic.tab\">\n                <option value=\"share\">分享</option>\n                <option value=\"ask\">问答</option>\n                <option value=\"job\">招聘</option>\n            </select>\n            <a class=\"add-btn\" @click=\"addTopic\">发布</a>\n        </div>\n        <div class=\"line\">\n            <input class=\"add-title\" v-model=\"topic.title\"\n                    type=\"text\" :class=\"{'err':err=='title'}\"\n                    placeholder=\"标题，字数10字以上\" max-length=\"100\"/>\n        </div>\n        <textarea v-model=\"topic.content\" rows=\"35\" class=\"add-content\"\n            :class=\"{'err':err=='content'}\"\n            v-model=\"content\"\n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n    </div>";
 
 /***/ },
-/* 139 */
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(140)
-	module.exports.template = __webpack_require__(142)
+	module.exports = __webpack_require__(151)
+	module.exports.template = __webpack_require__(153)
 
 
 /***/ },
-/* 140 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(141);
-	    __webpack_require__(108);
-	    __webpack_require__(121);
+	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(152);
+	    __webpack_require__(107);
+	    __webpack_require__(109);
 	
 	    module.exports = {
 	        data: function(){
@@ -32228,67 +32326,67 @@ webpackJsonp([0,1],[
 	            }
 	        },
 	        components:{
-	            "nvHead":__webpack_require__(105)
+	            "nvHead":__webpack_require__(114)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 141 */
+/* 152 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 142 */
+/* 153 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"消息\" fix-head=\"true\" :show-menu.sync=\"showMenu\"\n            :message-count=\"message.hasnot_read_messages.length\" :need-add=\"true\" ></nv-head>\n    <div class=\"page\" >\n        <ul class=\"tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">已读消息</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">\n                未读消息\n                <i class=\"iconfont read\" v-show=\"message.hasnot_read_messages.length > 0\"\n                    @click=\"markall\">&#xe60c;</i>\n            </li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\" />\n                <div class=\"info\">\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                        <span class=\"name\" v-if=\"item.type==='at'\">在回复中@了您</span>\n                        <span class=\"name\" v-if=\"item.type==='reply'\">回复了您的话题</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.reply.create_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n            <div class=\"reply_content\" v-html=\"item.reply.content\"></div>\n            <div class=\"topic-title\" v-link=\"{name:'topic',params:{id:item.topic.id}}\">\n                话题：{{item.topic.title}}\n            </div>\n        </div>\n        <div class=\"no-data\" v-show=\"noData\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </div>";
 
 /***/ },
-/* 143 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(144)
-	module.exports.template = __webpack_require__(145)
+	module.exports = __webpack_require__(155)
+	module.exports.template = __webpack_require__(156)
 
 
 /***/ },
-/* 144 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
 	        components:{
-	            "nvHead":__webpack_require__(105)
+	            "nvHead":__webpack_require__(114)
 	        }
 	    }
 
 /***/ },
-/* 145 */
+/* 156 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"关于\" fix-head=\"true\" :need-add=\"true\" ></nv-head>\n    \n    <dl class=\"about-info\">\n\n        <dt>关于项目</dt>\n        <dd>该项目是基于Cnodejs的api，采用vue.js重写的webapp。</dd>\n    \n        <dt>源码地址</dt>\n        \n        <dd>\n            <a href=\"https://github.com/shinygang/Vue-cnodejs\">\n                https://github.com/shinygang/Vue-cnodejs</a>\n        </dd>\n        \n        <dt>意见反馈</dt>\n        <dd>\n            <a href=\"https://github.com/shinygang/Vue-cnodejs/issues\">\n                发表意见或者提需求</a>\n        </dd>\n        \n        <dt>当前版本</dt>\n        <dd>V1.0 beta</dd>\n\n    </dl>";
 
 /***/ },
-/* 146 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(147)
-	module.exports = __webpack_require__(148)
-	module.exports.template = __webpack_require__(154)
+	__webpack_require__(158)
+	module.exports = __webpack_require__(159)
+	module.exports.template = __webpack_require__(165)
 
 
 /***/ },
-/* 147 */
+/* 158 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 148 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var qrcode = __webpack_require__(149).qrcode;
+	/* WEBPACK VAR INJECTION */(function($) {var qrcode = __webpack_require__(160).qrcode;
 	
 	    var browser = {
 	        versions: function() {
@@ -32398,15 +32496,15 @@ webpackJsonp([0,1],[
 	            },
 	        },
 	        components:{
-	            "nvHead":__webpack_require__(105),
-	            "nvAlert":__webpack_require__(122),
-	            "nvLoading":__webpack_require__(150)
+	            "nvHead":__webpack_require__(114),
+	            "nvAlert":__webpack_require__(133),
+	            "nvLoading":__webpack_require__(161)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 149 */
+/* 160 */
 /***/ function(module, exports) {
 
 	'use strict'
@@ -34908,22 +35006,22 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 150 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(151)
-	module.exports = __webpack_require__(152)
-	module.exports.template = __webpack_require__(153)
+	__webpack_require__(162)
+	module.exports = __webpack_require__(163)
+	module.exports.template = __webpack_require__(164)
 
 
 /***/ },
-/* 151 */
+/* 162 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 152 */
+/* 163 */
 /***/ function(module, exports) {
 
 	module.exports={
@@ -34932,31 +35030,31 @@ webpackJsonp([0,1],[
 	    }
 
 /***/ },
-/* 153 */
+/* 164 */
 /***/ function(module, exports) {
 
 	module.exports = "<div v-show=\"show\" id=\"wxloading\" class=\"wx_loading\">\n        <div class=\"wx_loading_inner\">\n            <i class=\"wx_loading_icon\"></i>{{showTxt}}...\n        </div>\n    </div>";
 
 /***/ },
-/* 154 */
+/* 165 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"登录\">\n    </nv-head>\n    <section class=\"page-body\">\n        <div class=\"label\">\n            <input class=\"txt\" type=\"text\" placeholder=\"Access Token\" v-model=\"token\" maxlength=\"36\">\n        </div>\n        <div class=\"label\">\n            <a class=\"button\">选择二维码图片</a>\n            <input class=\"file\" type=\"file\" id=\"file_upload\" @change=\"readPic\"\n                accept=\"image/*\" capture=\"camera\"/>\n            <a class=\"button\" @click=\"logon\">登录</a>\n        </div>\n    </section>\n    <nv-alert :content=\"alert.txt\" :show=\"alert.show\"></nv-alert>\n    <nv-loading :show=\"loading.show\" :show-txt=\"loading.showTxt\"></nv-loading>";
 
 /***/ },
-/* 155 */
+/* 166 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(156)
-	module.exports.template = __webpack_require__(158)
+	module.exports = __webpack_require__(167)
+	module.exports.template = __webpack_require__(169)
 
 
 /***/ },
-/* 156 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(157);
-	    __webpack_require__(108);
+	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(168);
+	    __webpack_require__(107);
 	
 	    module.exports = {
 	        data: function(){
@@ -34994,19 +35092,19 @@ webpackJsonp([0,1],[
 	            }
 	        },
 	        components:{
-	            "nvHead":__webpack_require__(105)
+	            "nvHead":__webpack_require__(114)
 	        }
 	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(15)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 157 */
+/* 168 */
 /***/ function(module, exports) {
 
 	// removed by extract-text-webpack-plugin
 
 /***/ },
-/* 158 */
+/* 169 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"用户信息\" fix-head=\"true\" :show-menu=\"false\" :need-add=\"true\" ></nv-head>\n    <section class=\"userinfo\">\n        <img class=\"u-img\" :src=\"user.avatar_url\" /><br/>\n        <span class=\"u-name\" v-text=\"user.loginname\"></span>\n        <div class=\"u-bottom\">\n            <span class=\"u-time\" v-text=\"user.create_at | getLastTimeStr false\"></span>\n            <span class=\"u-score\">积分：{{user.score}}</span>\n        </div>\n    </section>\n    <section class=\"topics\">\n        <ul class=\"user-tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">最近回复</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">最新发布</li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\"\n                    v-link=\"{name:'user',params:{loginname:item.author.loginname}}\" />\n                <div class=\"info\" v-link=\"{name:'topic',params:{id:item.id}}\">\n                    <div class=\"t-title\">{{item.title}}</div>\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.last_reply_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n        </div>\n        <div class=\"no-data\" v-show=\"currentData.length === 0\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </section>";
