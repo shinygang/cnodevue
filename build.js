@@ -24,26 +24,50 @@ webpackJsonp([0,1],[
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {'use strict'
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
 	
-	var Vue = __webpack_require__(18);
-	var app = Vue.extend({});
-	var VueResource = __webpack_require__(86);
-	Vue.use(VueResource);
-	var VueRouter = __webpack_require__(94);
-	Vue.use(VueRouter);
-	var validator = __webpack_require__(95);
-	Vue.use(validator);
+	var _keys = __webpack_require__(18);
+	
+	var _keys2 = _interopRequireDefault(_keys);
+	
+	var _vue = __webpack_require__(30);
+	
+	var _vue2 = _interopRequireDefault(_vue);
+	
+	var _vueRouter = __webpack_require__(98);
+	
+	var _vueRouter2 = _interopRequireDefault(_vueRouter);
+	
+	var _vueResource = __webpack_require__(99);
+	
+	var _vueResource2 = _interopRequireDefault(_vueResource);
+	
+	var _vueValidator = __webpack_require__(107);
+	
+	var _vueValidator2 = _interopRequireDefault(_vueValidator);
+	
+	var _filters = __webpack_require__(111);
+	
+	var _filters2 = _interopRequireDefault(_filters);
+	
+	var _routers = __webpack_require__(115);
+	
+	var _routers2 = _interopRequireDefault(_routers);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	_vue2.default.use(_vueResource2.default);
+	_vue2.default.use(_vueRouter2.default);
+	_vue2.default.use(_vueValidator2.default);
 	
 	$.ajaxSettings.crossDomain = true;
 	
 	//实例化Vue的filter
-	var filters = __webpack_require__(99);
-	Object.keys(filters).forEach(function(k) {
-	        Vue.filter(k, filters[k]);
-	    })
-	    //实例化VueRouter
-	var router = new VueRouter({
+	(0, _keys2.default)(_filters2.default).forEach(function (k) {
+	    return _vue2.default.filter(k, _filters2.default[k]);
+	});
+	//实例化VueRouter
+	var router = new _vueRouter2.default({
 	    hashbang: true,
 	    history: false,
 	    saveScrollPosition: true,
@@ -51,7 +75,7 @@ webpackJsonp([0,1],[
 	});
 	
 	//登录中间验证，页面需要登录而没有登录的情况直接跳转登录
-	router.beforeEach(function(transition) {
+	router.beforeEach(function (transition) {
 	    //处理左侧滚动不影响右边
 	    $("html, body, #page").removeClass("scroll-hide");
 	    if (transition.to.auth) {
@@ -64,12 +88,13 @@ webpackJsonp([0,1],[
 	    } else {
 	        transition.next();
 	    }
-	})
+	});
 	
-	__webpack_require__(103)(router);
+	var app = _vue2.default.extend({});
+	
+	(0, _routers2.default)(router);
 	
 	router.start(app, "#app");
-	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
@@ -1665,7 +1690,181 @@ webpackJsonp([0,1],[
 /* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	module.exports = { "default": __webpack_require__(19), __esModule: true };
+
+/***/ },
+/* 19 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(20);
+	module.exports = __webpack_require__(26).Object.keys;
+
+/***/ },
+/* 20 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 19.1.2.14 Object.keys(O)
+	var toObject = __webpack_require__(21);
+	
+	__webpack_require__(23)('keys', function($keys){
+	  return function keys(it){
+	    return $keys(toObject(it));
+	  };
+	});
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// 7.1.13 ToObject(argument)
+	var defined = __webpack_require__(22);
+	module.exports = function(it){
+	  return Object(defined(it));
+	};
+
+/***/ },
+/* 22 */
+/***/ function(module, exports) {
+
+	// 7.2.1 RequireObjectCoercible(argument)
+	module.exports = function(it){
+	  if(it == undefined)throw TypeError("Can't call method on  " + it);
+	  return it;
+	};
+
+/***/ },
+/* 23 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// most Object methods by ES6 should accept primitives
+	var $export = __webpack_require__(24)
+	  , core    = __webpack_require__(26)
+	  , fails   = __webpack_require__(29);
+	module.exports = function(KEY, exec){
+	  var fn  = (core.Object || {})[KEY] || Object[KEY]
+	    , exp = {};
+	  exp[KEY] = exec(fn);
+	  $export($export.S + $export.F * fails(function(){ fn(1); }), 'Object', exp);
+	};
+
+/***/ },
+/* 24 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var global    = __webpack_require__(25)
+	  , core      = __webpack_require__(26)
+	  , ctx       = __webpack_require__(27)
+	  , PROTOTYPE = 'prototype';
+	
+	var $export = function(type, name, source){
+	  var IS_FORCED = type & $export.F
+	    , IS_GLOBAL = type & $export.G
+	    , IS_STATIC = type & $export.S
+	    , IS_PROTO  = type & $export.P
+	    , IS_BIND   = type & $export.B
+	    , IS_WRAP   = type & $export.W
+	    , exports   = IS_GLOBAL ? core : core[name] || (core[name] = {})
+	    , target    = IS_GLOBAL ? global : IS_STATIC ? global[name] : (global[name] || {})[PROTOTYPE]
+	    , key, own, out;
+	  if(IS_GLOBAL)source = name;
+	  for(key in source){
+	    // contains in native
+	    own = !IS_FORCED && target && key in target;
+	    if(own && key in exports)continue;
+	    // export native or passed
+	    out = own ? target[key] : source[key];
+	    // prevent global pollution for namespaces
+	    exports[key] = IS_GLOBAL && typeof target[key] != 'function' ? source[key]
+	    // bind timers to global for call from export context
+	    : IS_BIND && own ? ctx(out, global)
+	    // wrap global constructors for prevent change them in library
+	    : IS_WRAP && target[key] == out ? (function(C){
+	      var F = function(param){
+	        return this instanceof C ? new C(param) : C(param);
+	      };
+	      F[PROTOTYPE] = C[PROTOTYPE];
+	      return F;
+	    // make static versions for prototype methods
+	    })(out) : IS_PROTO && typeof out == 'function' ? ctx(Function.call, out) : out;
+	    if(IS_PROTO)(exports[PROTOTYPE] || (exports[PROTOTYPE] = {}))[key] = out;
+	  }
+	};
+	// type bitmap
+	$export.F = 1;  // forced
+	$export.G = 2;  // global
+	$export.S = 4;  // static
+	$export.P = 8;  // proto
+	$export.B = 16; // bind
+	$export.W = 32; // wrap
+	module.exports = $export;
+
+/***/ },
+/* 25 */
+/***/ function(module, exports) {
+
+	// https://github.com/zloirock/core-js/issues/86#issuecomment-115759028
+	var global = module.exports = typeof window != 'undefined' && window.Math == Math
+	  ? window : typeof self != 'undefined' && self.Math == Math ? self : Function('return this')();
+	if(typeof __g == 'number')__g = global; // eslint-disable-line no-undef
+
+/***/ },
+/* 26 */
+/***/ function(module, exports) {
+
+	var core = module.exports = {version: '1.2.6'};
+	if(typeof __e == 'number')__e = core; // eslint-disable-line no-undef
+
+/***/ },
+/* 27 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// optional / simple context binding
+	var aFunction = __webpack_require__(28);
+	module.exports = function(fn, that, length){
+	  aFunction(fn);
+	  if(that === undefined)return fn;
+	  switch(length){
+	    case 1: return function(a){
+	      return fn.call(that, a);
+	    };
+	    case 2: return function(a, b){
+	      return fn.call(that, a, b);
+	    };
+	    case 3: return function(a, b, c){
+	      return fn.call(that, a, b, c);
+	    };
+	  }
+	  return function(/* ...args */){
+	    return fn.apply(that, arguments);
+	  };
+	};
+
+/***/ },
+/* 28 */
+/***/ function(module, exports) {
+
+	module.exports = function(it){
+	  if(typeof it != 'function')throw TypeError(it + ' is not a function!');
+	  return it;
+	};
+
+/***/ },
+/* 29 */
+/***/ function(module, exports) {
+
+	module.exports = function(exec){
+	  try {
+	    return !!exec();
+	  } catch(e){
+	    return true;
+	  }
+	};
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	var extend = _.extend
 	
 	/**
@@ -1690,7 +1889,7 @@ webpackJsonp([0,1],[
 	 * Mixin global API
 	 */
 	
-	extend(Vue, __webpack_require__(32))
+	extend(Vue, __webpack_require__(44))
 	
 	/**
 	 * Vue and every constructor that extends Vue has an
@@ -1703,9 +1902,9 @@ webpackJsonp([0,1],[
 	
 	Vue.options = {
 	  replace: true,
-	  directives: __webpack_require__(35),
-	  elementDirectives: __webpack_require__(69),
-	  filters: __webpack_require__(72),
+	  directives: __webpack_require__(47),
+	  elementDirectives: __webpack_require__(81),
+	  filters: __webpack_require__(84),
 	  transitions: {},
 	  components: {},
 	  partials: {}
@@ -1737,20 +1936,20 @@ webpackJsonp([0,1],[
 	 * Mixin internal instance methods
 	 */
 	
-	extend(p, __webpack_require__(74))
-	extend(p, __webpack_require__(75))
-	extend(p, __webpack_require__(76))
-	extend(p, __webpack_require__(79))
-	extend(p, __webpack_require__(81))
+	extend(p, __webpack_require__(86))
+	extend(p, __webpack_require__(87))
+	extend(p, __webpack_require__(88))
+	extend(p, __webpack_require__(91))
+	extend(p, __webpack_require__(93))
 	
 	/**
 	 * Mixin public API methods
 	 */
 	
-	extend(p, __webpack_require__(82))
-	extend(p, __webpack_require__(83))
-	extend(p, __webpack_require__(84))
-	extend(p, __webpack_require__(85))
+	extend(p, __webpack_require__(94))
+	extend(p, __webpack_require__(95))
+	extend(p, __webpack_require__(96))
+	extend(p, __webpack_require__(97))
 	
 	Vue.version = '1.0.8'
 	module.exports = _.Vue = Vue
@@ -1762,10 +1961,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 19 */
+/* 31 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -1862,22 +2061,22 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 20 */
+/* 32 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var lang = __webpack_require__(21)
+	var lang = __webpack_require__(33)
 	var extend = lang.extend
 	
 	extend(exports, lang)
-	extend(exports, __webpack_require__(22))
-	extend(exports, __webpack_require__(23))
-	extend(exports, __webpack_require__(29))
-	extend(exports, __webpack_require__(30))
-	extend(exports, __webpack_require__(31))
+	extend(exports, __webpack_require__(34))
+	extend(exports, __webpack_require__(35))
+	extend(exports, __webpack_require__(41))
+	extend(exports, __webpack_require__(42))
+	extend(exports, __webpack_require__(43))
 
 
 /***/ },
-/* 21 */
+/* 33 */
 /***/ function(module, exports) {
 
 	/**
@@ -2273,7 +2472,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 22 */
+/* 34 */
 /***/ function(module, exports) {
 
 	// can we use __proto__?
@@ -2364,12 +2563,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 23 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var config = __webpack_require__(24)
-	var transition = __webpack_require__(28)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var config = __webpack_require__(36)
+	var transition = __webpack_require__(40)
 	
 	/**
 	 * Query an element selector if it's not an element already.
@@ -2731,10 +2930,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 24 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	module.exports = {
@@ -2828,7 +3027,7 @@ webpackJsonp([0,1],[
 	
 	var delimiters = ['{{', '}}']
 	var unsafeDelimiters = ['{{{', '}}}']
-	var textParser = __webpack_require__(25)
+	var textParser = __webpack_require__(37)
 	
 	Object.defineProperty(module.exports, 'delimiters', {
 	  get: function () {
@@ -2852,12 +3051,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 25 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Cache = __webpack_require__(26)
-	var config = __webpack_require__(24)
-	var dirParser = __webpack_require__(27)
+	var Cache = __webpack_require__(38)
+	var config = __webpack_require__(36)
+	var dirParser = __webpack_require__(39)
 	var regexEscapeRE = /[-.*+?^${}()|[\]\/\\]/g
 	var cache, tagRE, htmlRE
 	
@@ -3018,7 +3217,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 26 */
+/* 38 */
 /***/ function(module, exports) {
 
 	/**
@@ -3136,11 +3335,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 27 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var Cache = __webpack_require__(26)
+	var _ = __webpack_require__(32)
+	var Cache = __webpack_require__(38)
 	var cache = new Cache(1000)
 	var filterTokenRE = /[^\s'"]+|'[^']*'|"[^"]*"/g
 	var reservedArgRE = /^in$|^-?\d+/
@@ -3276,10 +3475,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 28 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	/**
 	 * Append with transition.
@@ -3361,11 +3560,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 29 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var config = __webpack_require__(24)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var config = __webpack_require__(36)
 	var extend = _.extend
 	
 	/**
@@ -3724,13 +3923,13 @@ webpackJsonp([0,1],[
 	    assets[camelizedId.charAt(0).toUpperCase() + camelizedId.slice(1)]
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 30 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	
 	/**
 	 * Check if an element is a component, if yes return its
@@ -3881,10 +4080,10 @@ webpackJsonp([0,1],[
 	  return Object.prototype.toString.call(val).slice(8, -1)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 31 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3893,7 +4092,7 @@ webpackJsonp([0,1],[
 	
 	if (process.env.NODE_ENV !== 'production') {
 	
-	  var config = __webpack_require__(24)
+	  var config = __webpack_require__(36)
 	  var hasConsole = typeof console !== 'undefined'
 	
 	  /**
@@ -3935,14 +4134,14 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 32 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var config = __webpack_require__(24)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var config = __webpack_require__(36)
 	
 	/**
 	 * Expose useful internals
@@ -3958,15 +4157,15 @@ webpackJsonp([0,1],[
 	 * The following are exposed for advanced usage / plugins
 	 */
 	
-	exports.compiler = __webpack_require__(33)
-	exports.FragmentFactory = __webpack_require__(40)
-	exports.internalDirectives = __webpack_require__(55)
+	exports.compiler = __webpack_require__(45)
+	exports.FragmentFactory = __webpack_require__(52)
+	exports.internalDirectives = __webpack_require__(67)
 	exports.parsers = {
-	  path: __webpack_require__(62),
-	  text: __webpack_require__(25),
-	  template: __webpack_require__(38),
-	  directive: __webpack_require__(27),
-	  expression: __webpack_require__(61)
+	  path: __webpack_require__(74),
+	  text: __webpack_require__(37),
+	  template: __webpack_require__(50),
+	  directive: __webpack_require__(39),
+	  expression: __webpack_require__(73)
 	}
 	
 	/**
@@ -4103,29 +4302,29 @@ webpackJsonp([0,1],[
 	  }
 	})
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 33 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
-	_.extend(exports, __webpack_require__(34))
-	_.extend(exports, __webpack_require__(68))
+	_.extend(exports, __webpack_require__(46))
+	_.extend(exports, __webpack_require__(80))
 
 
 /***/ },
-/* 34 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var publicDirectives = __webpack_require__(35)
-	var internalDirectives = __webpack_require__(55)
-	var compileProps = __webpack_require__(67)
-	var textParser = __webpack_require__(25)
-	var dirParser = __webpack_require__(27)
-	var templateParser = __webpack_require__(38)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var publicDirectives = __webpack_require__(47)
+	var internalDirectives = __webpack_require__(67)
+	var compileProps = __webpack_require__(79)
+	var textParser = __webpack_require__(37)
+	var dirParser = __webpack_require__(39)
+	var templateParser = __webpack_require__(50)
 	var resolveAsset = _.resolveAsset
 	
 	// special binding prefixes
@@ -4891,43 +5090,43 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 35 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// text & html
-	exports.text = __webpack_require__(36)
-	exports.html = __webpack_require__(37)
+	exports.text = __webpack_require__(48)
+	exports.html = __webpack_require__(49)
 	
 	// logic control
-	exports['for'] = __webpack_require__(39)
-	exports['if'] = __webpack_require__(42)
-	exports.show = __webpack_require__(43)
+	exports['for'] = __webpack_require__(51)
+	exports['if'] = __webpack_require__(54)
+	exports.show = __webpack_require__(55)
 	
 	// two-way binding
-	exports.model = __webpack_require__(44)
+	exports.model = __webpack_require__(56)
 	
 	// event handling
-	exports.on = __webpack_require__(49)
+	exports.on = __webpack_require__(61)
 	
 	// attributes
-	exports.bind = __webpack_require__(50)
+	exports.bind = __webpack_require__(62)
 	
 	// ref & el
-	exports.el = __webpack_require__(52)
-	exports.ref = __webpack_require__(53)
+	exports.el = __webpack_require__(64)
+	exports.ref = __webpack_require__(65)
 	
 	// cloak
-	exports.cloak = __webpack_require__(54)
+	exports.cloak = __webpack_require__(66)
 
 
 /***/ },
-/* 36 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	module.exports = {
 	
@@ -4944,11 +5143,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 37 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var templateParser = __webpack_require__(38)
+	var _ = __webpack_require__(32)
+	var templateParser = __webpack_require__(50)
 	
 	module.exports = {
 	
@@ -4990,11 +5189,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 38 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var Cache = __webpack_require__(26)
+	var _ = __webpack_require__(32)
+	var Cache = __webpack_require__(38)
 	var templateCache = new Cache(1000)
 	var idSelectorCache = new Cache(1000)
 	
@@ -5284,11 +5483,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 39 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var FragmentFactory = __webpack_require__(40)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var FragmentFactory = __webpack_require__(52)
 	var isObject = _.isObject
 	var uid = 0
 	
@@ -5877,17 +6076,17 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 40 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var compiler = __webpack_require__(33)
-	var templateParser = __webpack_require__(38)
-	var Fragment = __webpack_require__(41)
-	var Cache = __webpack_require__(26)
+	var _ = __webpack_require__(32)
+	var compiler = __webpack_require__(45)
+	var templateParser = __webpack_require__(50)
+	var Fragment = __webpack_require__(53)
+	var Cache = __webpack_require__(38)
 	var linkerCache = new Cache(5000)
 	
 	/**
@@ -5942,11 +6141,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 41 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var transition = __webpack_require__(28)
+	var _ = __webpack_require__(32)
+	var transition = __webpack_require__(40)
 	
 	/**
 	 * Abstraction for a partially-compiled fragment.
@@ -6134,11 +6333,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 42 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var FragmentFactory = __webpack_require__(40)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var FragmentFactory = __webpack_require__(52)
 	
 	module.exports = {
 	
@@ -6204,14 +6403,14 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 43 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var transition = __webpack_require__(28)
+	var _ = __webpack_require__(32)
+	var transition = __webpack_require__(40)
 	
 	module.exports = {
 	
@@ -6239,16 +6438,16 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 44 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	
 	var handlers = {
-	  text: __webpack_require__(45),
-	  radio: __webpack_require__(46),
-	  select: __webpack_require__(47),
-	  checkbox: __webpack_require__(48)
+	  text: __webpack_require__(57),
+	  radio: __webpack_require__(58),
+	  select: __webpack_require__(59),
+	  checkbox: __webpack_require__(60)
 	}
 	
 	module.exports = {
@@ -6325,13 +6524,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 45 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	module.exports = {
 	
@@ -6461,10 +6660,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 46 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	module.exports = {
 	
@@ -6501,10 +6700,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 47 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	module.exports = {
 	
@@ -6625,10 +6824,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 48 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	module.exports = {
 	
@@ -6693,10 +6892,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 49 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	
 	// keyCode aliases
 	var keyCodes = {
@@ -6821,13 +7020,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 50 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	
 	// xlink
 	var xlinkNS = 'http://www.w3.org/1999/xlink'
@@ -6915,7 +7114,7 @@ webpackJsonp([0,1],[
 	  },
 	
 	  // share object handler with v-bind:class
-	  handleObject: __webpack_require__(51).handleObject,
+	  handleObject: __webpack_require__(63).handleObject,
 	
 	  handleSingle: function (attr, value) {
 	    if (inputProps[attr] && attr in this.el) {
@@ -6951,13 +7150,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 51 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	var prefixes = ['-webkit-', '-moz-', '-ms-']
 	var camelPrefixes = ['Webkit', 'Moz', 'ms']
 	var importantRE = /!important;?$/
@@ -7067,10 +7266,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 52 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	module.exports = {
 	
@@ -7100,13 +7299,13 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 53 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {if (process.env.NODE_ENV !== 'production') {
 	  module.exports = {
 	    bind: function () {
-	      __webpack_require__(20).warn(
+	      __webpack_require__(32).warn(
 	        'v-ref:' + this.arg + ' must be used on a child ' +
 	        'component. Found on <' + this.el.tagName.toLowerCase() + '>.'
 	      )
@@ -7114,10 +7313,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 54 */
+/* 66 */
 /***/ function(module, exports) {
 
 	module.exports = {
@@ -7131,21 +7330,21 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 55 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.style = __webpack_require__(51)
-	exports['class'] = __webpack_require__(56)
-	exports.component = __webpack_require__(57)
-	exports.prop = __webpack_require__(58)
-	exports.transition = __webpack_require__(64)
+	exports.style = __webpack_require__(63)
+	exports['class'] = __webpack_require__(68)
+	exports.component = __webpack_require__(69)
+	exports.prop = __webpack_require__(70)
+	exports.transition = __webpack_require__(76)
 
 
 /***/ },
-/* 56 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	var addClass = _.addClass
 	var removeClass = _.removeClass
 	
@@ -7219,11 +7418,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 57 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var templateParser = __webpack_require__(38)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var templateParser = __webpack_require__(50)
 	
 	module.exports = {
 	
@@ -7571,10 +7770,10 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 58 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// NOTE: the prop internal directive is compiled and linked
@@ -7582,9 +7781,9 @@ webpackJsonp([0,1],[
 	// The purpose is to make the initial prop values available
 	// inside `created` hooks and `data` functions.
 	
-	var _ = __webpack_require__(20)
-	var Watcher = __webpack_require__(59)
-	var bindingModes = __webpack_require__(24)._propBindingModes
+	var _ = __webpack_require__(32)
+	var Watcher = __webpack_require__(71)
+	var bindingModes = __webpack_require__(36)._propBindingModes
 	
 	module.exports = {
 	
@@ -7649,14 +7848,14 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 59 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var config = __webpack_require__(24)
-	var Dep = __webpack_require__(60)
-	var expParser = __webpack_require__(61)
-	var batcher = __webpack_require__(63)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var config = __webpack_require__(36)
+	var Dep = __webpack_require__(72)
+	var expParser = __webpack_require__(73)
+	var batcher = __webpack_require__(75)
 	var uid = 0
 	
 	/**
@@ -7989,13 +8188,13 @@ webpackJsonp([0,1],[
 	
 	module.exports = Watcher
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 60 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	var uid = 0
 	
 	/**
@@ -8059,12 +8258,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 61 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var Path = __webpack_require__(62)
-	var Cache = __webpack_require__(26)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var Path = __webpack_require__(74)
+	var Cache = __webpack_require__(38)
 	var expressionCache = new Cache(1000)
 	
 	var allowedKeywords =
@@ -8327,14 +8526,14 @@ webpackJsonp([0,1],[
 	    exp.slice(0, 5) !== 'Math.'
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 62 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var Cache = __webpack_require__(26)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var Cache = __webpack_require__(38)
 	var pathCache = new Cache(1000)
 	var identRE = exports.identRE = /^[$_a-zA-Z]+[\w$]*$/
 	
@@ -8692,14 +8891,14 @@ webpackJsonp([0,1],[
 	  return true
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 63 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var config = __webpack_require__(24)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var config = __webpack_require__(36)
 	
 	// we have two separate queues: one for directive updates
 	// and one for user watcher registered via $watch().
@@ -8804,14 +9003,14 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 64 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var Transition = __webpack_require__(65)
+	var _ = __webpack_require__(32)
+	var Transition = __webpack_require__(77)
 	
 	module.exports = {
 	
@@ -8833,11 +9032,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 65 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var queue = __webpack_require__(66)
+	var _ = __webpack_require__(32)
+	var queue = __webpack_require__(78)
 	var addClass = _.addClass
 	var removeClass = _.removeClass
 	var transitionEndEvent = _.transitionEndEvent
@@ -9206,10 +9405,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 66 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	var queue = []
 	var queued = false
 	
@@ -9247,17 +9446,17 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 67 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var dirParser = __webpack_require__(27)
-	var propDef = __webpack_require__(58)
-	var propBindingModes = __webpack_require__(24)._propBindingModes
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var dirParser = __webpack_require__(39)
+	var propDef = __webpack_require__(70)
+	var propBindingModes = __webpack_require__(36)._propBindingModes
 	var empty = {}
 	
 	// regexes
-	var identRE = __webpack_require__(62).identRE
+	var identRE = __webpack_require__(74).identRE
 	var settablePathRE = /^[A-Za-z_$][\w$]*(\.[A-Za-z_$][\w$]*|\[[^\[\]]+\])*$/
 	
 	/**
@@ -9458,14 +9657,14 @@ webpackJsonp([0,1],[
 	    : def
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 68 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var templateParser = __webpack_require__(38)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var templateParser = __webpack_require__(50)
 	var specialCharRE = /[^\w\-:\.]/
 	
 	/**
@@ -9613,22 +9812,22 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 69 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports.slot = __webpack_require__(70)
-	exports.partial = __webpack_require__(71)
+	exports.slot = __webpack_require__(82)
+	exports.partial = __webpack_require__(83)
 
 
 /***/ },
-/* 70 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var templateParser = __webpack_require__(38)
+	var _ = __webpack_require__(32)
+	var templateParser = __webpack_require__(50)
 	
 	// This is the elementDirective that handles <content>
 	// transclusions. It relies on the raw content of an
@@ -9754,12 +9953,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 71 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var vIf = __webpack_require__(42)
-	var FragmentFactory = __webpack_require__(40)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var vIf = __webpack_require__(54)
+	var FragmentFactory = __webpack_require__(52)
 	
 	module.exports = {
 	
@@ -9801,13 +10000,13 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 72 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	/**
 	 * Stringify value.
@@ -9924,16 +10123,16 @@ webpackJsonp([0,1],[
 	 * Install special array filters
 	 */
 	
-	_.extend(exports, __webpack_require__(73))
+	_.extend(exports, __webpack_require__(85))
 
 
 /***/ },
-/* 73 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var Path = __webpack_require__(62)
-	var toArray = __webpack_require__(39)._postProcess
+	var _ = __webpack_require__(32)
+	var Path = __webpack_require__(74)
+	var toArray = __webpack_require__(51)._postProcess
 	
 	/**
 	 * Limit filter for arrays
@@ -10052,10 +10251,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 74 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mergeOptions = __webpack_require__(20).mergeOptions
+	var mergeOptions = __webpack_require__(32).mergeOptions
 	var uid = 0
 	
 	/**
@@ -10170,10 +10369,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 75 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	var inDoc = _.inDoc
 	var eventRE = /^v-on:|^@/
 	
@@ -10337,17 +10536,17 @@ webpackJsonp([0,1],[
 	  this.$emit('hook:' + hook)
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 76 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var compiler = __webpack_require__(33)
-	var Observer = __webpack_require__(77)
-	var Dep = __webpack_require__(60)
-	var Watcher = __webpack_require__(59)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var compiler = __webpack_require__(45)
+	var Observer = __webpack_require__(89)
+	var Dep = __webpack_require__(72)
+	var Watcher = __webpack_require__(71)
 	
 	/**
 	 * Setup the scope of an instance, which contains:
@@ -10585,16 +10784,16 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 77 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var config = __webpack_require__(24)
-	var Dep = __webpack_require__(60)
-	var arrayMethods = __webpack_require__(78)
+	var _ = __webpack_require__(32)
+	var config = __webpack_require__(36)
+	var Dep = __webpack_require__(72)
+	var arrayMethods = __webpack_require__(90)
 	var arrayKeys = Object.getOwnPropertyNames(arrayMethods)
 	
 	/**
@@ -10821,10 +11020,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 78 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	var arrayProto = Array.prototype
 	var arrayMethods = Object.create(arrayProto)
 	
@@ -10917,12 +11116,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 79 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var Directive = __webpack_require__(80)
-	var compiler = __webpack_require__(33)
+	var _ = __webpack_require__(32)
+	var Directive = __webpack_require__(92)
+	var compiler = __webpack_require__(45)
 	
 	/**
 	 * Update v-ref for component.
@@ -11160,12 +11359,12 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 80 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var Watcher = __webpack_require__(59)
-	var expParser = __webpack_require__(61)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var Watcher = __webpack_require__(71)
+	var expParser = __webpack_require__(73)
 	function noop () {}
 	
 	/**
@@ -11486,13 +11685,13 @@ webpackJsonp([0,1],[
 	
 	module.exports = Directive
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 81 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
 	
 	/**
 	 * Apply a list of filter (descriptors) to a value.
@@ -11586,18 +11785,18 @@ webpackJsonp([0,1],[
 	  }
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 82 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var Watcher = __webpack_require__(59)
-	var Path = __webpack_require__(62)
-	var textParser = __webpack_require__(25)
-	var dirParser = __webpack_require__(27)
-	var expParser = __webpack_require__(61)
+	var _ = __webpack_require__(32)
+	var Watcher = __webpack_require__(71)
+	var Path = __webpack_require__(74)
+	var textParser = __webpack_require__(37)
+	var dirParser = __webpack_require__(39)
+	var expParser = __webpack_require__(73)
 	var filterRE = /[^|]\|[^|]/
 	
 	/**
@@ -11769,11 +11968,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 83 */
+/* 95 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
-	var transition = __webpack_require__(28)
+	var _ = __webpack_require__(32)
+	var transition = __webpack_require__(40)
 	
 	/**
 	 * Convenience on-instance nextTick. The callback is
@@ -11979,10 +12178,10 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 84 */
+/* 96 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var _ = __webpack_require__(20)
+	var _ = __webpack_require__(32)
 	
 	/**
 	 * Listen on the given `event` with `fn`.
@@ -12154,11 +12353,11 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 85 */
+/* 97 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(20)
-	var compiler = __webpack_require__(33)
+	/* WEBPACK VAR INJECTION */(function(process) {var _ = __webpack_require__(32)
+	var compiler = __webpack_require__(45)
 	
 	/**
 	 * Set instance target element and kick off the compilation
@@ -12226,916 +12425,10 @@ webpackJsonp([0,1],[
 	  )
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(31)))
 
 /***/ },
-/* 86 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Install plugin.
-	 */
-	
-	function install(Vue) {
-	
-	    var _ = __webpack_require__(87)(Vue);
-	
-	    Vue.url = __webpack_require__(88)(_);
-	    Vue.http = __webpack_require__(89)(_);
-	    Vue.resource = __webpack_require__(93)(_);
-	
-	    Object.defineProperties(Vue.prototype, {
-	
-	        $url: {
-	            get: function () {
-	                return _.options(Vue.url, this, this.$options.url);
-	            }
-	        },
-	
-	        $http: {
-	            get: function () {
-	                return _.options(Vue.http, this, this.$options.http);
-	            }
-	        },
-	
-	        $resource: {
-	            get: function () {
-	                return Vue.resource.bind(this);
-	            }
-	        }
-	
-	    });
-	}
-	
-	if (window.Vue) {
-	    Vue.use(install);
-	}
-	
-	module.exports = install;
-
-/***/ },
-/* 87 */
-/***/ function(module, exports) {
-
-	/**
-	 * Utility functions.
-	 */
-	
-	module.exports = function (Vue) {
-	
-	    var _ = Vue.util.extend({}, Vue.util);
-	
-	    _.isString = function (value) {
-	        return typeof value === 'string';
-	    };
-	
-	    _.isFunction = function (value) {
-	        return typeof value === 'function';
-	    };
-	
-	    _.options = function (fn, obj, options) {
-	
-	        options = options || {};
-	
-	        if (_.isFunction(options)) {
-	            options = options.call(obj);
-	        }
-	
-	        return _.extend(fn.bind({vm: obj, options: options}), fn, {options: options});
-	    };
-	
-	    _.each = function (obj, iterator) {
-	
-	        var i, key;
-	
-	        if (typeof obj.length == 'number') {
-	            for (i = 0; i < obj.length; i++) {
-	                iterator.call(obj[i], obj[i], i);
-	            }
-	        } else if (_.isObject(obj)) {
-	            for (key in obj) {
-	                if (obj.hasOwnProperty(key)) {
-	                    iterator.call(obj[key], obj[key], key);
-	                }
-	            }
-	        }
-	
-	        return obj;
-	    };
-	
-	    _.extend = function (target) {
-	
-	        var array = [], args = array.slice.call(arguments, 1), deep;
-	
-	        if (typeof target == 'boolean') {
-	            deep = target;
-	            target = args.shift();
-	        }
-	
-	        args.forEach(function (arg) {
-	            extend(target, arg, deep);
-	        });
-	
-	        return target;
-	    };
-	
-	    function extend(target, source, deep) {
-	        for (var key in source) {
-	            if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
-	                if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
-	                    target[key] = {};
-	                }
-	                if (_.isArray(source[key]) && !_.isArray(target[key])) {
-	                    target[key] = [];
-	                }
-	                extend(target[key], source[key], deep);
-	            } else if (source[key] !== undefined) {
-	                target[key] = source[key];
-	            }
-	        }
-	    }
-	
-	    return _;
-	};
-
-
-/***/ },
-/* 88 */
-/***/ function(module, exports) {
-
-	/**
-	 * Service for URL templating.
-	 */
-	
-	var ie = document.documentMode;
-	var el = document.createElement('a');
-	
-	module.exports = function (_) {
-	
-	    function Url(url, params) {
-	
-	        var urlParams = {}, queryParams = {}, options = url, query;
-	
-	        if (!_.isPlainObject(options)) {
-	            options = {url: url, params: params};
-	        }
-	
-	        options = _.extend(true, {},
-	            Url.options, this.options, options
-	        );
-	
-	        url = options.url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
-	
-	            if (options.params[name]) {
-	                urlParams[name] = true;
-	                return slash + encodeUriSegment(options.params[name]);
-	            }
-	
-	            return '';
-	        });
-	
-	        if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
-	            url = options.root + '/' + url;
-	        }
-	
-	        _.each(options.params, function (value, key) {
-	            if (!urlParams[key]) {
-	                queryParams[key] = value;
-	            }
-	        });
-	
-	        query = Url.params(queryParams);
-	
-	        if (query) {
-	            url += (url.indexOf('?') == -1 ? '?' : '&') + query;
-	        }
-	
-	        return url;
-	    }
-	
-	    /**
-	     * Url options.
-	     */
-	
-	    Url.options = {
-	        url: '',
-	        root: null,
-	        params: {}
-	    };
-	
-	    /**
-	     * Encodes a Url parameter string.
-	     *
-	     * @param {Object} obj
-	     */
-	
-	    Url.params = function (obj) {
-	
-	        var params = [];
-	
-	        params.add = function (key, value) {
-	
-	            if (_.isFunction (value)) {
-	                value = value();
-	            }
-	
-	            if (value === null) {
-	                value = '';
-	            }
-	
-	            this.push(encodeUriSegment(key) + '=' + encodeUriSegment(value));
-	        };
-	
-	        serialize(params, obj);
-	
-	        return params.join('&');
-	    };
-	
-	    /**
-	     * Parse a URL and return its components.
-	     *
-	     * @param {String} url
-	     */
-	
-	    Url.parse = function (url) {
-	
-	        if (ie) {
-	            el.href = url;
-	            url = el.href;
-	        }
-	
-	        el.href = url;
-	
-	        return {
-	            href: el.href,
-	            protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
-	            port: el.port,
-	            host: el.host,
-	            hostname: el.hostname,
-	            pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
-	            search: el.search ? el.search.replace(/^\?/, '') : '',
-	            hash: el.hash ? el.hash.replace(/^#/, '') : ''
-	        };
-	    };
-	
-	    function serialize(params, obj, scope) {
-	
-	        var array = _.isArray(obj), plain = _.isPlainObject(obj), hash;
-	
-	        _.each(obj, function (value, key) {
-	
-	            hash = _.isObject(value) || _.isArray(value);
-	
-	            if (scope) {
-	                key = scope + '[' + (plain || hash ? key : '') + ']';
-	            }
-	
-	            if (!scope && array) {
-	                params.add(value.name, value.value);
-	            } else if (hash) {
-	                serialize(params, value, key);
-	            } else {
-	                params.add(key, value);
-	            }
-	        });
-	    }
-	
-	    function encodeUriSegment(value) {
-	
-	        return encodeUriQuery(value, true).
-	            replace(/%26/gi, '&').
-	            replace(/%3D/gi, '=').
-	            replace(/%2B/gi, '+');
-	    }
-	
-	    function encodeUriQuery(value, spaces) {
-	
-	        return encodeURIComponent(value).
-	            replace(/%40/gi, '@').
-	            replace(/%3A/gi, ':').
-	            replace(/%24/g, '$').
-	            replace(/%2C/gi, ',').
-	            replace(/%20/g, (spaces ? '%20' : '+'));
-	    }
-	
-	    return _.url = Url;
-	};
-
-
-/***/ },
-/* 89 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Service for sending network requests.
-	 */
-	
-	var xhr = __webpack_require__(90);
-	var jsonp = __webpack_require__(92);
-	var Promise = __webpack_require__(91);
-	
-	module.exports = function (_) {
-	
-	    var originUrl = _.url.parse(location.href);
-	    var jsonType = {'Content-Type': 'application/json;charset=utf-8'};
-	
-	    function Http(url, options) {
-	
-	        var promise;
-	
-	        if (_.isPlainObject(url)) {
-	            options = url;
-	            url = '';
-	        }
-	
-	        options = _.extend({url: url}, options);
-	        options = _.extend(true, {},
-	            Http.options, this.options, options
-	        );
-	
-	        if (options.crossOrigin === null) {
-	            options.crossOrigin = crossOrigin(options.url);
-	        }
-	
-	        options.method = options.method.toUpperCase();
-	        options.headers = _.extend({}, Http.headers.common,
-	            !options.crossOrigin ? Http.headers.custom : {},
-	            Http.headers[options.method.toLowerCase()],
-	            options.headers
-	        );
-	
-	        if (_.isPlainObject(options.data) && /^(GET|JSONP)$/i.test(options.method)) {
-	            _.extend(options.params, options.data);
-	            delete options.data;
-	        }
-	
-	        if (options.emulateHTTP && !options.crossOrigin && /^(PUT|PATCH|DELETE)$/i.test(options.method)) {
-	            options.headers['X-HTTP-Method-Override'] = options.method;
-	            options.method = 'POST';
-	        }
-	
-	        if (options.emulateJSON && _.isPlainObject(options.data)) {
-	            options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-	            options.data = _.url.params(options.data);
-	        }
-	
-	        if (_.isObject(options.data) && /FormData/i.test(options.data.toString())) {
-	            delete options.headers['Content-Type'];
-	        }
-	
-	        if (_.isPlainObject(options.data)) {
-	            options.data = JSON.stringify(options.data);
-	        }
-	
-	        promise = (options.method == 'JSONP' ? jsonp : xhr).call(this.vm, _, options);
-	        promise = extendPromise(promise.then(transformResponse, transformResponse), this.vm);
-	
-	        if (options.success) {
-	            promise = promise.success(options.success);
-	        }
-	
-	        if (options.error) {
-	            promise = promise.error(options.error);
-	        }
-	
-	        return promise;
-	    }
-	
-	    function extendPromise(promise, vm) {
-	
-	        promise.success = function (fn) {
-	
-	            return extendPromise(promise.then(function (response) {
-	                return fn.call(vm, response.data, response.status, response) || response;
-	            }), vm);
-	
-	        };
-	
-	        promise.error = function (fn) {
-	
-	            return extendPromise(promise.then(undefined, function (response) {
-	                return fn.call(vm, response.data, response.status, response) || response;
-	            }), vm);
-	
-	        };
-	
-	        promise.always = function (fn) {
-	
-	            var cb = function (response) {
-	                return fn.call(vm, response.data, response.status, response) || response;
-	            };
-	
-	            return extendPromise(promise.then(cb, cb), vm);
-	        };
-	
-	        return promise;
-	    }
-	
-	    function transformResponse(response) {
-	
-	        try {
-	            response.data = JSON.parse(response.responseText);
-	        } catch (e) {
-	            response.data = response.responseText;
-	        }
-	
-	        return response.ok ? response : Promise.reject(response);
-	    }
-	
-	    function crossOrigin(url) {
-	
-	        var requestUrl = _.url.parse(url);
-	
-	        return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
-	    }
-	
-	    Http.options = {
-	        method: 'get',
-	        params: {},
-	        data: '',
-	        xhr: null,
-	        jsonp: 'callback',
-	        beforeSend: null,
-	        crossOrigin: null,
-	        emulateHTTP: false,
-	        emulateJSON: false
-	    };
-	
-	    Http.headers = {
-	        put: jsonType,
-	        post: jsonType,
-	        patch: jsonType,
-	        delete: jsonType,
-	        common: {'Accept': 'application/json, text/plain, */*'},
-	        custom: {'X-Requested-With': 'XMLHttpRequest'}
-	    };
-	
-	    ['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
-	
-	        Http[method] = function (url, data, success, options) {
-	
-	            if (_.isFunction(data)) {
-	                options = success;
-	                success = data;
-	                data = undefined;
-	            }
-	
-	            return this(url, _.extend({method: method, data: data, success: success}, options));
-	        };
-	    });
-	
-	    return _.http = Http;
-	};
-
-
-/***/ },
-/* 90 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * XMLHttp request.
-	 */
-	
-	var Promise = __webpack_require__(91);
-	var XDomain = window.XDomainRequest;
-	
-	module.exports = function (_, options) {
-	
-	    var request = new XMLHttpRequest(), promise;
-	
-	    if (XDomain && options.crossOrigin) {
-	        request = new XDomainRequest(); options.headers = {};
-	    }
-	
-	    if (_.isPlainObject(options.xhr)) {
-	        _.extend(request, options.xhr);
-	    }
-	
-	    if (_.isFunction(options.beforeSend)) {
-	        options.beforeSend.call(this, request, options);
-	    }
-	
-	    promise = new Promise(function (resolve, reject) {
-	
-	        request.open(options.method, _.url(options), true);
-	
-	        _.each(options.headers, function (value, header) {
-	            request.setRequestHeader(header, value);
-	        });
-	
-	        var handler = function (event) {
-	
-	            request.ok = event.type === 'load';
-	
-	            if (request.ok && request.status) {
-	                request.ok = request.status >= 200 && request.status < 300;
-	            }
-	
-	            (request.ok ? resolve : reject)(request);
-	        };
-	
-	        request.onload = handler;
-	        request.onabort = handler;
-	        request.onerror = handler;
-	
-	        request.send(options.data);
-	    });
-	
-	    return promise;
-	};
-
-
-/***/ },
-/* 91 */
-/***/ function(module, exports) {
-
-	/**
-	 * Promises/A+ polyfill v1.1.0 (https://github.com/bramstein/promis)
-	 */
-	
-	var RESOLVED = 0;
-	var REJECTED = 1;
-	var PENDING  = 2;
-	
-	function Promise(executor) {
-	
-	    this.state = PENDING;
-	    this.value = undefined;
-	    this.deferred = [];
-	
-	    var promise = this;
-	
-	    try {
-	        executor(function (x) {
-	            promise.resolve(x);
-	        }, function (r) {
-	            promise.reject(r);
-	        });
-	    } catch (e) {
-	        promise.reject(e);
-	    }
-	}
-	
-	Promise.reject = function (r) {
-	    return new Promise(function (resolve, reject) {
-	        reject(r);
-	    });
-	};
-	
-	Promise.resolve = function (x) {
-	    return new Promise(function (resolve, reject) {
-	        resolve(x);
-	    });
-	};
-	
-	Promise.all = function all(iterable) {
-	    return new Promise(function (resolve, reject) {
-	        var count = 0,
-	            result = [];
-	
-	        if (iterable.length === 0) {
-	            resolve(result);
-	        }
-	
-	        function resolver(i) {
-	            return function (x) {
-	                result[i] = x;
-	                count += 1;
-	
-	                if (count === iterable.length) {
-	                    resolve(result);
-	                }
-	            };
-	        }
-	
-	        for (var i = 0; i < iterable.length; i += 1) {
-	            iterable[i].then(resolver(i), reject);
-	        }
-	    });
-	};
-	
-	Promise.race = function race(iterable) {
-	    return new Promise(function (resolve, reject) {
-	        for (var i = 0; i < iterable.length; i += 1) {
-	            iterable[i].then(resolve, reject);
-	        }
-	    });
-	};
-	
-	var p = Promise.prototype;
-	
-	p.resolve = function resolve(x) {
-	    var promise = this;
-	
-	    if (promise.state === PENDING) {
-	        if (x === promise) {
-	            throw new TypeError('Promise settled with itself.');
-	        }
-	
-	        var called = false;
-	
-	        try {
-	            var then = x && x['then'];
-	
-	            if (x !== null && typeof x === 'object' && typeof then === 'function') {
-	                then.call(x, function (x) {
-	                    if (!called) {
-	                        promise.resolve(x);
-	                    }
-	                    called = true;
-	
-	                }, function (r) {
-	                    if (!called) {
-	                        promise.reject(r);
-	                    }
-	                    called = true;
-	                });
-	                return;
-	            }
-	        } catch (e) {
-	            if (!called) {
-	                promise.reject(e);
-	            }
-	            return;
-	        }
-	        promise.state = RESOLVED;
-	        promise.value = x;
-	        promise.notify();
-	    }
-	};
-	
-	p.reject = function reject(reason) {
-	    var promise = this;
-	
-	    if (promise.state === PENDING) {
-	        if (reason === promise) {
-	            throw new TypeError('Promise settled with itself.');
-	        }
-	
-	        promise.state = REJECTED;
-	        promise.value = reason;
-	        promise.notify();
-	    }
-	};
-	
-	p.notify = function notify() {
-	    var promise = this;
-	
-	    async(function () {
-	        if (promise.state !== PENDING) {
-	            while (promise.deferred.length) {
-	                var deferred = promise.deferred.shift(),
-	                    onResolved = deferred[0],
-	                    onRejected = deferred[1],
-	                    resolve = deferred[2],
-	                    reject = deferred[3];
-	
-	                try {
-	                    if (promise.state === RESOLVED) {
-	                        if (typeof onResolved === 'function') {
-	                            resolve(onResolved.call(undefined, promise.value));
-	                        } else {
-	                            resolve(promise.value);
-	                        }
-	                    } else if (promise.state === REJECTED) {
-	                        if (typeof onRejected === 'function') {
-	                            resolve(onRejected.call(undefined, promise.value));
-	                        } else {
-	                            reject(promise.value);
-	                        }
-	                    }
-	                } catch (e) {
-	                    reject(e);
-	                }
-	            }
-	        }
-	    });
-	};
-	
-	p.catch = function (onRejected) {
-	    return this.then(undefined, onRejected);
-	};
-	
-	p.then = function then(onResolved, onRejected) {
-	    var promise = this;
-	
-	    return new Promise(function (resolve, reject) {
-	        promise.deferred.push([onResolved, onRejected, resolve, reject]);
-	        promise.notify();
-	    });
-	};
-	
-	var queue = [];
-	var async = function (callback) {
-	    queue.push(callback);
-	
-	    if (queue.length === 1) {
-	        async.async();
-	    }
-	};
-	
-	async.run = function () {
-	    while (queue.length) {
-	        queue[0]();
-	        queue.shift();
-	    }
-	};
-	
-	if (window.MutationObserver) {
-	    var el = document.createElement('div');
-	    var mo = new MutationObserver(async.run);
-	
-	    mo.observe(el, {
-	        attributes: true
-	    });
-	
-	    async.async = function () {
-	        el.setAttribute("x", 0);
-	    };
-	} else {
-	    async.async = function () {
-	        setTimeout(async.run);
-	    };
-	}
-	
-	module.exports = window.Promise || Promise;
-
-
-/***/ },
-/* 92 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * JSONP request.
-	 */
-	
-	var Promise = __webpack_require__(91);
-	
-	module.exports = function (_, options) {
-	
-	    var callback = '_jsonp' + Math.random().toString(36).substr(2), response = {}, script, body;
-	
-	    options.params[options.jsonp] = callback;
-	
-	    if (_.isFunction(options.beforeSend)) {
-	        options.beforeSend.call(this, {}, options);
-	    }
-	
-	    return new Promise(function (resolve, reject) {
-	
-	        script = document.createElement('script');
-	        script.src = _.url(options);
-	        script.type = 'text/javascript';
-	        script.async = true;
-	
-	        window[callback] = function (data) {
-	            body = data;
-	        };
-	
-	        var handler = function (event) {
-	
-	            delete window[callback];
-	            document.body.removeChild(script);
-	
-	            if (event.type === 'load' && !body) {
-	                event.type = 'error';
-	            }
-	
-	            response.ok = event.type !== 'error';
-	            response.status = response.ok ? 200 : 404;
-	            response.responseText = body ? body : event.type;
-	
-	            (response.ok ? resolve : reject)(response);
-	        };
-	
-	        script.onload = handler;
-	        script.onerror = handler;
-	
-	        document.body.appendChild(script);
-	    });
-	
-	};
-
-
-/***/ },
-/* 93 */
-/***/ function(module, exports) {
-
-	/**
-	 * Service for interacting with RESTful services.
-	 */
-	
-	module.exports = function (_) {
-	
-	    function Resource(url, params, actions, options) {
-	
-	        var self = this, resource = {};
-	
-	        actions = _.extend({},
-	            Resource.actions,
-	            actions
-	        );
-	
-	        _.each(actions, function (action, name) {
-	
-	            action = _.extend(true, {url: url, params: params || {}}, options, action);
-	
-	            resource[name] = function () {
-	                return (self.$http || _.http)(opts(action, arguments));
-	            };
-	        });
-	
-	        return resource;
-	    }
-	
-	    function opts(action, args) {
-	
-	        var options = _.extend({}, action), params = {}, data, success, error;
-	
-	        switch (args.length) {
-	
-	            case 4:
-	
-	                error = args[3];
-	                success = args[2];
-	
-	            case 3:
-	            case 2:
-	
-	                if (_.isFunction(args[1])) {
-	
-	                    if (_.isFunction(args[0])) {
-	
-	                        success = args[0];
-	                        error = args[1];
-	
-	                        break;
-	                    }
-	
-	                    success = args[1];
-	                    error = args[2];
-	
-	                } else {
-	
-	                    params = args[0];
-	                    data = args[1];
-	                    success = args[2];
-	
-	                    break;
-	                }
-	
-	            case 1:
-	
-	                if (_.isFunction(args[0])) {
-	                    success = args[0];
-	                } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
-	                    data = args[0];
-	                } else {
-	                    params = args[0];
-	                }
-	
-	                break;
-	
-	            case 0:
-	
-	                break;
-	
-	            default:
-	
-	                throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
-	        }
-	
-	        options.data = data;
-	        options.params = _.extend({}, options.params, params);
-	
-	        if (success) {
-	            options.success = success;
-	        }
-	
-	        if (error) {
-	            options.error = error;
-	        }
-	
-	        return options;
-	    }
-	
-	    Resource.actions = {
-	
-	        get: {method: 'GET'},
-	        save: {method: 'POST'},
-	        query: {method: 'GET'},
-	        update: {method: 'PUT'},
-	        remove: {method: 'DELETE'},
-	        delete: {method: 'DELETE'}
-	
-	    };
-	
-	    return _.resource = Resource;
-	};
-
-
-/***/ },
-/* 94 */
+/* 98 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15663,15 +14956,921 @@ webpackJsonp([0,1],[
 	module.exports = Router;
 
 /***/ },
-/* 95 */
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Install plugin.
+	 */
+	
+	function install(Vue) {
+	
+	    var _ = __webpack_require__(100)(Vue);
+	
+	    Vue.url = __webpack_require__(101)(_);
+	    Vue.http = __webpack_require__(102)(_);
+	    Vue.resource = __webpack_require__(106)(_);
+	
+	    Object.defineProperties(Vue.prototype, {
+	
+	        $url: {
+	            get: function () {
+	                return _.options(Vue.url, this, this.$options.url);
+	            }
+	        },
+	
+	        $http: {
+	            get: function () {
+	                return _.options(Vue.http, this, this.$options.http);
+	            }
+	        },
+	
+	        $resource: {
+	            get: function () {
+	                return Vue.resource.bind(this);
+	            }
+	        }
+	
+	    });
+	}
+	
+	if (window.Vue) {
+	    Vue.use(install);
+	}
+	
+	module.exports = install;
+
+/***/ },
+/* 100 */
+/***/ function(module, exports) {
+
+	/**
+	 * Utility functions.
+	 */
+	
+	module.exports = function (Vue) {
+	
+	    var _ = Vue.util.extend({}, Vue.util);
+	
+	    _.isString = function (value) {
+	        return typeof value === 'string';
+	    };
+	
+	    _.isFunction = function (value) {
+	        return typeof value === 'function';
+	    };
+	
+	    _.options = function (fn, obj, options) {
+	
+	        options = options || {};
+	
+	        if (_.isFunction(options)) {
+	            options = options.call(obj);
+	        }
+	
+	        return _.extend(fn.bind({vm: obj, options: options}), fn, {options: options});
+	    };
+	
+	    _.each = function (obj, iterator) {
+	
+	        var i, key;
+	
+	        if (typeof obj.length == 'number') {
+	            for (i = 0; i < obj.length; i++) {
+	                iterator.call(obj[i], obj[i], i);
+	            }
+	        } else if (_.isObject(obj)) {
+	            for (key in obj) {
+	                if (obj.hasOwnProperty(key)) {
+	                    iterator.call(obj[key], obj[key], key);
+	                }
+	            }
+	        }
+	
+	        return obj;
+	    };
+	
+	    _.extend = function (target) {
+	
+	        var array = [], args = array.slice.call(arguments, 1), deep;
+	
+	        if (typeof target == 'boolean') {
+	            deep = target;
+	            target = args.shift();
+	        }
+	
+	        args.forEach(function (arg) {
+	            extend(target, arg, deep);
+	        });
+	
+	        return target;
+	    };
+	
+	    function extend(target, source, deep) {
+	        for (var key in source) {
+	            if (deep && (_.isPlainObject(source[key]) || _.isArray(source[key]))) {
+	                if (_.isPlainObject(source[key]) && !_.isPlainObject(target[key])) {
+	                    target[key] = {};
+	                }
+	                if (_.isArray(source[key]) && !_.isArray(target[key])) {
+	                    target[key] = [];
+	                }
+	                extend(target[key], source[key], deep);
+	            } else if (source[key] !== undefined) {
+	                target[key] = source[key];
+	            }
+	        }
+	    }
+	
+	    return _;
+	};
+
+
+/***/ },
+/* 101 */
+/***/ function(module, exports) {
+
+	/**
+	 * Service for URL templating.
+	 */
+	
+	var ie = document.documentMode;
+	var el = document.createElement('a');
+	
+	module.exports = function (_) {
+	
+	    function Url(url, params) {
+	
+	        var urlParams = {}, queryParams = {}, options = url, query;
+	
+	        if (!_.isPlainObject(options)) {
+	            options = {url: url, params: params};
+	        }
+	
+	        options = _.extend(true, {},
+	            Url.options, this.options, options
+	        );
+	
+	        url = options.url.replace(/(\/?):([a-z]\w*)/gi, function (match, slash, name) {
+	
+	            if (options.params[name]) {
+	                urlParams[name] = true;
+	                return slash + encodeUriSegment(options.params[name]);
+	            }
+	
+	            return '';
+	        });
+	
+	        if (_.isString(options.root) && !url.match(/^(https?:)?\//)) {
+	            url = options.root + '/' + url;
+	        }
+	
+	        _.each(options.params, function (value, key) {
+	            if (!urlParams[key]) {
+	                queryParams[key] = value;
+	            }
+	        });
+	
+	        query = Url.params(queryParams);
+	
+	        if (query) {
+	            url += (url.indexOf('?') == -1 ? '?' : '&') + query;
+	        }
+	
+	        return url;
+	    }
+	
+	    /**
+	     * Url options.
+	     */
+	
+	    Url.options = {
+	        url: '',
+	        root: null,
+	        params: {}
+	    };
+	
+	    /**
+	     * Encodes a Url parameter string.
+	     *
+	     * @param {Object} obj
+	     */
+	
+	    Url.params = function (obj) {
+	
+	        var params = [];
+	
+	        params.add = function (key, value) {
+	
+	            if (_.isFunction (value)) {
+	                value = value();
+	            }
+	
+	            if (value === null) {
+	                value = '';
+	            }
+	
+	            this.push(encodeUriSegment(key) + '=' + encodeUriSegment(value));
+	        };
+	
+	        serialize(params, obj);
+	
+	        return params.join('&');
+	    };
+	
+	    /**
+	     * Parse a URL and return its components.
+	     *
+	     * @param {String} url
+	     */
+	
+	    Url.parse = function (url) {
+	
+	        if (ie) {
+	            el.href = url;
+	            url = el.href;
+	        }
+	
+	        el.href = url;
+	
+	        return {
+	            href: el.href,
+	            protocol: el.protocol ? el.protocol.replace(/:$/, '') : '',
+	            port: el.port,
+	            host: el.host,
+	            hostname: el.hostname,
+	            pathname: el.pathname.charAt(0) === '/' ? el.pathname : '/' + el.pathname,
+	            search: el.search ? el.search.replace(/^\?/, '') : '',
+	            hash: el.hash ? el.hash.replace(/^#/, '') : ''
+	        };
+	    };
+	
+	    function serialize(params, obj, scope) {
+	
+	        var array = _.isArray(obj), plain = _.isPlainObject(obj), hash;
+	
+	        _.each(obj, function (value, key) {
+	
+	            hash = _.isObject(value) || _.isArray(value);
+	
+	            if (scope) {
+	                key = scope + '[' + (plain || hash ? key : '') + ']';
+	            }
+	
+	            if (!scope && array) {
+	                params.add(value.name, value.value);
+	            } else if (hash) {
+	                serialize(params, value, key);
+	            } else {
+	                params.add(key, value);
+	            }
+	        });
+	    }
+	
+	    function encodeUriSegment(value) {
+	
+	        return encodeUriQuery(value, true).
+	            replace(/%26/gi, '&').
+	            replace(/%3D/gi, '=').
+	            replace(/%2B/gi, '+');
+	    }
+	
+	    function encodeUriQuery(value, spaces) {
+	
+	        return encodeURIComponent(value).
+	            replace(/%40/gi, '@').
+	            replace(/%3A/gi, ':').
+	            replace(/%24/g, '$').
+	            replace(/%2C/gi, ',').
+	            replace(/%20/g, (spaces ? '%20' : '+'));
+	    }
+	
+	    return _.url = Url;
+	};
+
+
+/***/ },
+/* 102 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Service for sending network requests.
+	 */
+	
+	var xhr = __webpack_require__(103);
+	var jsonp = __webpack_require__(105);
+	var Promise = __webpack_require__(104);
+	
+	module.exports = function (_) {
+	
+	    var originUrl = _.url.parse(location.href);
+	    var jsonType = {'Content-Type': 'application/json;charset=utf-8'};
+	
+	    function Http(url, options) {
+	
+	        var promise;
+	
+	        if (_.isPlainObject(url)) {
+	            options = url;
+	            url = '';
+	        }
+	
+	        options = _.extend({url: url}, options);
+	        options = _.extend(true, {},
+	            Http.options, this.options, options
+	        );
+	
+	        if (options.crossOrigin === null) {
+	            options.crossOrigin = crossOrigin(options.url);
+	        }
+	
+	        options.method = options.method.toUpperCase();
+	        options.headers = _.extend({}, Http.headers.common,
+	            !options.crossOrigin ? Http.headers.custom : {},
+	            Http.headers[options.method.toLowerCase()],
+	            options.headers
+	        );
+	
+	        if (_.isPlainObject(options.data) && /^(GET|JSONP)$/i.test(options.method)) {
+	            _.extend(options.params, options.data);
+	            delete options.data;
+	        }
+	
+	        if (options.emulateHTTP && !options.crossOrigin && /^(PUT|PATCH|DELETE)$/i.test(options.method)) {
+	            options.headers['X-HTTP-Method-Override'] = options.method;
+	            options.method = 'POST';
+	        }
+	
+	        if (options.emulateJSON && _.isPlainObject(options.data)) {
+	            options.headers['Content-Type'] = 'application/x-www-form-urlencoded';
+	            options.data = _.url.params(options.data);
+	        }
+	
+	        if (_.isObject(options.data) && /FormData/i.test(options.data.toString())) {
+	            delete options.headers['Content-Type'];
+	        }
+	
+	        if (_.isPlainObject(options.data)) {
+	            options.data = JSON.stringify(options.data);
+	        }
+	
+	        promise = (options.method == 'JSONP' ? jsonp : xhr).call(this.vm, _, options);
+	        promise = extendPromise(promise.then(transformResponse, transformResponse), this.vm);
+	
+	        if (options.success) {
+	            promise = promise.success(options.success);
+	        }
+	
+	        if (options.error) {
+	            promise = promise.error(options.error);
+	        }
+	
+	        return promise;
+	    }
+	
+	    function extendPromise(promise, vm) {
+	
+	        promise.success = function (fn) {
+	
+	            return extendPromise(promise.then(function (response) {
+	                return fn.call(vm, response.data, response.status, response) || response;
+	            }), vm);
+	
+	        };
+	
+	        promise.error = function (fn) {
+	
+	            return extendPromise(promise.then(undefined, function (response) {
+	                return fn.call(vm, response.data, response.status, response) || response;
+	            }), vm);
+	
+	        };
+	
+	        promise.always = function (fn) {
+	
+	            var cb = function (response) {
+	                return fn.call(vm, response.data, response.status, response) || response;
+	            };
+	
+	            return extendPromise(promise.then(cb, cb), vm);
+	        };
+	
+	        return promise;
+	    }
+	
+	    function transformResponse(response) {
+	
+	        try {
+	            response.data = JSON.parse(response.responseText);
+	        } catch (e) {
+	            response.data = response.responseText;
+	        }
+	
+	        return response.ok ? response : Promise.reject(response);
+	    }
+	
+	    function crossOrigin(url) {
+	
+	        var requestUrl = _.url.parse(url);
+	
+	        return (requestUrl.protocol !== originUrl.protocol || requestUrl.host !== originUrl.host);
+	    }
+	
+	    Http.options = {
+	        method: 'get',
+	        params: {},
+	        data: '',
+	        xhr: null,
+	        jsonp: 'callback',
+	        beforeSend: null,
+	        crossOrigin: null,
+	        emulateHTTP: false,
+	        emulateJSON: false
+	    };
+	
+	    Http.headers = {
+	        put: jsonType,
+	        post: jsonType,
+	        patch: jsonType,
+	        delete: jsonType,
+	        common: {'Accept': 'application/json, text/plain, */*'},
+	        custom: {'X-Requested-With': 'XMLHttpRequest'}
+	    };
+	
+	    ['get', 'put', 'post', 'patch', 'delete', 'jsonp'].forEach(function (method) {
+	
+	        Http[method] = function (url, data, success, options) {
+	
+	            if (_.isFunction(data)) {
+	                options = success;
+	                success = data;
+	                data = undefined;
+	            }
+	
+	            return this(url, _.extend({method: method, data: data, success: success}, options));
+	        };
+	    });
+	
+	    return _.http = Http;
+	};
+
+
+/***/ },
+/* 103 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * XMLHttp request.
+	 */
+	
+	var Promise = __webpack_require__(104);
+	var XDomain = window.XDomainRequest;
+	
+	module.exports = function (_, options) {
+	
+	    var request = new XMLHttpRequest(), promise;
+	
+	    if (XDomain && options.crossOrigin) {
+	        request = new XDomainRequest(); options.headers = {};
+	    }
+	
+	    if (_.isPlainObject(options.xhr)) {
+	        _.extend(request, options.xhr);
+	    }
+	
+	    if (_.isFunction(options.beforeSend)) {
+	        options.beforeSend.call(this, request, options);
+	    }
+	
+	    promise = new Promise(function (resolve, reject) {
+	
+	        request.open(options.method, _.url(options), true);
+	
+	        _.each(options.headers, function (value, header) {
+	            request.setRequestHeader(header, value);
+	        });
+	
+	        var handler = function (event) {
+	
+	            request.ok = event.type === 'load';
+	
+	            if (request.ok && request.status) {
+	                request.ok = request.status >= 200 && request.status < 300;
+	            }
+	
+	            (request.ok ? resolve : reject)(request);
+	        };
+	
+	        request.onload = handler;
+	        request.onabort = handler;
+	        request.onerror = handler;
+	
+	        request.send(options.data);
+	    });
+	
+	    return promise;
+	};
+
+
+/***/ },
+/* 104 */
+/***/ function(module, exports) {
+
+	/**
+	 * Promises/A+ polyfill v1.1.0 (https://github.com/bramstein/promis)
+	 */
+	
+	var RESOLVED = 0;
+	var REJECTED = 1;
+	var PENDING  = 2;
+	
+	function Promise(executor) {
+	
+	    this.state = PENDING;
+	    this.value = undefined;
+	    this.deferred = [];
+	
+	    var promise = this;
+	
+	    try {
+	        executor(function (x) {
+	            promise.resolve(x);
+	        }, function (r) {
+	            promise.reject(r);
+	        });
+	    } catch (e) {
+	        promise.reject(e);
+	    }
+	}
+	
+	Promise.reject = function (r) {
+	    return new Promise(function (resolve, reject) {
+	        reject(r);
+	    });
+	};
+	
+	Promise.resolve = function (x) {
+	    return new Promise(function (resolve, reject) {
+	        resolve(x);
+	    });
+	};
+	
+	Promise.all = function all(iterable) {
+	    return new Promise(function (resolve, reject) {
+	        var count = 0,
+	            result = [];
+	
+	        if (iterable.length === 0) {
+	            resolve(result);
+	        }
+	
+	        function resolver(i) {
+	            return function (x) {
+	                result[i] = x;
+	                count += 1;
+	
+	                if (count === iterable.length) {
+	                    resolve(result);
+	                }
+	            };
+	        }
+	
+	        for (var i = 0; i < iterable.length; i += 1) {
+	            iterable[i].then(resolver(i), reject);
+	        }
+	    });
+	};
+	
+	Promise.race = function race(iterable) {
+	    return new Promise(function (resolve, reject) {
+	        for (var i = 0; i < iterable.length; i += 1) {
+	            iterable[i].then(resolve, reject);
+	        }
+	    });
+	};
+	
+	var p = Promise.prototype;
+	
+	p.resolve = function resolve(x) {
+	    var promise = this;
+	
+	    if (promise.state === PENDING) {
+	        if (x === promise) {
+	            throw new TypeError('Promise settled with itself.');
+	        }
+	
+	        var called = false;
+	
+	        try {
+	            var then = x && x['then'];
+	
+	            if (x !== null && typeof x === 'object' && typeof then === 'function') {
+	                then.call(x, function (x) {
+	                    if (!called) {
+	                        promise.resolve(x);
+	                    }
+	                    called = true;
+	
+	                }, function (r) {
+	                    if (!called) {
+	                        promise.reject(r);
+	                    }
+	                    called = true;
+	                });
+	                return;
+	            }
+	        } catch (e) {
+	            if (!called) {
+	                promise.reject(e);
+	            }
+	            return;
+	        }
+	        promise.state = RESOLVED;
+	        promise.value = x;
+	        promise.notify();
+	    }
+	};
+	
+	p.reject = function reject(reason) {
+	    var promise = this;
+	
+	    if (promise.state === PENDING) {
+	        if (reason === promise) {
+	            throw new TypeError('Promise settled with itself.');
+	        }
+	
+	        promise.state = REJECTED;
+	        promise.value = reason;
+	        promise.notify();
+	    }
+	};
+	
+	p.notify = function notify() {
+	    var promise = this;
+	
+	    async(function () {
+	        if (promise.state !== PENDING) {
+	            while (promise.deferred.length) {
+	                var deferred = promise.deferred.shift(),
+	                    onResolved = deferred[0],
+	                    onRejected = deferred[1],
+	                    resolve = deferred[2],
+	                    reject = deferred[3];
+	
+	                try {
+	                    if (promise.state === RESOLVED) {
+	                        if (typeof onResolved === 'function') {
+	                            resolve(onResolved.call(undefined, promise.value));
+	                        } else {
+	                            resolve(promise.value);
+	                        }
+	                    } else if (promise.state === REJECTED) {
+	                        if (typeof onRejected === 'function') {
+	                            resolve(onRejected.call(undefined, promise.value));
+	                        } else {
+	                            reject(promise.value);
+	                        }
+	                    }
+	                } catch (e) {
+	                    reject(e);
+	                }
+	            }
+	        }
+	    });
+	};
+	
+	p.catch = function (onRejected) {
+	    return this.then(undefined, onRejected);
+	};
+	
+	p.then = function then(onResolved, onRejected) {
+	    var promise = this;
+	
+	    return new Promise(function (resolve, reject) {
+	        promise.deferred.push([onResolved, onRejected, resolve, reject]);
+	        promise.notify();
+	    });
+	};
+	
+	var queue = [];
+	var async = function (callback) {
+	    queue.push(callback);
+	
+	    if (queue.length === 1) {
+	        async.async();
+	    }
+	};
+	
+	async.run = function () {
+	    while (queue.length) {
+	        queue[0]();
+	        queue.shift();
+	    }
+	};
+	
+	if (window.MutationObserver) {
+	    var el = document.createElement('div');
+	    var mo = new MutationObserver(async.run);
+	
+	    mo.observe(el, {
+	        attributes: true
+	    });
+	
+	    async.async = function () {
+	        el.setAttribute("x", 0);
+	    };
+	} else {
+	    async.async = function () {
+	        setTimeout(async.run);
+	    };
+	}
+	
+	module.exports = window.Promise || Promise;
+
+
+/***/ },
+/* 105 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * JSONP request.
+	 */
+	
+	var Promise = __webpack_require__(104);
+	
+	module.exports = function (_, options) {
+	
+	    var callback = '_jsonp' + Math.random().toString(36).substr(2), response = {}, script, body;
+	
+	    options.params[options.jsonp] = callback;
+	
+	    if (_.isFunction(options.beforeSend)) {
+	        options.beforeSend.call(this, {}, options);
+	    }
+	
+	    return new Promise(function (resolve, reject) {
+	
+	        script = document.createElement('script');
+	        script.src = _.url(options);
+	        script.type = 'text/javascript';
+	        script.async = true;
+	
+	        window[callback] = function (data) {
+	            body = data;
+	        };
+	
+	        var handler = function (event) {
+	
+	            delete window[callback];
+	            document.body.removeChild(script);
+	
+	            if (event.type === 'load' && !body) {
+	                event.type = 'error';
+	            }
+	
+	            response.ok = event.type !== 'error';
+	            response.status = response.ok ? 200 : 404;
+	            response.responseText = body ? body : event.type;
+	
+	            (response.ok ? resolve : reject)(response);
+	        };
+	
+	        script.onload = handler;
+	        script.onerror = handler;
+	
+	        document.body.appendChild(script);
+	    });
+	
+	};
+
+
+/***/ },
+/* 106 */
+/***/ function(module, exports) {
+
+	/**
+	 * Service for interacting with RESTful services.
+	 */
+	
+	module.exports = function (_) {
+	
+	    function Resource(url, params, actions, options) {
+	
+	        var self = this, resource = {};
+	
+	        actions = _.extend({},
+	            Resource.actions,
+	            actions
+	        );
+	
+	        _.each(actions, function (action, name) {
+	
+	            action = _.extend(true, {url: url, params: params || {}}, options, action);
+	
+	            resource[name] = function () {
+	                return (self.$http || _.http)(opts(action, arguments));
+	            };
+	        });
+	
+	        return resource;
+	    }
+	
+	    function opts(action, args) {
+	
+	        var options = _.extend({}, action), params = {}, data, success, error;
+	
+	        switch (args.length) {
+	
+	            case 4:
+	
+	                error = args[3];
+	                success = args[2];
+	
+	            case 3:
+	            case 2:
+	
+	                if (_.isFunction(args[1])) {
+	
+	                    if (_.isFunction(args[0])) {
+	
+	                        success = args[0];
+	                        error = args[1];
+	
+	                        break;
+	                    }
+	
+	                    success = args[1];
+	                    error = args[2];
+	
+	                } else {
+	
+	                    params = args[0];
+	                    data = args[1];
+	                    success = args[2];
+	
+	                    break;
+	                }
+	
+	            case 1:
+	
+	                if (_.isFunction(args[0])) {
+	                    success = args[0];
+	                } else if (/^(POST|PUT|PATCH)$/i.test(options.method)) {
+	                    data = args[0];
+	                } else {
+	                    params = args[0];
+	                }
+	
+	                break;
+	
+	            case 0:
+	
+	                break;
+	
+	            default:
+	
+	                throw 'Expected up to 4 arguments [params, data, success, error], got ' + args.length + ' arguments';
+	        }
+	
+	        options.data = data;
+	        options.params = _.extend({}, options.params, params);
+	
+	        if (success) {
+	            options.success = success;
+	        }
+	
+	        if (error) {
+	            options.error = error;
+	        }
+	
+	        return options;
+	    }
+	
+	    Resource.actions = {
+	
+	        get: {method: 'GET'},
+	        save: {method: 'POST'},
+	        query: {method: 'GET'},
+	        update: {method: 'PUT'},
+	        remove: {method: 'DELETE'},
+	        delete: {method: 'DELETE'}
+	
+	    };
+	
+	    return _.resource = Resource;
+	};
+
+
+/***/ },
+/* 107 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Import(s)
 	 */
 	
-	var validates = __webpack_require__(96)
-	var _ = __webpack_require__(97)
+	var validates = __webpack_require__(108)
+	var _ = __webpack_require__(109)
 	
 	
 	/**
@@ -15769,7 +15968,7 @@ webpackJsonp([0,1],[
 	      if (!$validator) {
 	        vm[componentName] = $validator = vm.$addChild(
 	          {}, // null option
-	          Vue.extend(__webpack_require__(98))
+	          Vue.extend(__webpack_require__(110))
 	        )
 	      }
 	
@@ -15884,7 +16083,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 96 */
+/* 108 */
 /***/ function(module, exports) {
 
 	/**
@@ -16029,7 +16228,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 97 */
+/* 109 */
 /***/ function(module, exports) {
 
 	/**
@@ -16107,15 +16306,15 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 98 */
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
 	 * Import(s)
 	 */
 	
-	var validates = __webpack_require__(96)
-	var _ = __webpack_require__(97)
+	var validates = __webpack_require__(108)
+	var _ = __webpack_require__(109)
 	
 	
 	/**
@@ -16511,32 +16710,35 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 99 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict"
+	"use strict";
 	
-	var utils = __webpack_require__(100)
+	var _utils = __webpack_require__(112);
 	
+	var _utils2 = _interopRequireDefault(_utils);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	/**格式化时间
 	 *  @param {string} time 需要格式化的时间
 	 *  @param {bool} friendly 是否是fromNow
 	 */
-	exports.getLastTimeStr = function(time, friendly) {
+	exports.getLastTimeStr = function (time, friendly) {
 	    if (friendly) {
-	        return utils.MillisecondToDate(new Date() - new Date(time));
+	        return _utils2.default.MillisecondToDate(new Date() - new Date(time));
 	    } else {
-	        return utils.fmtDate(new Date(time),'yyyy-MM-dd hh:mm');
+	        return _utils2.default.fmtDate(new Date(time), 'yyyy-MM-dd hh:mm');
 	    }
-	}
+	};
 	
 	/** 获取文字标签
 	 *  @param {string} tab Tab分类
 	 *  @param {bool} good 是否是精华帖
 	 *  @param {bool} top 是否是置顶帖
 	 */
-	exports.getTabStr = function(tab, good, top) {
+	exports.getTabStr = function (tab, good, top) {
 	    var str = "";
 	    if (top) {
 	        str = "置顶";
@@ -16559,14 +16761,14 @@ webpackJsonp([0,1],[
 	        }
 	    }
 	    return str;
-	}
+	};
 	
 	/** 获取标签样式
 	 *  @param {string} tab Tab分类
 	 *  @param {bool} good 是否是精华帖
 	 *  @param {bool} top 是否是置顶帖
 	 */
-	exports.getTabClassName = function(tab, good, top) {
+	exports.getTabClassName = function (tab, good, top) {
 	    var className = '';
 	
 	    if (top) {
@@ -16590,12 +16792,12 @@ webpackJsonp([0,1],[
 	        }
 	    }
 	    return className;
-	}
+	};
 	
 	/** 获取title文字
 	 *  @param {string} tab Tab分类
 	 */
-	exports.getTitleStr = function(tab) {
+	exports.getTitleStr = function (tab) {
 	    var str = "";
 	    switch (tab) {
 	        case "share":
@@ -16615,20 +16817,18 @@ webpackJsonp([0,1],[
 	            break;
 	    }
 	    return str;
-	}
-
+	};
 
 /***/ },
-/* 100 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict'
+	'use strict';
 	
-	var _ = __webpack_require__(101);
-	
+	var _ = __webpack_require__(113);
 	
 	var getCheck = {
-	    checkEmail: function(val) {
+	    checkEmail: function checkEmail(val) {
 	        var filter = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 	        if (filter.test(val)) {
 	            return true;
@@ -16636,7 +16836,7 @@ webpackJsonp([0,1],[
 	            return false;
 	        }
 	    },
-	    checkPhone: function(val) {
+	    checkPhone: function checkPhone(val) {
 	        var filter = /^1\d{10}$/;
 	
 	        if (filter.test(val)) {
@@ -16645,28 +16845,27 @@ webpackJsonp([0,1],[
 	            return false;
 	        }
 	    }
-	}
+	};
 	
 	/**
 	 * 从文本中提取出@username 标记的用户名数组
 	 * @param {String} text 文本内容
 	 * @return {Array} 用户名数组
 	 */
-	var fetchUsers = function(text) {
+	var fetchUsers = function fetchUsers(text) {
 	    if (!text) {
 	        return [];
 	    }
 	
-	    var ignoreRegexs = [
-	        /```.+?```/g, // 去除单行的 ```
-	        /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
-	        /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
-	        /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
-	        /\b\S*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
-	        /\[@.+?\]\(\/.+?\)/g, // 已经被 link 的 username
-	    ];
+	    var ignoreRegexs = [/```.+?```/g, // 去除单行的 ```
+	    /^```[\s\S]+?^```/gm, // ``` 里面的是 pre 标签内容
+	    /`[\s\S]+?`/g, // 同一行中，`some code` 中内容也不该被解析
+	    /^    .*/gm, // 4个空格也是 pre 标签，在这里 . 不会匹配换行
+	    /\b\S*?@[^\s]*?\..+?\b/g, // somebody@gmail.com 会被去除
+	    /\[@.+?\]\(\/.+?\)/g];
 	
-	    ignoreRegexs.forEach(function(ignore_regex) {
+	    // 已经被 link 的 username
+	    ignoreRegexs.forEach(function (ignore_regex) {
 	        text = text.replace(ignore_regex, '');
 	    });
 	
@@ -16689,7 +16888,7 @@ webpackJsonp([0,1],[
 	 * @param {String} text 文本内容
 	 * @param {Function} callback 回调函数
 	 */
-	var linkUsers = function(text) {
+	var linkUsers = function linkUsers(text) {
 	    var users = fetchUsers(text);
 	    for (var i = 0, l = users.length; i < l; i++) {
 	        var name = users[i];
@@ -16697,7 +16896,6 @@ webpackJsonp([0,1],[
 	    }
 	    return text;
 	};
-	
 	
 	/**
 	 *   对Date的扩展，将 Date 转化为指定格式的String 
@@ -16707,55 +16905,47 @@ webpackJsonp([0,1],[
 	 *   (new Date()).Format("yyyy-MM-dd hh:mm:ss.S") ==> 2006-07-02 08:09:04.423
 	 *   (new Date()).Format("yyyy-M-d h:m:s.S")      ==> 2006-7-2 8:9:4.18 
 	 */
-	var fmtDate = function(date, fmt) { //author: meizz 
+	var fmtDate = function fmtDate(date, fmt) {
+	    //author: meizz
 	    var o = {
-	        "M+": date.getMonth() + 1, //月份 
-	        "d+": date.getDate(), //日 
-	        "h+": date.getHours(), //小时 
-	        "m+": date.getMinutes(), //分 
-	        "s+": date.getSeconds(), //秒 
-	        "q+": Math.floor((date.getMonth() + 3) / 3), //季度 
-	        "S": date.getMilliseconds() //毫秒 
+	        "M+": date.getMonth() + 1, //月份
+	        "d+": date.getDate(), //日
+	        "h+": date.getHours(), //小时
+	        "m+": date.getMinutes(), //分
+	        "s+": date.getSeconds(), //秒
+	        "q+": Math.floor((date.getMonth() + 3) / 3), //季度
+	        "S": date.getMilliseconds() //毫秒
 	    };
-	    if (/(y+)/.test(fmt))
-	        fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
-	    for (var k in o)
-	        if (new RegExp("(" + k + ")").test(fmt))
-	            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-	    return fmt;
-	}
-	
+	    if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+	    for (var k in o) {
+	        if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, RegExp.$1.length == 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length));
+	    }return fmt;
+	};
 	
 	/**
 	 * 由于moment库加进来太大了，自定义了formnow函数，待完善阶段
 	 */
-	var MillisecondToDate = function(msd) {
+	var MillisecondToDate = function MillisecondToDate(msd) {
 	    var time = parseFloat(msd) / 1000;
-	    var str ="";
+	    var str = "";
 	    if (null != time && "" != time) {
 	
 	        if (time > 60 && time < 3600) {
 	            str = parseInt(time / 60.0) + " 分钟前";
-	        }
-	        else if (time >= 3600 && time < 86400) {
-	            str = parseInt(time / 3600.0) + " 小时前" ;
-	        }
-	        else if (time >= 86400 && time < 86400*30) {
-	            str = parseInt(time / 86400.0) + " 天前" ;
-	        }
-	        else if (time >= 86400*30 && time < 86400*365) {
-	            str = parseInt(time / (86400.0*30)) + " 个月前" ;
-	        } 
-	        else if(time >= 86400*365){
-	            str = parseInt(time / (86400.0*365)) + " 年前" ;
-	        }
-	        else {
+	        } else if (time >= 3600 && time < 86400) {
+	            str = parseInt(time / 3600.0) + " 小时前";
+	        } else if (time >= 86400 && time < 86400 * 30) {
+	            str = parseInt(time / 86400.0) + " 天前";
+	        } else if (time >= 86400 * 30 && time < 86400 * 365) {
+	            str = parseInt(time / (86400.0 * 30)) + " 个月前";
+	        } else if (time >= 86400 * 365) {
+	            str = parseInt(time / (86400.0 * 365)) + " 年前";
+	        } else {
 	            str = parseInt(time) + " 秒前";
 	        }
 	    }
 	    return str;
-	}
-	
+	};
 	
 	exports.linkUsers = linkUsers;
 	exports.fetchUsers = fetchUsers;
@@ -16763,9 +16953,8 @@ webpackJsonp([0,1],[
 	exports.fmtDate = fmtDate;
 	exports.MillisecondToDate = MillisecondToDate;
 
-
 /***/ },
-/* 101 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(module, global) {/**
@@ -29120,10 +29309,10 @@ webpackJsonp([0,1],[
 	  }
 	}.call(this));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(102)(module), (function() { return this; }())))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(114)(module), (function() { return this; }())))
 
 /***/ },
-/* 102 */
+/* 114 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -29139,636 +29328,1790 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 103 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict'
-	
-	module.exports=function(router){
-	    router.map({
-	        '/':{				//首页
-	            name:'home',
-	            component:__webpack_require__(104)
-	        },
-	        '/cnodevue':{               //首页
-	            name:'home',
-	            component:__webpack_require__(104)
-	        },
-	        '/list':{               //首页
-	            name:'list',
-	            component:__webpack_require__(112)
-	        },
-	        '/topic/:id':{               //专题
-	            name:'topic',
-	            component:__webpack_require__(131)
-	        },
-	        '/add':{               //首页
-	            name:'add',
-	            component:__webpack_require__(146),
-	            auth: true
-	        },
-	        '/message':{               //消息
-	            name:'message',
-	            component:__webpack_require__(150),
-	            auth: true
-	        },
-	        '/about':{               //关于
-	            name:'about',
-	            component:__webpack_require__(154)
-	        },
-	        '/login':{               //登录
-	            name:'login',
-	            component:__webpack_require__(157)
-	        },
-	        '/user/:loginname':{               //用户信息
-	            name:'user',
-	            component:__webpack_require__(166)
-	        }
-	    })
-	}
-
-/***/ },
-/* 104 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(105)
-	module.exports = __webpack_require__(106)
-	module.exports.template = __webpack_require__(110)
-
-
-/***/ },
-/* 105 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 106 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(107);
-	    __webpack_require__(108);
-	    __webpack_require__(109);
-	    module.exports = {
-	        ready:function(){
-	            var _self = this;
-	            setTimeout(function(){
-	                _self.$route.router.go({ name: 'list'});
-	            },2000);
-	        }
-	    }
-
-/***/ },
-/* 107 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 108 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 109 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 110 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = "<!-- 全局header -->\n    <div>\n        <img class=\"index\" src=\"" + __webpack_require__(111) + "\">\n    </div>";
-
-/***/ },
-/* 111 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "images/cacb291c14df7cb98ff0f118132d5ac0.png"
-
-/***/ },
-/* 112 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(113)
-	module.exports.template = __webpack_require__(130)
-
-
-/***/ },
-/* 113 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {module.exports = {
-	        data: function(){
-	            return {
-	                showMenu: false,
-	                scroll:true,
-	                topics:[],
-	                searchKey:{
-	                    page:1,
-	                    limit:20,
-	                    tab:'all',
-	                    mdrender:true
-	                },
-	                searchDataStr:''
-	            }
-	        },
-	        route:{
-	            data:function(transition){
-	                var _self = this,query = transition.to.query,tab = query.tab || 'all';
-	
-	                //记录首次加载的查询条件
-	                if(_self.searchDataStr == ""){
-	                    _self.searchDataStr = JSON.stringify(_self.searchKey);
-	                }
-	                //如果从左侧切换分类，则清空查询条件
-	                if(transition.from.name === "house-list"){
-	                    //_self.searchKey.page = 1;
-	                    _self.searchKey.limit = 20;
-	                    _self.searchKey = JSON.parse(_self.searchDataStr);
-	                }
-	
-	
-	                //如果从详情返回并且typeid一样才去sessionStorge
-	                if(sessionStorage.searchKey && transition.from.name === "topic"  
-	                    && sessionStorage.tab == tab){
-	                    _self.topics = JSON.parse(sessionStorage.topics);
-	                    _self.searchKey = JSON.parse(sessionStorage.searchKey);
-	                    setTimeout(function(){
-	                        $(window).scrollTop(sessionStorage.scrollTop);
-	                    },100);
-	                }
-	                else{
-	                    //页面初次加载获取的数据
-	                    _self.searchKey.tab = query.tab;
-	                    _self.getTopics();
-	                }
-	                _self.showMenu = false;
-	
-	                //滚动加载
-	                $(window).on('scroll', function() {
-	                    _self.getScrollData();
-	                });
-	
-	            },
-	            deactivate:function(transition){
-	                $(window).off('scroll');
-	                if(transition.to.name === "topic"){
-	                    sessionStorage.scrollTop = $(window).scrollTop();
-	                    sessionStorage.topics = JSON.stringify(this.topics);
-	                    sessionStorage.searchKey = JSON.stringify(this.searchKey);
-	                    sessionStorage.tab = transition.from.query.tab || 'all';
-	                }
-	                else{
-	                    sessionStorage.removeItem("topics");
-	                    sessionStorage.removeItem("searchKey");
-	                    sessionStorage.removeItem("tab");
-	                }
-	                transition.next();
-	            }
-	        },
-	        methods:{
-	            getTopics:function(searchKey){
-	                var _self = this
-	                    , params = $.param(_self.searchKey);
-	                $.get('https://cnodejs.org/api/v1/topics?'+params,function(d){
-	                    _self.scroll = true;
-	                    if(d && d.data){
-	                        _self.topics = d.data;
-	                        // if(_self.searchKey.page == 0){
-	                        //     _self.topics = d.data;
-	                        // }
-	                        // else{
-	                        //     _self.topics = _self.topics.concat(d.data);
-	                        // }
-	                    }
-	                })
-	            },
-	            //滚动加载数据
-	            getScrollData:function(){
-	                var _self = this;
-	                if(_self.scroll){
-	                    var totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
-	                    if ($(document).height() <= totalheight + 200) {
-	                        _self.scroll = false;
-	                        _self.searchKey.limit += 20;
-	                        _self.getTopics();
-	                    }
-	                }
-	            }
-	        },
-	        components:{
-	            "nvHead":__webpack_require__(114),
-	            "nvTop":__webpack_require__(126)
-	        }
-	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
-
-/***/ },
-/* 114 */
-/***/ function(module, exports, __webpack_require__) {
-
-	__webpack_require__(115)
-	module.exports = __webpack_require__(116)
-	module.exports.template = __webpack_require__(125)
-
-
-/***/ },
 /* 115 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	exports.default = function (router) {
+	    router.map({
+	        '/': { //首页
+	            name: 'home',
+	            component: __webpack_require__(116)
+	        },
+	        /* 404路由 */
+	        '*': {
+	            component: __webpack_require__(116)
+	        },
+	        '/cnodevue': { //首页
+	            name: 'home',
+	            component: __webpack_require__(116)
+	        },
+	        '/list': { //首页
+	            name: 'list',
+	            component: __webpack_require__(127)
+	        },
+	        '/topic/:id': { //专题
+	            name: 'topic',
+	            component: __webpack_require__(158)
+	        },
+	        '/add': { //首页
+	            name: 'add',
+	            component: __webpack_require__(174),
+	            auth: true
+	        },
+	        '/message': { //消息
+	            name: 'message',
+	            component: __webpack_require__(179),
+	            auth: true
+	        },
+	        '/about': { //关于
+	            name: 'about',
+	            component: __webpack_require__(184)
+	        },
+	        '/login': { //登录
+	            name: 'login',
+	            component: __webpack_require__(187)
+	        },
+	        '/user/:loginname': { //用户信息
+	            name: 'user',
+	            component: __webpack_require__(198)
+	        }
+	    });
+	};
 
 /***/ },
 /* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(107);
-	    var utils = __webpack_require__(100);       //加载公用函数
+	__webpack_require__(117)
+	module.exports = __webpack_require__(124)
 	
-	    module.exports={
-	        replace:true,
-	        props: ['pageType','fixHead','showMenu','messageCount','needAdd'],
-	        data: function(){
-	            return {
-	                nickname: '',
-	                profileimgurl: ''
-	            }
-	        },
-	        methods: {
-	            openMenu: function(){
-	                $("html, body, #page").addClass("scroll-hide");
-	                this.showMenu=!this.showMenu;
-	            },
-	            showMenus:function(){
-	                this.showMenu=!this.showMenu;
-	                $("html, body, #page").removeClass("scroll-hide");
-	            }
-	        },
-	        components:{
-	            'nvMenu':__webpack_require__(117)
-	        }
-	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(125)
+
 
 /***/ },
 /* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(118)
-	module.exports = __webpack_require__(119)
-	module.exports.template = __webpack_require__(124)
-
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(118);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-ff585c04&file=index.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./index.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-ff585c04&file=index.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./index.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ },
 /* 118 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	exports.i(__webpack_require__(120), "");
+	exports.i(__webpack_require__(121), "");
+	
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\n/**\n * Global Reset of all HTML Elements\n *\n * Resetting all of our HTML Elements ensures a smoother\n * visual transition between browsers. If you don't believe me,\n * try temporarily commenting out this block of code, then go\n * and look at Mozilla versus Safari, both good browsers with\n * a good implementation of CSS. The thing is, all browser CSS\n * defaults are different and at the end of the day if visual\n * consistency is what we're shooting for, then we need to\n * make sure we're resetting all spacing elements.\n *\n */\nhtml, body {\n  border: 0;\n  font-family: \"Helvetica-Neue\", \"Helvetica\", Arial, sans-serif;\n  line-height: 1.5;\n  margin: 0;\n  padding: 0; }\n\ndiv, span, object, iframe, img, table, caption, thead, tbody,\ntfoot, tr, tr, td, article, aside, canvas, details, figure, hgroup, menu,\nnav, footer, header, section, summary, mark, audio, video {\n  border: 0;\n  margin: 0;\n  padding: 0; }\n\nh1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,\ndel, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,\nol, ul, li, fieldset, legend, label {\n  border: 0;\n  font-size: 100%;\n  vertical-align: baseline;\n  margin: 0;\n  padding: 0; }\n\narticle, aside, canvas, figure, figure img, figcaption, hgroup,\nfooter, header, nav, section, audio, video {\n  display: block; }\n\ntable {\n  border-collapse: separate;\n  border-spacing: 0; }\n  table caption, table th, table td {\n    text-align: left;\n    vertical-align: middle; }\n\nli {\n  list-style: none; }\n\na {\n  text-decoration: none; }\n\na img {\n  border: 0; }\n\n:focus {\n  outline: 0; }\n\n* {\n  -webkit-box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  -webkit-appearance: none; }\n\ninput {\n  -webkit-appearance: none; }\n\nselect {\n  -webkit-appearance: none;\n  background-color: #fff; }\n\nbody {\n  height: 100%;\n  width: 100%;\n  font-size: 14px;\n  color: #313131;\n  overflow-x: hidden;\n  line-height: 1;\n  background: url(" + __webpack_require__(122) + ") no-repeat center 250px; }\n\n.mt5 {\n  margin-top: 5px; }\n\n.mt10 {\n  margin-top: 10px; }\n\n.color80 {\n  color: #42b983; }\n\n.clear {\n  zoom: 1; }\n  .clear:after {\n    content: '';\n    display: table;\n    clear: both; }\n\n.display-flex, .user, .posts-list .content, .posts-list p, .author-info {\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flexbox;\n  display: flex; }\n\n.flex1, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .topic-reply, .user .info {\n  -webkit-flex: 1;\n  -ms-flex: 1;\n  -webkit-box-flex: 1;\n  box-flex: 1;\n  flex: 1; }\n\n.align-justify {\n  -moz-box-align: justify-content;\n  -ms-flex-align: align-content;\n  -ms-flex-item-align: justify-content;\n  -webkit-box-align: justify-content;\n  /*老语法*/\n  -webkit-align-items: justify-content;\n  /*新语法*/\n  -webkit-align-content: justify-content;\n      -ms-flex-line-pack: justify-content;\n          align-content: justify-content;\n  -webkit-box-align: justify-content;\n  -webkit-align-items: justify-content;\n      -ms-flex-align: justify-content;\n          align-items: justify-content;\n  -webkit-box-pack: justify-content;\n  -webkit-justify-content: justify-content;\n      -ms-flex-pack: justify-content;\n          justify-content: justify-content; }\n\n.break, .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .topic-reply, .user .info .t-title {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.user {\n  width: 100%;\n  margin: 15px 0;\n  padding: 0 10px; }\n  .user .tab {\n    display: inline-block;\n    width: 40px;\n    color: #626262;\n    border-radius: 5px;\n    background-color: #e7e7e7;\n    margin-right: 10px;\n    text-align: center;\n    height: 20px;\n    line-height: 20px;\n    vertical-align: middle; }\n  .user .good {\n    background-color: #80bd01;\n    color: #fff; }\n  .user .title, .user .posts-list h3, .posts-list .user h3, .user .about-info dt, .about-info .user dt, .user .topic-reply {\n    font-size: 18px;\n    font-weight: bold; }\n  .user .head {\n    display: inline-block;\n    width: 45px;\n    height: 45px;\n    border: 2px solid #fff6e6;\n    border-radius: 50%;\n    margin-right: 10px; }\n  .user .info {\n    display: block; }\n    .user .info:after {\n      clear: both; }\n    .user .info .t-title {\n      font-size: 18px;\n      font-weight: bold;\n      width: 100%; }\n    .user .info .cl {\n      float: left;\n      width: 70%; }\n      .user .info .cl .name {\n        display: block;\n        color: #626262; }\n      .user .info .cl .mt10 {\n        margin-top: 10px; }\n    .user .info .cr {\n      float: left;\n      width: 30%;\n      text-align: right; }\n      .user .info .cr .name {\n        display: block;\n        margin-top: 10px;\n        color: #80bd01;\n        font-size: 12px; }\n\n.reply_content {\n  padding: 0 15px;\n  margin-bottom: 15px; }\n  .reply_content img {\n    width: auto\\9;\n    height: auto;\n    max-width: 100%;\n    vertical-align: middle;\n    border: 0;\n    -ms-interpolation-mode: bicubic; }\n  .reply_content p {\n    line-height: 1.3; }\n\n.no-data {\n  width: 100%;\n  height: 100%;\n  padding: 40% 0;\n  color: #d4d4d4;\n  display: inline-block;\n  font-size: 18px;\n  text-align: center; }\n\n/*\r\n**   rework 分界线\r\n**   ------------\r\n*/\n/* 颜色 */\n/* 基础布局 */\n/* 综合布局 */\n.text-overflow, .title, .posts-list h3, .about-info dt, .topic-reply {\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden; }\n\n.title, .posts-list h3, .about-info dt, .topic-reply {\n  color: #2c3e50;\n  font-size: 16px;\n  line-height: 1.5; }\n\n.display-flex, .user, .posts-list .content, .posts-list p, .author-info {\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flexbox;\n  display: flex; }\n\n.flex, .posts-list .info, .posts-list p .name, .posts-list p time:first-child, .author-info .col {\n  display: block;\n  width: 100%;\n  -webkit-flex: 1;\n  -ms-flex: 1;\n  -webkit-box-flex: 1;\n  box-flex: 1;\n  flex: 1; }\n\n.tag, .posts-list h3:before, .author-info .tag {\n  padding: 5px 6px;\n  font-size: 10px;\n  font-weight: 400;\n  border-radius: 4px;\n  background-color: #e7e7e7;\n  text-align: center;\n  vertical-align: middle; }\n\n.user-avatar, .posts-list .avatar {\n  display: block;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  margin-right: 10px;\n  border: 1px solid #F3F3F3; }\n\n#brim-mask {\n  pointer-events: none; }\n\n#page {\n  padding-top: 44px;\n  background-color: #fff;\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n  overflow-x: hidden; }\n\n.show-menu {\n  -webkit-transform: translateX(200px);\n          transform: translateX(200px); }\n\n.page-cover {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, 0.4);\n  z-index: 7; }\n\n/*模块入口样式*/\n.posts-list {\n  background-color: #ffffff; }\n  .posts-list li {\n    padding: 10px 15px;\n    border-bottom: 1px solid #d5dbdb; }\n  .posts-list h3:before {\n    content: attr(title);\n    margin-right: 10px;\n    margin-top: -3px;\n    color: #ffffff; }\n  .posts-list h3.top:before {\n    background: #E74C3C; }\n  .posts-list h3.ask:before {\n    background: #3498DB; }\n  .posts-list h3.good:before {\n    background: #E67E22; }\n  .posts-list h3.job:before {\n    background: #9B59B6; }\n  .posts-list h3.share:before {\n    background: #1ABC9C; }\n  .posts-list .content {\n    padding-top: 10px; }\n  .posts-list p {\n    padding: 3px 0;\n    color: #34495e;\n    font-size: 12px; }\n    .posts-list p:first-child {\n      font-size: 14px; }\n    .posts-list p b {\n      color: #42b983; }\n\n.about-info {\n  padding: 50px 15px;\n  line-height: 1.5;\n  background: #f7f7f7; }\n  .about-info dt {\n    padding: 1em 0;\n    font-weight: bold; }\n  .about-info dd {\n    padding-bottom: 15px;\n    font-size: 14px;\n    border-bottom: 1px solid #d5dbdb; }\n  .about-info a {\n    color: #42b983; }\n\n.topic-title {\n  padding: 5px;\n  margin: 15px;\n  font-size: 18px;\n  color: #2c3e50;\n  line-height: 1.5;\n  background-color: #f0f0f0;\n  border-radius: 5px; }\n\n.author-info {\n  -webkit-box-align: center;\n  -webkit-align-items: center;\n      -ms-flex-align: center;\n          align-items: center;\n  padding: 0 15px;\n  color: #34495e;\n  font-size: 12px; }\n  .author-info .avatar {\n    display: block;\n    width: 40px;\n    height: 40px;\n    margin-right: 15px;\n    border-radius: 50%; }\n  .author-info .right {\n    text-align: right; }\n  .author-info span, .author-info time {\n    display: block;\n    padding: 5px 0; }\n  .author-info .posts-list h3:before, .posts-list .author-info h3:before, .author-info .tag {\n    color: #ffffff; }\n    .author-info .posts-list h3.top:before, .posts-list .author-info h3.top:before, .author-info .top.tag {\n      background: #E74C3C; }\n    .author-info .posts-list h3.ask:before, .posts-list .author-info h3.ask:before, .author-info .ask.tag {\n      background: #3498DB; }\n    .author-info .posts-list h3.good:before, .posts-list .author-info h3.good:before, .author-info .good.tag {\n      background: #E67E22; }\n    .author-info .posts-list h3.job:before, .posts-list .author-info h3.job:before, .author-info .job.tag {\n      background: #9B59B6; }\n    .author-info .posts-list h3.share:before, .posts-list .author-info h3.share:before, .author-info .share.tag {\n      background: #1ABC9C; }\n\n.topic-content {\n  padding: 15px;\n  margin-top: 15px;\n  background: #ffffff;\n  border-bottom: solid 1px #d4d4d4; }\n  .topic-content .from {\n    color: #ff5a5f; }\n\n.topic-reply {\n  padding: 15px;\n  border-bottom: solid 1px #d4d4d4; }\n  .topic-reply strong {\n    color: #42b983; }\n\n.reply_num {\n  margin-top: 20px;\n  background-color: #e7e7e7;\n  padding: 10px 0 10px 10px;\n  border-top: solid 1px #d4d4d4;\n  border-bottom: solid 1px #d4d4d4; }\n\n.reply-list {\n  width: 100%;\n  margin-top: 15px; }\n  .reply-list ul {\n    width: 100%;\n    list-style: none;\n    padding-left: 0; }\n    .reply-list ul li {\n      width: 100%;\n      list-style: none;\n      border-bottom: solid 1px #d4d4d4; }\n      .reply-list ul li:last-child {\n        border-bottom: none; }\n      .reply-list ul li .uped {\n        color: #80bd01; }\n      .reply-list ul li .icon {\n        font-size: 26px; }\n      .reply-list ul li .from {\n        color: #ff5a5f; }\n      .reply-list ul li .language-javascript {\n        background-color: #f0f0f0;\n        overflow-x: auto; }\n\n/* 回复框样式 */\n.reply {\n  margin: 0 15px; }\n  .reply textarea {\n    display: block;\n    -webkit-box-flex: 1;\n    width: 100%;\n    border: 1px solid #d5dbdb;\n    background-color: #fff;\n    font-size: 14px;\n    padding: 15px;\n    color: #313131; }\n  .reply .button {\n    display: inline-block;\n    width: 100%;\n    height: 42px;\n    margin: 15px 0;\n    line-height: 42px;\n    color: #fff;\n    font-size: 16px;\n    background-color: #4fc08d;\n    border: none;\n    border-bottom: 2px solid #3aa373;\n    text-align: center;\n    vertical-align: middle; }\n\n.index {\n  width: 100%;\n  background-color: #fff;\n  margin-top: 40%; }\n", ""]);
+	
+	// exports
+
 
 /***/ },
 /* 119 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	__webpack_require__(107);
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
 	
-	    module.exports={
-	        replace:true,
-	        props: ['showMenu','pageType','nickName','profileUrl'],
-	        components:{
-	            'userInfo':__webpack_require__(120)
-	        }
-	    }
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+	
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
 
 /***/ },
 /* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(121)
-	module.exports = __webpack_require__(122)
-	module.exports.template = __webpack_require__(123)
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@font-face {\n  font-family: 'iconfont';\n  src: url('//at.alicdn.com/t/font_1449145493_7316074.eot'); /* IE9*/\n  src: url('//at.alicdn.com/t/font_1449145493_7316074.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */\n  url('//at.alicdn.com/t/font_1449145493_7316074.woff') format('woff'), /* chrome、firefox */\n  url('//at.alicdn.com/t/font_1449145493_7316074.ttf') format('truetype'), /* chrome、firefox、opera、Safari, Android, iOS 4.2+*/\n  url('//at.alicdn.com/t/font_1449145493_7316074.svg#iconfont') format('svg'); /* iOS 4.1- */\n}\n                    \n                    \n.iconfont {\n  font-family:\"iconfont\" !important;\n  font-size:16px;\n  font-style:normal;\n  -webkit-font-smoothing: antialiased;\n  -webkit-text-stroke-width: 0.2px;\n  -moz-osx-font-smoothing: grayscale;\n}\n.icon-tianjia:before { content: \"\\E60D\"; margin-right: 30px; }\n.icon-fenxiang:before { content: \"\\E600\"; margin-right: 30px; }\n.icon-shezhi:before { content: \"\\E601\"; margin-right: 30px;}\n.icon-wenda:before { content: \"\\E602\"; margin-right: 30px;}\n.icon-hao:before { content: \"\\E603\"; margin-right: 30px;}\n.icon-quanbu:before { content: \"\\E604\"; margin-right: 30px;}\n.icon-zhaopin:before { content: \"\\E605\"; margin-right: 30px;}\n.icon-xiaoxi:before { content: \"\\E606\"; margin-right: 30px;}\n.icon-about:before { content: \"\\E607\"; margin-right: 30px;}\n", ""]);
+	
+	// exports
 
 
 /***/ },
 /* 121 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@font-face {\n  font-family: octicons-anchor;\n  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAYcAA0AAAAACjQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABGRlRNAAABMAAAABwAAAAca8vGTk9TLzIAAAFMAAAARAAAAFZG1VHVY21hcAAAAZAAAAA+AAABQgAP9AdjdnQgAAAB0AAAAAQAAAAEACICiGdhc3AAAAHUAAAACAAAAAj//wADZ2x5ZgAAAdwAAADRAAABEKyikaNoZWFkAAACsAAAAC0AAAA2AtXoA2hoZWEAAALgAAAAHAAAACQHngNFaG10eAAAAvwAAAAQAAAAEAwAACJsb2NhAAADDAAAAAoAAAAKALIAVG1heHAAAAMYAAAAHwAAACABEAB2bmFtZQAAAzgAAALBAAAFu3I9x/Nwb3N0AAAF/AAAAB0AAAAvaoFvbwAAAAEAAAAAzBdyYwAAAADP2IQvAAAAAM/bz7t4nGNgZGFgnMDAysDB1Ml0hoGBoR9CM75mMGLkYGBgYmBlZsAKAtJcUxgcPsR8iGF2+O/AEMPsznAYKMwIkgMA5REMOXicY2BgYGaAYBkGRgYQsAHyGMF8FgYFIM0ChED+h5j//yEk/3KoSgZGNgYYk4GRCUgwMaACRoZhDwCs7QgGAAAAIgKIAAAAAf//AAJ4nHWMMQrCQBBF/0zWrCCIKUQsTDCL2EXMohYGSSmorScInsRGL2DOYJe0Ntp7BK+gJ1BxF1stZvjz/v8DRghQzEc4kIgKwiAppcA9LtzKLSkdNhKFY3HF4lK69ExKslx7Xa+vPRVS43G98vG1DnkDMIBUgFN0MDXflU8tbaZOUkXUH0+U27RoRpOIyCKjbMCVejwypzJJG4jIwb43rfl6wbwanocrJm9XFYfskuVC5K/TPyczNU7b84CXcbxks1Un6H6tLH9vf2LRnn8Ax7A5WQAAAHicY2BkYGAA4teL1+yI57f5ysDNwgAC529f0kOmWRiYVgEpDgYmEA8AUzEKsQAAAHicY2BkYGB2+O/AEMPCAAJAkpEBFbAAADgKAe0EAAAiAAAAAAQAAAAEAAAAAAAAKgAqACoAiAAAeJxjYGRgYGBhsGFgYgABEMkFhAwM/xn0QAIAD6YBhwB4nI1Ty07cMBS9QwKlQapQW3VXySvEqDCZGbGaHULiIQ1FKgjWMxknMfLEke2A+IJu+wntrt/QbVf9gG75jK577Lg8K1qQPCfnnnt8fX1NRC/pmjrk/zprC+8D7tBy9DHgBXoWfQ44Av8t4Bj4Z8CLtBL9CniJluPXASf0Lm4CXqFX8Q84dOLnMB17N4c7tBo1AS/Qi+hTwBH4rwHHwN8DXqQ30XXAS7QaLwSc0Gn8NuAVWou/gFmnjLrEaEh9GmDdDGgL3B4JsrRPDU2hTOiMSuJUIdKQQayiAth69r6akSSFqIJuA19TrzCIaY8sIoxyrNIrL//pw7A2iMygkX5vDj+G+kuoLdX4GlGK/8Lnlz6/h9MpmoO9rafrz7ILXEHHaAx95s9lsI7AHNMBWEZHULnfAXwG9/ZqdzLI08iuwRloXE8kfhXYAvE23+23DU3t626rbs8/8adv+9DWknsHp3E17oCf+Z48rvEQNZ78paYM38qfk3v/u3l3u3GXN2Dmvmvpf1Srwk3pB/VSsp512bA/GG5i2WJ7wu430yQ5K3nFGiOqgtmSB5pJVSizwaacmUZzZhXLlZTq8qGGFY2YcSkqbth6aW1tRmlaCFs2016m5qn36SbJrqosG4uMV4aP2PHBmB3tjtmgN2izkGQyLWprekbIntJFing32a5rKWCN/SdSoga45EJykyQ7asZvHQ8PTm6cslIpwyeyjbVltNikc2HTR7YKh9LBl9DADC0U/jLcBZDKrMhUBfQBvXRzLtFtjU9eNHKin0x5InTqb8lNpfKv1s1xHzTXRqgKzek/mb7nB8RZTCDhGEX3kK/8Q75AmUM/eLkfA+0Hi908Kx4eNsMgudg5GLdRD7a84npi+YxNr5i5KIbW5izXas7cHXIMAau1OueZhfj+cOcP3P8MNIWLyYOBuxL6DRylJ4cAAAB4nGNgYoAALjDJyIAOWMCiTIxMLDmZedkABtIBygAAAA==) format('woff');\n}\n\n.markdown-body {\n  -webkit-text-size-adjust: 100%;\n  text-size-adjust: 100%;\n  color: #333;\n  font-family: \"Helvetica Neue\", Helvetica, \"Segoe UI\", Arial, freesans, sans-serif;\n  font-size: 16px;\n  line-height: 1.6;\n  word-wrap: break-word;\n}\n\n.markdown-body a {\n  background-color: transparent;\n}\n\n.markdown-body a:active,\n.markdown-body a:hover {\n  outline: 0;\n}\n\n.markdown-body strong {\n  font-weight: bold;\n}\n\n.markdown-body h1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n.markdown-body img {\n  border: 0;\n}\n\n.markdown-body hr {\n  box-sizing: content-box;\n  height: 0;\n}\n\n.markdown-body pre {\n  overflow: auto;\n}\n\n.markdown-body code,\n.markdown-body kbd,\n.markdown-body pre {\n  font-family: monospace, monospace;\n  font-size: 1em;\n}\n\n.markdown-body input {\n  color: inherit;\n  font: inherit;\n  margin: 0;\n}\n\n.markdown-body html input[disabled] {\n  cursor: default;\n}\n\n.markdown-body input {\n  line-height: normal;\n}\n\n.markdown-body input[type=\"checkbox\"] {\n  box-sizing: border-box;\n  padding: 0;\n}\n\n.markdown-body table {\n  border-collapse: collapse;\n  border-spacing: 0;\n}\n\n.markdown-body td,\n.markdown-body th {\n  padding: 0;\n}\n\n.markdown-body * {\n  box-sizing: border-box;\n}\n\n.markdown-body input {\n  font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, \"Segoe UI Emoji\", \"Segoe UI Symbol\";\n}\n\n.markdown-body a {\n  color: #4078c0;\n  text-decoration: none;\n}\n\n.markdown-body a:hover,\n.markdown-body a:active {\n  text-decoration: underline;\n}\n\n.markdown-body hr {\n  height: 0;\n  margin: 15px 0;\n  overflow: hidden;\n  background: transparent;\n  border: 0;\n  border-bottom: 1px solid #ddd;\n}\n\n.markdown-body hr:before {\n  display: table;\n  content: \"\";\n}\n\n.markdown-body hr:after {\n  display: table;\n  clear: both;\n  content: \"\";\n}\n\n.markdown-body h1,\n.markdown-body h2,\n.markdown-body h3,\n.markdown-body h4,\n.markdown-body h5,\n.markdown-body h6 {\n  margin-top: 15px;\n  margin-bottom: 15px;\n  line-height: 1.1;\n}\n\n.markdown-body h1 {\n  font-size: 30px;\n}\n\n.markdown-body h2 {\n  font-size: 21px;\n}\n\n.markdown-body h3 {\n  font-size: 16px;\n}\n\n.markdown-body h4 {\n  font-size: 14px;\n}\n\n.markdown-body h5 {\n  font-size: 12px;\n}\n\n.markdown-body h6 {\n  font-size: 11px;\n}\n\n.markdown-body blockquote {\n  margin: 0;\n}\n\n.markdown-body ul,\n.markdown-body ol {\n  padding: 0;\n  margin-top: 0;\n  margin-bottom: 0;\n}\n\n.markdown-body ol ol,\n.markdown-body ul ol {\n  list-style-type: lower-roman;\n}\n\n.markdown-body ul ul ol,\n.markdown-body ul ol ol,\n.markdown-body ol ul ol,\n.markdown-body ol ol ol {\n  list-style-type: lower-alpha;\n}\n\n.markdown-body dd {\n  margin-left: 0;\n}\n\n.markdown-body code {\n  font-family: Consolas, \"Liberation Mono\", Menlo, Courier, monospace;\n  font-size: 12px;\n}\n\n.markdown-body pre {\n  margin-top: 0;\n  margin-bottom: 0;\n  font: 12px Consolas, \"Liberation Mono\", Menlo, Courier, monospace;\n}\n\n.markdown-body .select::-ms-expand {\n  opacity: 0;\n}\n\n.markdown-body .octicon {\n  font: normal normal normal 16px/1 octicons-anchor;\n  display: inline-block;\n  text-decoration: none;\n  text-rendering: auto;\n  -webkit-font-smoothing: antialiased;\n  -moz-osx-font-smoothing: grayscale;\n  -webkit-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n  user-select: none;\n}\n\n.markdown-body .octicon-link:before {\n  content: '\\F05C';\n}\n\n.markdown-body>*:first-child {\n  margin-top: 0 !important;\n}\n\n.markdown-body>*:last-child {\n  margin-bottom: 0 !important;\n}\n\n.markdown-body a:not([href]) {\n  color: inherit;\n  text-decoration: none;\n}\n\n.markdown-body .anchor {\n  display: inline-block;\n  padding-right: 2px;\n  margin-left: -18px;\n}\n\n.markdown-body .anchor:focus {\n  outline: none;\n}\n\n.markdown-body h1,\n.markdown-body h2,\n.markdown-body h3,\n.markdown-body h4,\n.markdown-body h5,\n.markdown-body h6 {\n  margin-top: 1em;\n  margin-bottom: 16px;\n  font-weight: bold;\n  line-height: 1.4;\n}\n\n.markdown-body h1 .octicon-link,\n.markdown-body h2 .octicon-link,\n.markdown-body h3 .octicon-link,\n.markdown-body h4 .octicon-link,\n.markdown-body h5 .octicon-link,\n.markdown-body h6 .octicon-link {\n  color: #000;\n  vertical-align: middle;\n  visibility: hidden;\n}\n\n.markdown-body h1:hover .anchor,\n.markdown-body h2:hover .anchor,\n.markdown-body h3:hover .anchor,\n.markdown-body h4:hover .anchor,\n.markdown-body h5:hover .anchor,\n.markdown-body h6:hover .anchor {\n  text-decoration: none;\n}\n\n.markdown-body h1:hover .anchor .octicon-link,\n.markdown-body h2:hover .anchor .octicon-link,\n.markdown-body h3:hover .anchor .octicon-link,\n.markdown-body h4:hover .anchor .octicon-link,\n.markdown-body h5:hover .anchor .octicon-link,\n.markdown-body h6:hover .anchor .octicon-link {\n  visibility: visible;\n}\n\n.markdown-body h1 {\n  padding-bottom: 0.3em;\n  font-size: 2.25em;\n  line-height: 1.2;\n  border-bottom: 1px solid #eee;\n}\n\n.markdown-body h1 .anchor {\n  line-height: 1;\n}\n\n.markdown-body h2 {\n  padding-bottom: 0.3em;\n  font-size: 1.75em;\n  line-height: 1.225;\n  border-bottom: 1px solid #eee;\n}\n\n.markdown-body h2 .anchor {\n  line-height: 1;\n}\n\n.markdown-body h3 {\n  font-size: 1.5em;\n  line-height: 1.43;\n}\n\n.markdown-body h3 .anchor {\n  line-height: 1.2;\n}\n\n.markdown-body h4 {\n  font-size: 1.25em;\n}\n\n.markdown-body h4 .anchor {\n  line-height: 1.2;\n}\n\n.markdown-body h5 {\n  font-size: 1em;\n}\n\n.markdown-body h5 .anchor {\n  line-height: 1.1;\n}\n\n.markdown-body h6 {\n  font-size: 1em;\n  color: #777;\n}\n\n.markdown-body h6 .anchor {\n  line-height: 1.1;\n}\n\n.markdown-body p,\n.markdown-body blockquote,\n.markdown-body ul,\n.markdown-body ol,\n.markdown-body dl,\n.markdown-body table,\n.markdown-body pre {\n  margin-top: 0;\n  margin-bottom: 16px;\n}\n\n.markdown-body hr {\n  height: 4px;\n  padding: 0;\n  margin: 16px 0;\n  background-color: #e7e7e7;\n  border: 0 none;\n}\n\n.markdown-body ul,\n.markdown-body ol {\n  padding-left: 2em;\n}\n\n.markdown-body ul ul,\n.markdown-body ul ol,\n.markdown-body ol ol,\n.markdown-body ol ul {\n  margin-top: 0;\n  margin-bottom: 0;\n}\n\n.markdown-body li>p {\n  margin-top: 16px;\n}\n\n.markdown-body dl {\n  padding: 0;\n}\n\n.markdown-body dl dt {\n  padding: 0;\n  margin-top: 16px;\n  font-size: 1em;\n  font-style: italic;\n  font-weight: bold;\n}\n\n.markdown-body dl dd {\n  padding: 0 16px;\n  margin-bottom: 16px;\n}\n\n.markdown-body blockquote {\n  padding: 0 15px;\n  color: #777;\n  border-left: 4px solid #ddd;\n}\n\n.markdown-body blockquote>:first-child {\n  margin-top: 0;\n}\n\n.markdown-body blockquote>:last-child {\n  margin-bottom: 0;\n}\n\n.markdown-body table {\n  display: block;\n  width: 100%;\n  overflow: auto;\n  word-break: normal;\n  word-break: keep-all;\n}\n\n.markdown-body table th {\n  font-weight: bold;\n}\n\n.markdown-body table th,\n.markdown-body table td {\n  padding: 6px 13px;\n  border: 1px solid #ddd;\n}\n\n.markdown-body table tr {\n  background-color: #fff;\n  border-top: 1px solid #ccc;\n}\n\n.markdown-body table tr:nth-child(2n) {\n  background-color: #f8f8f8;\n}\n\n.markdown-body img {\n  max-width: 100%;\n  box-sizing: content-box;\n  background-color: #fff;\n}\n\n.markdown-body code {\n  padding: 0;\n  padding-top: 0.2em;\n  padding-bottom: 0.2em;\n  margin: 0;\n  font-size: 85%;\n  background-color: rgba(0,0,0,0.04);\n  border-radius: 3px;\n}\n\n.markdown-body code:before,\n.markdown-body code:after {\n  letter-spacing: -0.2em;\n  content: \"\\A0\";\n}\n\n.markdown-body pre>code {\n  padding: 0;\n  margin: 0;\n  font-size: 100%;\n  word-break: normal;\n  white-space: pre;\n  background: transparent;\n  border: 0;\n}\n\n.markdown-body .highlight {\n  margin-bottom: 16px;\n}\n\n.markdown-body .highlight pre,\n.markdown-body pre {\n  padding: 16px;\n  overflow: auto;\n  font-size: 85%;\n  line-height: 1.45;\n  background-color: #f7f7f7;\n  border-radius: 3px;\n}\n\n.markdown-body .highlight pre {\n  margin-bottom: 0;\n  word-break: normal;\n}\n\n.markdown-body pre {\n  word-wrap: normal;\n}\n\n.markdown-body pre code {\n  display: inline;\n  max-width: initial;\n  padding: 0;\n  margin: 0;\n  overflow: initial;\n  line-height: inherit;\n  word-wrap: normal;\n  background-color: transparent;\n  border: 0;\n}\n\n.markdown-body pre code:before,\n.markdown-body pre code:after {\n  content: normal;\n}\n\n.markdown-body kbd {\n  display: inline-block;\n  padding: 3px 5px;\n  font-size: 11px;\n  line-height: 10px;\n  color: #555;\n  vertical-align: middle;\n  background-color: #fcfcfc;\n  border: solid 1px #ccc;\n  border-bottom-color: #bbb;\n  border-radius: 3px;\n  box-shadow: inset 0 -1px 0 #bbb;\n}\n\n.markdown-body .pl-c {\n  color: #969896;\n}\n\n.markdown-body .pl-c1,\n.markdown-body .pl-s .pl-v {\n  color: #0086b3;\n}\n\n.markdown-body .pl-e,\n.markdown-body .pl-en {\n  color: #795da3;\n}\n\n.markdown-body .pl-s .pl-s1,\n.markdown-body .pl-smi {\n  color: #333;\n}\n\n.markdown-body .pl-ent {\n  color: #63a35c;\n}\n\n.markdown-body .pl-k {\n  color: #a71d5d;\n}\n\n.markdown-body .pl-pds,\n.markdown-body .pl-s,\n.markdown-body .pl-s .pl-pse .pl-s1,\n.markdown-body .pl-sr,\n.markdown-body .pl-sr .pl-cce,\n.markdown-body .pl-sr .pl-sra,\n.markdown-body .pl-sr .pl-sre {\n  color: #183691;\n}\n\n.markdown-body .pl-v {\n  color: #ed6a43;\n}\n\n.markdown-body .pl-id {\n  color: #b52a1d;\n}\n\n.markdown-body .pl-ii {\n  background-color: #b52a1d;\n  color: #f8f8f8;\n}\n\n.markdown-body .pl-sr .pl-cce {\n  color: #63a35c;\n  font-weight: bold;\n}\n\n.markdown-body .pl-ml {\n  color: #693a17;\n}\n\n.markdown-body .pl-mh,\n.markdown-body .pl-mh .pl-en,\n.markdown-body .pl-ms {\n  color: #1d3e81;\n  font-weight: bold;\n}\n\n.markdown-body .pl-mq {\n  color: #008080;\n}\n\n.markdown-body .pl-mi {\n  color: #333;\n  font-style: italic;\n}\n\n.markdown-body .pl-mb {\n  color: #333;\n  font-weight: bold;\n}\n\n.markdown-body .pl-md {\n  background-color: #ffecec;\n  color: #bd2c00;\n}\n\n.markdown-body .pl-mi1 {\n  background-color: #eaffea;\n  color: #55a532;\n}\n\n.markdown-body .pl-mdr {\n  color: #795da3;\n  font-weight: bold;\n}\n\n.markdown-body .pl-mo {\n  color: #1d3e81;\n}\n\n.markdown-body kbd {\n  display: inline-block;\n  padding: 3px 5px;\n  font: 11px Consolas, \"Liberation Mono\", Menlo, Courier, monospace;\n  line-height: 10px;\n  color: #555;\n  vertical-align: middle;\n  background-color: #fcfcfc;\n  border: solid 1px #ccc;\n  border-bottom-color: #bbb;\n  border-radius: 3px;\n  box-shadow: inset 0 -1px 0 #bbb;\n}\n\n.markdown-body:before {\n  display: table;\n  content: \"\";\n}\n\n.markdown-body:after {\n  display: table;\n  clear: both;\n  content: \"\";\n}\n\n.markdown-body .task-list-item {\n  list-style-type: none;\n}\n\n.markdown-body .task-list-item+.task-list-item {\n  margin-top: 3px;\n}\n\n.markdown-body .task-list-item input {\n  margin: 0 0.35em 0.25em -1.6em;\n  vertical-align: middle;\n}\n\n.markdown-body :checked+.radio-label {\n  z-index: 1;\n  position: relative;\n  border-color: #4078c0;\n}\n", ""]);
+	
+	// exports
+
 
 /***/ },
 /* 122 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports={
-	        replace:true,
-	        data: function() {
-	            return {
-	                loginname: localStorage.loginname || "",
-	                avatar_url: localStorage.avatar_url || ""
-	            }
-	        },
-	        methods:{
-	            goEnter: function(){
-	                var link = '/login?redirect='+ encodeURIComponent(this.$route.path);
-	                this.$route.router.go(link);
-	            },
-	            goUser:function(){
-	                this.$route.router.go({name:'user',params:{loginname:localStorage.loginname}});
-	            }
-	        }
-	    }
+	module.exports = __webpack_require__.p + "images/1ead16c102ee8190b3459bfc0db90e8b.gif"
 
 /***/ },
 /* 123 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"user-info\">\n        <!-- 未登录 -->\n        <ul class=\"login-no\" v-if=\"!loginname\">\n            <li class=\"login\" @click=\"goEnter\"><a >登录</a></li>\n        </ul>\n        <!-- 已登录 -->\n        <div class=\"login-yes\" v-if=\"loginname\" @click=\"goUser\">\n            <div class=\"avertar\"><img v-if=\"avatar_url\" :src=\"avatar_url\"></div>\n            <div class=\"info\">\n                <p v-if=\"loginname\" v-text=\"loginname\"></p>\n            </div>\n        </div>\n    </div>";
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+	
+	module.exports = function(list, options) {
+		if(true) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+	
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+	
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+	
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+	
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+	
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+	
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+	
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+	
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+	
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+	
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+	
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+	
+		update(obj);
+	
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+	
+	var replaceText = (function () {
+		var textStore = [];
+	
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+	
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+	
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+	
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+	
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+	
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+	
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+		var sourceMap = obj.sourceMap;
+	
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+	
+		var blob = new Blob([css], { type: "text/css" });
+	
+		var oldSrc = linkElement.href;
+	
+		linkElement.href = URL.createObjectURL(blob);
+	
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
 
 /***/ },
 /* 124 */
 /***/ function(module, exports) {
 
-	module.exports = "<section id=\"sideBar\" class=\"nav-list\" :class=\"{'show':showMenu}\">\n        <user-info></user-info>\n        <ul class=\"list-ul\">\n            <li class=\"icon-quanbu iconfont\" v-link=\"{'name':'list',query:{tab:'all'}}\">全部</li>\n            <li class=\"icon-hao iconfont\" v-link=\"{name:'list',query:{tab:'good'}}\">精华</li>\n            <li class=\"icon-fenxiang iconfont\" v-link=\"{name:'list',query:{tab:'share'}}\">分享</li>\n            <li class=\"icon-wenda iconfont\" v-link=\"{name:'list',query:{tab:'ask'}}\">问答</li>\n            <li class=\"icon-zhaopin iconfont\" v-link=\"{name:'list',query:{tab:'job'}}\">招聘</li>\n            <li class=\"icon-xiaoxi iconfont line\" v-link=\"{name:'message'}\" class=\"line\">消息</li>\n            <li class=\"icon-about iconfont\" v-link=\"{name:'about'}\">关于</li>\n        </ul>\n    </section>";
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <!-- 全局header -->
+	//     <div>
+	//         <img class="index" src="../assets/images/index.png">
+	//     </div>
+	// </template>
+	// <script>
+	exports.default = {
+	    ready: function ready() {
+	        var _this = this;
+	
+	        setTimeout(function () {
+	            _this.$route.router.go({ name: 'list' });
+	        }, 2000);
+	    }
+	};
+	// </script>
+	// <style lang="sass">
+	//     @import '../assets/scss/iconfont/iconfont.css';
+	//     @import '../assets/scss/CV.scss';
+	//     @import '../assets/scss/github-markdown.css';
+	//     .index{
+	//         width: 100%;
+	//         background-color: #fff;
+	//         margin-top: 40%;
+	//     }
+	// </style>
 
 /***/ },
 /* 125 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"page-cover\"\n            v-if=\"showMenu&&fixHead\"\n            @click=\"showMenus\">\n    </div>\n    <header :class=\"{'show':showMenu&&fixHead,'fix-header':fixHead,'no-fix':!fixHead}\" id=\"hd\">\n        <div class=\"nv-toolbar\">\n            <div class=\"toolbar-nav\"\n                    @click=\"openMenu\"\n                    v-if=\"fixHead\">\n            </div>\n            <span v-text=\"pageType\"></span>\n            <i class=\"num\" v-if=\"messageCount > 0\"> {{messageCount}}</i>\n            <i v-if=\"needAdd\" v-show=\"!messageCount || messageCount <= 0\"\n                class=\"iconfont add-icon\" v-link=\"{name:'add'}\">&#xe60f;</i>\n        </div>\n    </header>\n    <nv-menu :show-menu=\"showMenu\"\n            :page-type=\"pageType\"\n            :nick-name=\"nickname\"\n            :profile-url=\"profileimgurl\"\n            v-if=\"fixHead\" ></nv-menu>";
+	module.exports = "<!-- 全局header -->\n    <div>\n        <img class=\"index\" src=\"" + __webpack_require__(126) + "\">\n    </div>";
 
 /***/ },
 /* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(127)
-	module.exports = __webpack_require__(128)
-	module.exports.template = __webpack_require__(129)
-
+	module.exports = __webpack_require__.p + "images/cacb291c14df7cb98ff0f118132d5ac0.png"
 
 /***/ },
 /* 127 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	module.exports = __webpack_require__(128)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(157)
+
 
 /***/ },
 /* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {module.exports={
-	        replace:true,
-	        data: function(){
-	            return {
-	                show: false,
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _stringify = __webpack_require__(129);
+	
+	var _stringify2 = _interopRequireDefault(_stringify);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// <template>
+	//     <!-- 全局header -->
+	//     <nv-head :page-type="searchKey.tab | getTitleStr"
+	//             fix-head="true"
+	//             :need-add="true"
+	//             :show-menu.sync="showMenu">
+	//     </nv-head>
+	
+	//     <section id="page">
+	
+	//         <!-- 首页列表 -->
+	//         <ul class="posts-list">
+	//             <li v-for="item in topics"
+	//                     v-link="{name:'topic',params:{id:item.id}}">
+	
+	//                 <h3 v-text="item.title"
+	//                         :class="item.tab | getTabClassName item.good item.top"
+	//                         :title="item.tab | getTabStr item.good item.top">
+	//                 </h3>
+	//                 <div class="content">
+	//                     <img class="avatar" :src="item.author.avatar_url" />
+	//                     <div class="info">
+	//                         <p>
+	//                             <span class="name">
+	//                                 {{item.author.loginname}}
+	//                             </span>
+	//                             <span class="status" v-if="item.reply_count > 0">
+	//                                 <b>{{item.reply_count}}</b>
+	//                                 /{{item.visit_count}}
+	//                             </span>
+	//                         </p>
+	//                         <p>
+	//                             <time>
+	//                                 {{item.create_at | getLastTimeStr true}}
+	//                             </time>
+	//                             <time>
+	//                                 {{item.last_reply_at | getLastTimeStr true}}
+	//                             </time>
+	//                         </p>
+	//                     </div>
+	//                 </div>
+	//             </li>
+	//         </ul>
+	//     </section>
+	//     <nv-top></nv-top>
+	// </template>
+	
+	// <script>
+	exports.default = {
+	    data: function data() {
+	        return {
+	            showMenu: false,
+	            scroll: true,
+	            topics: [],
+	            searchKey: {
+	                page: 1,
+	                limit: 20,
+	                tab: 'all',
+	                mdrender: true
+	            },
+	            searchDataStr: ''
+	        };
+	    },
+	
+	    route: {
+	        data: function data(transition) {
+	            var _this = this;
+	
+	            var _self = this,
+	                query = transition.to.query,
+	                tab = query.tab || 'all';
+	
+	            //记录首次加载的查询条件
+	            if (_self.searchDataStr == "") {
+	                _self.searchDataStr = (0, _stringify2.default)(_self.searchKey);
 	            }
+	            //如果从左侧切换分类，则清空查询条件
+	            if (transition.from.name === "house-list") {
+	                //_self.searchKey.page = 1;
+	                _self.searchKey.limit = 20;
+	                _self.searchKey = JSON.parse(_self.searchDataStr);
+	            }
+	
+	            //如果从详情返回并且typeid一样才去sessionStorge
+	            if (sessionStorage.searchKey && transition.from.name === "topic" && sessionStorage.tab == tab) {
+	                _self.topics = JSON.parse(sessionStorage.topics);
+	                _self.searchKey = JSON.parse(sessionStorage.searchKey);
+	                setTimeout(function () {
+	                    $(window).scrollTop(sessionStorage.scrollTop);
+	                }, 100);
+	            } else {
+	                //页面初次加载获取的数据
+	                _self.searchKey.tab = query.tab;
+	                _self.getTopics();
+	            }
+	            _self.showMenu = false;
+	
+	            //滚动加载
+	            $(window).on('scroll', function () {
+	                _this.getScrollData();
+	            });
 	        },
-	        ready: function(){
-	            var _self = this;
-	            $(window).on('scroll', function() {
-	                if($(window).scrollTop() > 100){
-	                    _self.show = true;
+	        deactivate: function deactivate(transition) {
+	            $(window).off('scroll');
+	            if (transition.to.name === "topic") {
+	                sessionStorage.scrollTop = $(window).scrollTop();
+	                sessionStorage.topics = (0, _stringify2.default)(this.topics);
+	                sessionStorage.searchKey = (0, _stringify2.default)(this.searchKey);
+	                sessionStorage.tab = transition.from.query.tab || 'all';
+	            } else {
+	                sessionStorage.removeItem("topics");
+	                sessionStorage.removeItem("searchKey");
+	                sessionStorage.removeItem("tab");
+	            }
+	            transition.next();
+	        }
+	    },
+	    methods: {
+	        getTopics: function getTopics(searchKey) {
+	            var _self = this,
+	                params = $.param(_self.searchKey);
+	            $.get('https://cnodejs.org/api/v1/topics?' + params, function (d) {
+	                _self.scroll = true;
+	                if (d && d.data) {
+	                    _self.topics = d.data;
+	                    // if(_self.searchKey.page == 0){
+	                    //     _self.topics = d.data;
+	                    // }
+	                    // else{
+	                    //     _self.topics = _self.topics.concat(d.data);
+	                    // }
 	                }
 	            });
 	        },
-	        beforeDestory:function(){
-	            $(window).off('scroll');
-	        },
-	        methods:{
-	            goTop:function(){
-	                $(window).scrollTop(0);
-	                this.show = false;
+	
+	        //滚动加载数据
+	        getScrollData: function getScrollData() {
+	            var _self = this;
+	            if (_self.scroll) {
+	                var totalheight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
+	                if ($(document).height() <= totalheight + 200) {
+	                    _self.scroll = false;
+	                    _self.searchKey.limit += 20;
+	                    _self.getTopics();
+	                }
 	            }
 	        }
+	    },
+	    components: {
+	        "nvHead": __webpack_require__(131),
+	        "nvTop": __webpack_require__(152)
 	    }
+	};
+	// </script>
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
 /* 129 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<div class=\"iconfont icon-top\" v-show=\"show\" @click=\"goTop\">&#xe611;</div>";
+	module.exports = { "default": __webpack_require__(130), __esModule: true };
 
 /***/ },
 /* 130 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports = "<!-- 全局header -->\n    <nv-head :page-type=\"searchKey.tab | getTitleStr\"\n            fix-head=\"true\"\n            :need-add=\"true\"\n            :show-menu.sync=\"showMenu\">\n    </nv-head>\n\n\n    <section id=\"page\">\n\n        <!-- 首页列表 -->\n        <ul class=\"posts-list\">\n            <li v-for=\"item in topics\"\n                    v-link=\"{name:'topic',params:{id:item.id}}\">\n\n                <h3 v-text=\"item.title\"\n                        :class=\"item.tab | getTabClassName item.good item.top\"\n                        :title=\"item.tab | getTabStr item.good item.top\">\n                </h3>\n                <div class=\"content\">\n                    <img class=\"avatar\" :src=\"item.author.avatar_url\" />\n                    <div class=\"info\">\n                        <p>\n                            <span class=\"name\">\n                                {{item.author.loginname}}\n                            </span>\n                            <span class=\"status\" v-if=\"item.reply_count > 0\">\n                                <b>{{item.reply_count}}</b>\n                                /{{item.visit_count}}\n                            </span>\n                        </p>\n                        <p>\n                            <time>\n                                {{item.create_at | getLastTimeStr true}}\n                            </time>\n                            <time>\n                                {{item.last_reply_at | getLastTimeStr true}}\n                            </time>\n                        </p>\n                    </div>\n                </div>\n            </li>\n        </ul>\n    </section>\n    <nv-top></nv-top>";
+	var core = __webpack_require__(26);
+	module.exports = function stringify(it){ // eslint-disable-line no-unused-vars
+	  return (core.JSON && core.JSON.stringify || JSON.stringify).apply(JSON, arguments);
+	};
 
 /***/ },
 /* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(132)
-	module.exports.template = __webpack_require__(145)
+	__webpack_require__(132)
+	module.exports = __webpack_require__(135)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(151)
 
 
 /***/ },
 /* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {module.exports = {
-	        data: function(){
-	            var _self = this;
-	            return {
-	                showMenu: false,    //是否展开左侧菜单
-	                topic:{},           //主题
-	                noData:false,
-	                topicId:'',
-	                curReplyId:'',
-	                userId:localStorage.userId || '',
-	                /*弱提示*/
-	                alert: {
-	                    txt: '',
-	                    show: false,
-	                    hideFn:function(){
-	                        var timer;
-	                        clearTimeout(timer);
-	                        timer = setTimeout(function () {
-	                            _self.alert.show = false;
-	                        }, 1000);
-	                    }
-	                }
-	            }
-	        },
-	        route:{
-	            data:function(transition){
-	                var _self = this;
-	                //隐藏左侧展开菜单
-	                _self.showMenu = false;
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
-	                //获取url传的tab参数
-	                _self.topicId=transition.to.params.id;
-	
-	                //加载主题数据
-	                $.get('https://cnodejs.org/api/v1/topic/'+_self.topicId,function(d){
-	                    if(d && d.data){
-	                        _self.topic = d.data;
-	                    }
-	                    else{
-	                        _self.noData = true;
-	                    }
-	                });
-	            }
-	        },
-	        methods:{
-	            isUps:function(ups){
-	                var _self = this;
-	                return $.inArray(_self.userId,ups) >= 0;
-	            },
-	            addReply:function(id){
-	                this.curReplyId = id;
-	                var _self = this;
-	                if(!_self.userId){
-	                    _self.$route.router.go('/login?redirect='+encodeURIComponent(this.$route.path));
-	                }
-	            },
-	            upReply:function(item){
-	                var _self = this;
-	                if(!_self.userId){
-	                    _self.$route.router.go('/login?redirect='+encodeURIComponent(this.$route.path));
-	                }
-	                else{
-	                    $.ajax({
-	                        type:'POST',
-	                        url:'https://cnodejs.org/api/v1/reply/'+item.id+'/ups',
-	                        data:{accesstoken:localStorage.token},
-	                        dataType: 'json',
-	                        success:function(res){
-	                            if(res.success){
-	                                if(res.action == "down"){
-	                                    var index = $.inArray(_self.userId, item.ups);
-	                                    item.ups.splice(index,1);
-	                                }
-	                                else{
-	                                    item.ups.push(_self.userId);
-	                                }
-	                            }
-	                        },
-	                        error:function(res){
-	                            var error = JSON.parse(res.responseText);
-	                            _self.alert.txt = error.error_msg;
-	                            _self.alert.show = true;
-	                            _self.alert.hideFn();
-	                            return false;
-	                        }
-	                    });
-	                }
-	            }
-	        },
-	        components:{
-	            "nvHead":__webpack_require__(114),
-	            "nvAlert":__webpack_require__(133),
-	            "nvReply":__webpack_require__(137),
-	            "nvTop":__webpack_require__(126)
-	        }
-	    }
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+	// load the styles
+	var content = __webpack_require__(133);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4c7aa173&file=header.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./header.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-4c7aa173&file=header.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./header.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
 
 /***/ },
 /* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(134)
-	module.exports = __webpack_require__(135)
-	module.exports.template = __webpack_require__(136)
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "#hd {\n  border-bottom: 1px solid #e8e8e8; }\n  #hd.fix-header {\n    width: 100%;\n    background-color: rgba(255, 255, 255, 0.95);\n    position: fixed;\n    top: 0;\n    left: 0;\n    -webkit-transition: all .3s ease;\n    transition: all .3s ease;\n    box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);\n    z-index: 6; }\n  #hd.no-fix {\n    width: 100%;\n    background-color: #fff;\n    overflow: hidden; }\n  #hd.show {\n    -webkit-transform: translateX(200px);\n            transform: translateX(200px); }\n\n.nv-toolbar {\n  width: 100%;\n  height: 44px;\n  display: -webkit-box;\n  -webkit-box-align: center; }\n  .nv-toolbar .toolbar-nav {\n    width: 49px;\n    height: 44px;\n    position: absolute;\n    background: url(" + __webpack_require__(134) + ") no-repeat center center;\n    background-size: 19px 16px;\n    margin: 0;\n    z-index: 1;\n    top: 0;\n    left: 0; }\n  .nv-toolbar > span {\n    display: block;\n    text-align: center;\n    height: 100%;\n    line-height: 44px;\n    font-size: 16px;\n    width: 100%;\n    position: relative;\n    z-index: 0; }\n  .nv-toolbar .num {\n    background-color: #80bd01;\n    color: #fff;\n    width: 20px;\n    height: 20px;\n    line-height: 20px;\n    vertical-align: middle;\n    text-align: center;\n    border-radius: 50%;\n    position: absolute;\n    right: 10px;\n    top: 10px;\n    z-index: 10; }\n  .nv-toolbar .add-icon {\n    color: #42b983;\n    position: absolute;\n    right: 10px;\n    top: 10px;\n    z-index: 10;\n    padding: 5px 15px;\n    border-radius: 5px; }\n\n.scroll-hide {\n  height: 100%;\n  overflow: hidden; }\n", ""]);
+	
+	// exports
 
 
 /***/ },
 /* 134 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	// removed by extract-text-webpack-plugin
+	module.exports = __webpack_require__.p + "images/9cf96e7cfe4b992a542814b6dae9cf56.png"
 
 /***/ },
 /* 135 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	module.exports={
-	        replace: true,
-	        props: ['content','show']
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _utils = __webpack_require__(112);
+	
+	var _utils2 = _interopRequireDefault(_utils);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	// <template>
+	//     <div class="page-cover"
+	//             v-if="showMenu&&fixHead"
+	//             @click="showMenus">
+	//     </div>
+	//     <header :class="{'show':showMenu&&fixHead,'fix-header':fixHead,'no-fix':!fixHead}" id="hd">
+	//         <div class="nv-toolbar">
+	//             <div class="toolbar-nav"
+	//                     @click="openMenu"
+	//                     v-if="fixHead">
+	//             </div>
+	//             <span v-text="pageType"></span>
+	//             <i class="num" v-if="messageCount > 0"> {{messageCount}}</i>
+	//             <i v-if="needAdd" v-show="!messageCount || messageCount <= 0"
+	//                 class="iconfont add-icon" v-link="{name:'add'}">&#xe60f;</i>
+	//         </div>
+	//     </header>
+	//     <nv-menu :show-menu="showMenu"
+	//             :page-type="pageType"
+	//             :nick-name="nickname"
+	//             :profile-url="profileimgurl"
+	//             v-if="fixHead" ></nv-menu>
+	// </template>
+	
+	// <script>
+	__webpack_require__(136);
+	//加载公用函数
+	
+	exports.default = {
+	    replace: true,
+	    props: ['pageType', 'fixHead', 'showMenu', 'messageCount', 'needAdd'],
+	    data: function data() {
+	        return {
+	            nickname: '',
+	            profileimgurl: ''
+	        };
+	    },
+	
+	    methods: {
+	        openMenu: function openMenu() {
+	            $("html, body, #page").addClass("scroll-hide");
+	            this.showMenu = !this.showMenu;
+	        },
+	        showMenus: function showMenus() {
+	            this.showMenu = !this.showMenu;
+	            $("html, body, #page").removeClass("scroll-hide");
+	        }
+	    },
+	    components: {
+	        'nvMenu': __webpack_require__(137)
 	    }
+	};
+	// </script>
+	// <style lang="sass">
+	// #hd {
+	//     border-bottom: 1px solid #e8e8e8;
+	//     &.fix-header {
+	//         width: 100%;
+	//         background-color: rgba(255, 255, 255, 0.95);
+	//         position: fixed;
+	//         top: 0;
+	//         left: 0;
+	//         transition: all .3s ease;
+	//         box-shadow: 0 0 4px rgba(0,0,0,0.25);
+	//         z-index: 6;
+	//     }
+	//     &.no-fix {
+	//         width: 100%;
+	//         background-color: #fff;
+	//         overflow: hidden;
+	//     }
+	//     &.show {
+	//         transform: translateX(200px);
+	//     }
+	// }
+	// .nv-toolbar {
+	//     width: 100%;
+	//     height: 44px;
+	//     display:-webkit-box;
+	//     -webkit-box-align:center;
+
+	//     .toolbar-nav {
+	//         width: 49px;
+	//         height: 44px;
+	//         position: absolute;
+	//         background: url("../assets/images/components/nav_icon.png") no-repeat center center;
+	//         background-size: 19px 16px;
+	//         margin: 0;
+	//         z-index: 1;
+	//         top: 0;
+	//         left: 0;
+	//     }
+
+	//     &>span {
+	//         display: block;
+	//         text-align: center;
+	//         height: 100%;
+	//         line-height: 44px;
+	//         font-size: 16px;
+	//         width: 100%;
+	//         position: relative;
+	//         z-index: 0;
+	//     }
+	//     .num {
+	//         background-color: #80bd01;
+	//         color: #fff;
+	//         width: 20px;
+	//         height: 20px;
+	//         line-height: 20px;
+	//         vertical-align: middle;
+	//         text-align: center;
+	//         border-radius: 50%;
+	//         position: absolute;
+	//         right: 10px;
+	//         top: 10px;
+	//         z-index: 10;
+	//     }
+	//     .add-icon{
+	//         color: #42b983;
+	//         position: absolute;
+	//         right: 10px;
+	//         top: 10px;
+	//         z-index: 10;
+	//         padding: 5px 15px;
+	//         border-radius: 5px;
+	//     }
+	// }
+	// .scroll-hide{
+	//     height: 100%;
+	//     overflow: hidden;
+	// }
+	// </style>
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
 /* 136 */
 /***/ function(module, exports) {
 
-	module.exports = "<div id=\"wxAlert\" class=\"wx_loading\" v-show=\"show\">\n        <div class=\"wx_alert_inner\" id=\"wx_alert_inner\" v-text=\"content\"></div>\n    </div>";
+	// removed by extract-text-webpack-plugin
 
 /***/ },
 /* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(138)
-	module.exports.template = __webpack_require__(144)
+	__webpack_require__(138)
+	module.exports = __webpack_require__(140)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(150)
 
 
 /***/ },
 /* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {var utils = __webpack_require__(100),
-	        markdown = __webpack_require__(139).markdown;
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
-	    module.exports={
-	        replace:true,
-	        props: ['topic','replyId','topicId','replyTo','show'],
-	        data:function(){
-	            return {
-	                hasErr:false,
-	                content:'',
-	                userId:localStorage.userId || '',
-	                authorTxt:'<br/><br/><a class="form" href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
-	            }
-	        },
-	        ready: function(){
-	            var _self = this;
-	            if(_self.replyTo){
-	                _self.content = '@'+_self.replyTo+' ';
-	            }
-	        },
-	        methods:{
-	            addReply:function(){
+	// load the styles
+	var content = __webpack_require__(139);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-392376c5&file=menu.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./menu.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-392376c5&file=menu.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./menu.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 139 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
 	
-	                var _self = this;
-	                if(!_self.content){
-	                    _self.hasErr = true;
+	
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\n/*侧边栏*/\n.nav-list {\n  position: fixed;\n  top: 0;\n  bottom: 0;\n  left: -200px;\n  width: 200px;\n  background-color: #fff;\n  color: #313131;\n  -webkit-transition: all .3s ease;\n  transition: all .3s ease;\n  z-index: 99; }\n  .nav-list.show {\n    -webkit-transform: translateX(200px);\n            transform: translateX(200px); }\n\n/*侧边栏列表*/\n.list-ul {\n  margin: 0 24px;\n  border-top: 1px solid #d4d4d4;\n  overflow: hidden;\n  padding-top: 9%; }\n  .list-ul li {\n    font-size: 14px;\n    font-weight: 200;\n    padding: 9% 0;\n    text-align: left;\n    text-indent: 1px;\n    line-height: 15px;\n    color: #7f8c8d; }\n    .list-ul li:last-child {\n      margin-bottom: 50px; }\n    .list-ul li:before {\n      color: #2c3e50; }\n  .list-ul .line {\n    border-top: 1px solid #d4d4d4; }\n  .list-ul a {\n    display: block;\n    color: #313131; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 140 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <section id="sideBar" class="nav-list" :class="{'show':showMenu}">
+	//         <user-info></user-info>
+	//         <ul class="list-ul">
+	//             <li class="icon-quanbu iconfont" v-link="{'name':'list',query:{tab:'all'}}">全部</li>
+	//             <li class="icon-hao iconfont" v-link="{name:'list',query:{tab:'good'}}">精华</li>
+	//             <li class="icon-fenxiang iconfont" v-link="{name:'list',query:{tab:'share'}}">分享</li>
+	//             <li class="icon-wenda iconfont" v-link="{name:'list',query:{tab:'ask'}}">问答</li>
+	//             <li class="icon-zhaopin iconfont" v-link="{name:'list',query:{tab:'job'}}">招聘</li>
+	//             <li class="icon-xiaoxi iconfont line" v-link="{name:'message'}" class="line">消息</li>
+	//             <li class="icon-about iconfont" v-link="{name:'about'}">关于</li>
+	//         </ul>
+	//     </section>
+	// </template>
+	// <script>
+	__webpack_require__(136);
+	
+	exports.default = {
+	    replace: true,
+	    props: ['showMenu', 'pageType', 'nickName', 'profileUrl'],
+	    components: {
+	        'userInfo': __webpack_require__(141)
+	    }
+	};
+	// </script>
+
+	// <style lang="sass">
+	// /*侧边栏*/
+	// .nav-list {
+	//     position: fixed;
+	//     top: 0;
+	//     bottom: 0;
+	//     left: -200px;
+	//     width: 200px;
+	//     background-color: #fff;
+	//     color: #313131;
+	//     transition: all .3s ease;
+	//     z-index: 99;
+	//     &.show{
+	//         transform: translateX(200px);
+	//     }
+	// }
+
+	// /*侧边栏列表*/
+	// .list-ul {
+	//     margin: 0 24px;
+	//     border-top: 1px solid #d4d4d4;
+	//     overflow: hidden;
+	//     padding-top: 9%;
+	//     li {
+	//         font-size: 14px;
+	//         font-weight: 200;
+	//         padding: 9% 0;
+	//         text-align: left;
+	//         text-indent: 1px;
+	//         line-height: 15px;
+	//         color: #7f8c8d;
+	//         &:last-child {
+	//             margin-bottom: 50px;
+	//         }
+	//         &:before{
+	//             color: #2c3e50;
+	//         }
+	//     }
+
+	//     .line{
+	//         border-top: 1px solid #d4d4d4;
+	//     }
+	//     a {
+	//         display: block;
+	//         color: #313131;
+	//     }
+	// }
+	// </style>
+
+/***/ },
+/* 141 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(142)
+	module.exports = __webpack_require__(148)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(149)
+
+
+/***/ },
+/* 142 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(143);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3292067a&file=user-info.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./user-info.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-3292067a&file=user-info.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./user-info.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 143 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\n/*侧边栏用户信息区域*/\n.user-info {\n  padding: 15px;\n  font-size: 15px;\n  color: #313131; }\n\n/*未登录*/\n.login-no {\n  overflow: hidden;\n  margin: 8px 9px; }\n  .login-no > li {\n    float: right;\n    height: 24px;\n    line-height: 24px;\n    padding-left: 34px;\n    position: relative; }\n    .login-no > li:before {\n      width: 24px;\n      height: 24px;\n      content: '';\n      position: absolute;\n      left: 0;\n      top: 0; }\n  .login-no .login {\n    float: left; }\n    .login-no .login:before {\n      background: url(" + __webpack_require__(144) + ") no-repeat left center;\n      background-size: 24px 24px; }\n\n/*已登录*/\n.login-yes {\n  height: 100%;\n  background: url(" + __webpack_require__(145) + ") no-repeat right center;\n  background-size: 6px 10px;\n  overflow: hidden;\n  position: relative; }\n  .login-yes .avertar {\n    width: 40px;\n    height: 40px;\n    background: url(" + __webpack_require__(146) + ") no-repeat center center;\n    background-size: 40px 40px;\n    border-radius: 20px;\n    overflow: hidden;\n    float: left; }\n    .login-yes .avertar > img {\n      width: 40px;\n      height: 40px;\n      display: block; }\n  .login-yes .info {\n    margin-left: 10px;\n    overflow: hidden;\n    float: left; }\n  .login-yes p {\n    width: 85px;\n    overflow: hidden;\n    white-space: nowrap;\n    text-overflow: ellipsis;\n    font-size: 12px;\n    line-height: 12px;\n    line-height: 40px; }\n    .login-yes p.lh20 {\n      line-height: 20px; }\n  .login-yes:after {\n    display: block;\n    background: url(" + __webpack_require__(147) + ") no-repeat center right;\n    background-size: 7px 7px; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 144 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/76c0f3299044482b9c022de20671e5a5.png"
+
+/***/ },
+/* 145 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/89abb3c7af6e1c95538e1489fed4feee.png"
+
+/***/ },
+/* 146 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/f95d81473c5e661b988fb30f31e36621.png"
+
+/***/ },
+/* 147 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "images/0d6e28274d02050cc49a67eeef5f1c70.png"
+
+/***/ },
+/* 148 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <div class="user-info">
+	//         <!-- 未登录 -->
+	//         <ul class="login-no" v-if="!loginname">
+	//             <li class="login" @click="goEnter"><a >登录</a></li>
+	//         </ul>
+	//         <!-- 已登录 -->
+	//         <div class="login-yes" v-if="loginname" @click="goUser">
+	//             <div class="avertar"><img v-if="avatar_url" :src="avatar_url"></div>
+	//             <div class="info">
+	//                 <p v-if="loginname" v-text="loginname"></p>
+	//             </div>
+	//         </div>
+	//     </div>
+	// </template>
+	// <script>
+	exports.default = {
+	    replace: true,
+	    data: function data() {
+	        return {
+	            loginname: localStorage.loginname || "",
+	            avatar_url: localStorage.avatar_url || ""
+	        };
+	    },
+	
+	    methods: {
+	        goEnter: function goEnter() {
+	            var link = '/login?redirect=' + encodeURIComponent(this.$route.path);
+	            this.$route.router.go(link);
+	        },
+	        goUser: function goUser() {
+	            this.$route.router.go({ name: 'user', params: { loginname: localStorage.loginname } });
+	        }
+	    }
+	};
+	// </script>
+
+	// <style lang="sass">
+	//     /*侧边栏用户信息区域*/
+	//     .user-info {
+	//         padding: 15px;
+	//         font-size: 15px;
+	//         color: #313131;
+	//     }
+
+	//     /*未登录*/
+	//     .login-no {
+	//         overflow: hidden;
+	//         margin: 8px 9px;
+	//         &>li {
+	//             float: right;
+	//             height: 24px;
+	//             line-height: 24px;
+	//             padding-left: 34px;
+	//             position: relative;
+	//             &:before {
+	//                 width: 24px;
+	//                 height: 24px;
+	//                 content: '';
+	//                 position: absolute;
+	//                 left: 0;
+	//                 top: 0;
+	//             }
+	//         }
+	//         .login {
+	//             float: left;
+	//             &:before {
+	//               background: url("../assets/images/components/login_icon.png") no-repeat left center;
+	//               background-size: 24px 24px;
+	//             }
+	//         }
+	//     }
+
+	//     /*已登录*/
+	//     .login-yes {
+	//         height: 100%;
+	//         background: url("../assets/images/components/go_next_icon.png") no-repeat right center;
+	//         background-size: 6px 10px;
+	//         overflow: hidden;
+	//         position: relative;
+	//         .avertar {
+	//             width: 40px;
+	//             height: 40px;
+	//             background: url("../assets/images/components/user.png") no-repeat center center;
+	//             background-size: 40px 40px;
+	//             border-radius: 20px;
+	//             overflow: hidden;
+	//             float: left;
+	//             &>img {
+	//                 width: 40px;
+	//                 height: 40px;
+	//                 display: block;
+	//             }
+	//         }
+	//         .info {
+	//             margin-left: 10px;
+	//             overflow: hidden;
+	//             float: left;
+	//         }
+	//         p {
+	//             width: 85px;
+	//             overflow: hidden;
+	//             white-space: nowrap;
+	//             text-overflow: ellipsis;
+	//             font-size: 12px;
+	//             line-height: 12px;
+	//             line-height: 40px;
+	//             &.lh20 {
+	//                 line-height: 20px;
+	//             }
+	//         }
+	//         &:after {
+	//             display: block;
+	//             background: url("../assets/images/components/go_icon.png") no-repeat center right;
+	//             background-size: 7px 7px;
+	//         }
+	//     }
+	// </style>
+
+/***/ },
+/* 149 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"user-info\">\n        <!-- 未登录 -->\n        <ul class=\"login-no\" v-if=\"!loginname\">\n            <li class=\"login\" @click=\"goEnter\"><a >登录</a></li>\n        </ul>\n        <!-- 已登录 -->\n        <div class=\"login-yes\" v-if=\"loginname\" @click=\"goUser\">\n            <div class=\"avertar\"><img v-if=\"avatar_url\" :src=\"avatar_url\"></div>\n            <div class=\"info\">\n                <p v-if=\"loginname\" v-text=\"loginname\"></p>\n            </div>\n        </div>\n    </div>";
+
+/***/ },
+/* 150 */
+/***/ function(module, exports) {
+
+	module.exports = "<section id=\"sideBar\" class=\"nav-list\" :class=\"{'show':showMenu}\">\n        <user-info></user-info>\n        <ul class=\"list-ul\">\n            <li class=\"icon-quanbu iconfont\" v-link=\"{'name':'list',query:{tab:'all'}}\">全部</li>\n            <li class=\"icon-hao iconfont\" v-link=\"{name:'list',query:{tab:'good'}}\">精华</li>\n            <li class=\"icon-fenxiang iconfont\" v-link=\"{name:'list',query:{tab:'share'}}\">分享</li>\n            <li class=\"icon-wenda iconfont\" v-link=\"{name:'list',query:{tab:'ask'}}\">问答</li>\n            <li class=\"icon-zhaopin iconfont\" v-link=\"{name:'list',query:{tab:'job'}}\">招聘</li>\n            <li class=\"icon-xiaoxi iconfont line\" v-link=\"{name:'message'}\" class=\"line\">消息</li>\n            <li class=\"icon-about iconfont\" v-link=\"{name:'about'}\">关于</li>\n        </ul>\n    </section>";
+
+/***/ },
+/* 151 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"page-cover\"\n            v-if=\"showMenu&&fixHead\"\n            @click=\"showMenus\">\n    </div>\n    <header :class=\"{'show':showMenu&&fixHead,'fix-header':fixHead,'no-fix':!fixHead}\" id=\"hd\">\n        <div class=\"nv-toolbar\">\n            <div class=\"toolbar-nav\"\n                    @click=\"openMenu\"\n                    v-if=\"fixHead\">\n            </div>\n            <span v-text=\"pageType\"></span>\n            <i class=\"num\" v-if=\"messageCount > 0\"> {{messageCount}}</i>\n            <i v-if=\"needAdd\" v-show=\"!messageCount || messageCount <= 0\"\n                class=\"iconfont add-icon\" v-link=\"{name:'add'}\">&#xe60f;</i>\n        </div>\n    </header>\n    <nv-menu :show-menu=\"showMenu\"\n            :page-type=\"pageType\"\n            :nick-name=\"nickname\"\n            :profile-url=\"profileimgurl\"\n            v-if=\"fixHead\" ></nv-menu>";
+
+/***/ },
+/* 152 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(153)
+	module.exports = __webpack_require__(155)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(156)
+
+
+/***/ },
+/* 153 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(154);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-10bf4806&file=backtotop.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./backtotop.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-10bf4806&file=backtotop.vue!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./backtotop.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 154 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".icon-top {\n        position: fixed;\n        right: 10px;\n        bottom: 80px;\n        font-size: 50px;\n        z-index: 9999;\n        color: #42b983;\n    }", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 155 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	// <div class="iconfont icon-top" v-show="show" @click="goTop">&#xe611;</div>
+	// </template>
+	// <script>
+	exports.default = {
+	    replace: true,
+	    data: function data() {
+	        return {
+	            show: false
+	        };
+	    },
+	    ready: function ready() {
+	        var _this = this;
+	
+	        $(window).on('scroll', function () {
+	            if ($(window).scrollTop() > 100) {
+	                _this.show = true;
+	            }
+	        });
+	    },
+	    beforeDestory: function beforeDestory() {
+	        $(window).off('scroll');
+	    },
+	
+	    methods: {
+	        goTop: function goTop() {
+	            $(window).scrollTop(0);
+	            this.show = false;
+	        }
+	    }
+	};
+	// </script>
+	// <style>
+	//     .icon-top {
+	//         position: fixed;
+	//         right: 10px;
+	//         bottom: 80px;
+	//         font-size: 50px;
+	//         z-index: 9999;
+	//         color: #42b983;
+	//     }
+	// </style>
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+
+/***/ },
+/* 156 */
+/***/ function(module, exports) {
+
+	module.exports = "<div class=\"iconfont icon-top\" v-show=\"show\" @click=\"goTop\">&#xe611;</div>";
+
+/***/ },
+/* 157 */
+/***/ function(module, exports) {
+
+	module.exports = "<!-- 全局header -->\n    <nv-head :page-type=\"searchKey.tab | getTitleStr\"\n            fix-head=\"true\"\n            :need-add=\"true\"\n            :show-menu.sync=\"showMenu\">\n    </nv-head>\n\n\n    <section id=\"page\">\n\n        <!-- 首页列表 -->\n        <ul class=\"posts-list\">\n            <li v-for=\"item in topics\"\n                    v-link=\"{name:'topic',params:{id:item.id}}\">\n\n                <h3 v-text=\"item.title\"\n                        :class=\"item.tab | getTabClassName item.good item.top\"\n                        :title=\"item.tab | getTabStr item.good item.top\">\n                </h3>\n                <div class=\"content\">\n                    <img class=\"avatar\" :src=\"item.author.avatar_url\" />\n                    <div class=\"info\">\n                        <p>\n                            <span class=\"name\">\n                                {{item.author.loginname}}\n                            </span>\n                            <span class=\"status\" v-if=\"item.reply_count > 0\">\n                                <b>{{item.reply_count}}</b>\n                                /{{item.visit_count}}\n                            </span>\n                        </p>\n                        <p>\n                            <time>\n                                {{item.create_at | getLastTimeStr true}}\n                            </time>\n                            <time>\n                                {{item.last_reply_at | getLastTimeStr true}}\n                            </time>\n                        </p>\n                    </div>\n                </div>\n            </li>\n        </ul>\n    </section>\n    <nv-top></nv-top>";
+
+/***/ },
+/* 158 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(159)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(173)
+
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <nv-head page-type="主题"
+	//             :show-menu.sync="showMenu"
+	//             :need-add="true"
+	//             fix-head="true">
+	//     </nv-head>
+	
+	//     <div id="page"
+	//             v-class="show-menu:showMenu"
+	//             v-if="topic.title">
+	
+	//         <h2 class="topic-title" v-text="topic.title"></h2>
+	//         <section class="author-info">
+	//             <img class="avatar" :src="topic.author.avatar_url" />
+	//             <div class="col">
+	//                 <span>{{topic.author.loginname}}</span>
+	//                 <time>
+	//                     发布于:{{topic.create_at | getLastTimeStr true}}
+	//                 </time>
+	//             </div>
+	//             <div class="right">
+	//                 <span class="tag"
+	//                         :class="topic.tab|getTabClassName item.good item.top">
+	//                         {{topic.tab|getTabStr topic.good topic.top}}
+	//                 </span>
+	//                 <span class="name">{{topic.visit_count}}次浏览</span>
+	//             </div>
+	//         </section>
+	
+	//         <section class='markdown-body topic-content' v-html="topic.content">
+	
+	//         </section>
+	
+	//         <h3 class="topic-reply">
+	//             <strong>{{topic.reply_count}}</strong> 回复
+	//         </h3>
+	
+	//         <section class="reply-list">
+	//             <ul>
+	//                 <li v-for="item in topic.replies">
+	//                     <section class="user">
+	//                         <img class="head" :src="item.author.avatar_url"
+	//                             v-link="{name:'user',params:{loginname:item.author.loginname}}"/>
+	//                         <div class="info">
+	//                             <span class="cl">
+	//                                 <span class="name" v-text="item.author.loginname"></span>
+	//                                 <span class="name mt10">
+	//                                     <span></span>
+	//                                     发布于:{{item.create_at | getLastTimeStr true}}</span>
+	//                             </span>
+	//                             <span class="cr">
+	//                                 <span class="iconfont icon"
+	//                                     :class="{'uped':isUps(item.ups)}"
+	//                                     @click="upReply(item)">&#xe608;</span>
+	//                                 {{item.ups.length}}
+	//                                 <span class="iconfont icon" @click="addReply(item.id)">&#xe609;</span>
+	//                             </span>
+	//                         </div>
+	//                     </section>
+	//                     <div class="reply_content" v-html="item.content"></div>
+	//                     <nv-reply :topic.sync="topic"
+	//                             :topic-id="topicId"
+	//                             :reply-id="item.id"
+	//                             :reply-to="item.author.loginname"
+	//                             :show.sync="curReplyId"
+	//                             v-if="userId && curReplyId === item.id"></nv-reply>
+	//                 </li>
+	//             </ul>
+	//         </section>
+	//         <nv-top></nv-top>
+	//         <nv-reply v-if="userId"
+	//                 :topic.sync="topic"
+	//                 :topic-id="topicId"
+	//                 :reply-id="" >
+	//         </nv-reply>
+	
+	//     </div>
+	
+	//     <div class='no-data' v-if="noData">
+	//         <i class="iconfont icon-empty">&#xe60a;</i>
+	//         该话题不存在!
+	//     </div>
+	
+	// </template>
+	// <script>
+	
+	exports.default = {
+	    data: function data() {
+	        var _self = this;
+	        return {
+	            showMenu: false, //是否展开左侧菜单
+	            topic: {}, //主题
+	            noData: false,
+	            topicId: '',
+	            curReplyId: '',
+	            userId: localStorage.userId || '',
+	            /*弱提示*/
+	            alert: {
+	                txt: '',
+	                show: false,
+	                hideFn: function hideFn() {
+	                    var timer = undefined;
+	                    clearTimeout(timer);
+	                    timer = setTimeout(function () {
+	                        _self.alert.show = false;
+	                    }, 1000);
 	                }
-	                else{
-	                    var time=new Date()
-	                        , linkUsers = utils.linkUsers(_self.content)
-	                        , htmlText = markdown.toHTML(linkUsers) + _self.authorTxt
-	                        , reply_content =$('<div class="markdown-text"></div>').append(htmlText)[0].outerHTML
-	                        , postData={accesstoken:localStorage.token,content: _self.content+ _self.authorTxt}
+	            }
+	        };
+	    },
 	
-	                    if(_self.replyId){
+	    route: {
+	        data: function data(transition) {
+	            var _self = this;
+	            //隐藏左侧展开菜单
+	            _self.showMenu = false;
+	
+	            //获取url传的tab参数
+	            _self.topicId = transition.to.params.id;
+	
+	            //加载主题数据
+	            $.get('https://cnodejs.org/api/v1/topic/' + _self.topicId, function (d) {
+	                if (d && d.data) {
+	                    _self.topic = d.data;
+	                } else {
+	                    _self.noData = true;
+	                }
+	            });
+	        }
+	    },
+	    methods: {
+	        isUps: function isUps(ups) {
+	            var _self = this;
+	            return $.inArray(_self.userId, ups) >= 0;
+	        },
+	        addReply: function addReply(id) {
+	            this.curReplyId = id;
+	            var _self = this;
+	            if (!_self.userId) {
+	                _self.$route.router.go('/login?redirect=' + encodeURIComponent(this.$route.path));
+	            }
+	        },
+	        upReply: function upReply(item) {
+	            var _self = this;
+	            if (!_self.userId) {
+	                _self.$route.router.go('/login?redirect=' + encodeURIComponent(this.$route.path));
+	            } else {
+	                $.ajax({
+	                    type: 'POST',
+	                    url: 'https://cnodejs.org/api/v1/reply/' + item.id + '/ups',
+	                    data: { accesstoken: localStorage.token },
+	                    dataType: 'json',
+	                    success: function success(res) {
+	                        if (res.success) {
+	                            if (res.action == "down") {
+	                                var index = $.inArray(_self.userId, item.ups);
+	                                item.ups.splice(index, 1);
+	                            } else {
+	                                item.ups.push(_self.userId);
+	                            }
+	                        }
+	                    },
+	                    error: function error(res) {
+	                        var error = JSON.parse(res.responseText);
+	                        _self.alert.txt = error.error_msg;
+	                        _self.alert.show = true;
+	                        _self.alert.hideFn();
+	                        return false;
+	                    }
+	                });
+	            }
+	        }
+	    },
+	    components: {
+	        "nvHead": __webpack_require__(131),
+	        "nvAlert": __webpack_require__(160),
+	        "nvReply": __webpack_require__(165),
+	        "nvTop": __webpack_require__(152)
+	    }
+	};
+	// </script>
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	__webpack_require__(161)
+	module.exports = __webpack_require__(163)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(164)
+
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(162);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-99690004&file=nvAlert.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./nvAlert.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-99690004&file=nvAlert.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./nvAlert.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 162 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\n/**弱提示样式*/\n.wx_loading {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  z-index: 9999;\n  background-color: transparent;\n  text-align: center; }\n  .wx_loading .wx_alert_inner {\n    display: inline-block;\n    margin: 0 auto;\n    text-align: center;\n    background-color: rgba(49, 49, 49, 0.8);\n    color: #ffffff;\n    border-radius: 3px;\n    font-size: 14px;\n    padding: 18px 25px;\n    line-height: 27px;\n    vertical-align: middle;\n    margin-top: 50%; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 163 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <div id="wxAlert" class="wx_loading" v-show="show">
+	//         <div class="wx_alert_inner" id="wx_alert_inner" v-text="content"></div>
+	//     </div>
+	// </template>
+	// <script>
+	exports.default = {
+	    replace: true,
+	    props: ['content', 'show']
+	};
+	// </script>
+	// <style lang="sass">
+	// /**弱提示样式*/
+	// .wx_loading {
+	//     position: fixed;
+	//     top: 0;
+	//     left: 0;
+	//     bottom: 0;
+	//     right: 0;
+	//     z-index: 9999;
+	//     background-color: rgba(0, 0, 0, 0);
+	//     text-align: center;
+	//     .wx_alert_inner {
+	//         display: inline-block;
+	//         margin: 0 auto;
+	//         text-align: center;
+	//         background-color: rgba(49, 49, 49, 0.8);
+	//         color: #ffffff;
+	//         border-radius: 3px;
+	//         font-size: 14px;
+	//         padding: 18px 25px;
+	//         line-height: 27px;
+	//         vertical-align: middle;
+	//         margin-top: 50%;
+	//     }
+	// }
+	// </style>
+
+/***/ },
+/* 164 */
+/***/ function(module, exports) {
+
+	module.exports = "<div id=\"wxAlert\" class=\"wx_loading\" v-show=\"show\">\n        <div class=\"wx_alert_inner\" id=\"wx_alert_inner\" v-text=\"content\"></div>\n    </div>";
+
+/***/ },
+/* 165 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(166)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(172)
+
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	
+	//     <section class="reply">
+	//         <textarea id="content" rows="8" class="text"
+	//             :class="{'err':hasErr}"
+	//             v-model="content"
+	//             placeholder='回复支持Markdown语法,请注意标记代码'>
+	//         </textarea>
+	//         <a class="button" @click="addReply">确定</a>
+	//     </section>
+	
+	// </template>
+	// <script>
+	
+	var utils = __webpack_require__(112),
+	    markdown = __webpack_require__(167).markdown;
+	
+	exports.default = {
+	    replace: true,
+	    props: ['topic', 'replyId', 'topicId', 'replyTo', 'show'],
+	    data: function data() {
+	        return {
+	            hasErr: false,
+	            content: '',
+	            userId: localStorage.userId || '',
+	            authorTxt: '<br/><br/><a class="form" href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>'
+	        };
+	    },
+	    ready: function ready() {
+	        var _self = this;
+	        if (_self.replyTo) {
+	            _self.content = '@' + _self.replyTo + ' ';
+	        }
+	    },
+	
+	    methods: {
+	        addReply: function addReply() {
+	
+	            var _self = this;
+	            if (!_self.content) {
+	                _self.hasErr = true;
+	            } else {
+	                (function () {
+	                    var time = new Date(),
+	                        linkUsers = utils.linkUsers(_self.content),
+	                        htmlText = markdown.toHTML(linkUsers) + _self.authorTxt,
+	                        reply_content = $('<div class="markdown-text"></div>').append(htmlText)[0].outerHTML,
+	                        postData = { accesstoken: localStorage.token, content: _self.content + _self.authorTxt };
+	
+	                    if (_self.replyId) {
 	                        postData.reply_id = _self.replyId;
 	                    }
 	                    $.ajax({
-	                        type:'POST',
-	                        url:'https://cnodejs.org/api/v1/topic/'+_self.topicId+'/replies',
+	                        type: 'POST',
+	                        url: 'https://cnodejs.org/api/v1/topic/' + _self.topicId + '/replies',
 	                        data: postData,
 	                        dataType: 'json',
-	                        success:function(res){
-	                            if(res.success){
+	                        success: function success(res) {
+	                            if (res.success) {
 	                                _self.topic.replies.push({
-	                                    id:res.reply_id,
-	                                    author:{
-	                                        loginname:_self.userId,
-	                                        avatar_url:localStorage.avatar_url
+	                                    id: res.reply_id,
+	                                    author: {
+	                                        loginname: _self.userId,
+	                                        avatar_url: localStorage.avatar_url
 	                                    },
-	                                    content:reply_content,
-	                                    ups:[],
-	                                    create_at:time
+	                                    content: reply_content,
+	                                    ups: [],
+	                                    create_at: time
 	                                });
 	                            }
 	                            _self.content = '';
-	                            if(_self.show){
+	                            if (_self.show) {
 	                                _self.show = '';
 	                            }
 	                        },
-	                        error:function(res){
+	                        error: function error(res) {
 	                            var error = JSON.parse(res.responseText);
 	                            _self.alert.txt = error.error_msg;
 	                            _self.alert.show = true;
@@ -29776,23 +31119,25 @@ webpackJsonp([0,1],[
 	                            return false;
 	                        }
 	                    });
-	                }
+	                })();
 	            }
 	        }
 	    }
+	};
+	// </script>
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 139 */
+/* 167 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// super simple module for the most common nodejs use case.
-	exports.markdown = __webpack_require__(140);
+	exports.markdown = __webpack_require__(168);
 	exports.parse = exports.markdown.toHTML;
 
 
 /***/ },
-/* 140 */
+/* 168 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// Released under MIT license
@@ -29924,7 +31269,7 @@ webpackJsonp([0,1],[
 	
 	// node
 	function mk_block_inspect() {
-	  var util = __webpack_require__(141);
+	  var util = __webpack_require__(169);
 	  return "Markdown.mk_block( " +
 	          util.inspect(this.toString()) +
 	          ", " +
@@ -31523,7 +32868,7 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 141 */
+/* 169 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(global, process) {// Copyright Joyent, Inc. and other Node contributors.
@@ -32051,7 +33396,7 @@ webpackJsonp([0,1],[
 	}
 	exports.isPrimitive = isPrimitive;
 	
-	exports.isBuffer = __webpack_require__(142);
+	exports.isBuffer = __webpack_require__(170);
 	
 	function objectToString(o) {
 	  return Object.prototype.toString.call(o);
@@ -32095,7 +33440,7 @@ webpackJsonp([0,1],[
 	 *     prototype.
 	 * @param {function} superCtor Constructor function to inherit prototype from.
 	 */
-	exports.inherits = __webpack_require__(143);
+	exports.inherits = __webpack_require__(171);
 	
 	exports._extend = function(origin, add) {
 	  // Don't do anything if add isn't an object
@@ -32113,10 +33458,10 @@ webpackJsonp([0,1],[
 	  return Object.prototype.hasOwnProperty.call(obj, prop);
 	}
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(31)))
 
 /***/ },
-/* 142 */
+/* 170 */
 /***/ function(module, exports) {
 
 	module.exports = function isBuffer(arg) {
@@ -32127,7 +33472,7 @@ webpackJsonp([0,1],[
 	}
 
 /***/ },
-/* 143 */
+/* 171 */
 /***/ function(module, exports) {
 
 	if (typeof Object.create === 'function') {
@@ -32156,361 +33501,717 @@ webpackJsonp([0,1],[
 
 
 /***/ },
-/* 144 */
+/* 172 */
 /***/ function(module, exports) {
 
 	module.exports = "<section class=\"reply\">\n        <textarea id=\"content\" rows=\"8\" class=\"text\"\n            :class=\"{'err':hasErr}\"\n            v-model=\"content\"\n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n        <a class=\"button\" @click=\"addReply\">确定</a>\n    </section>";
 
 /***/ },
-/* 145 */
+/* 173 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"主题\"\n            :show-menu.sync=\"showMenu\"\n            :need-add=\"true\"\n            fix-head=\"true\">\n    </nv-head>\n\n    <div id=\"page\" \n            v-class=\"show-menu:showMenu\"\n            v-if=\"topic.title\">\n\n        <h2 class=\"topic-title\" v-text=\"topic.title\"></h2>\n        <section class=\"author-info\">\n            <img class=\"avatar\" :src=\"topic.author.avatar_url\" />\n            <div class=\"col\">\n                <span>{{topic.author.loginname}}</span>\n                <time>\n                    发布于:{{topic.create_at | getLastTimeStr true}}\n                </time>\n            </div>\n            <div class=\"right\">\n                <span class=\"tag\"\n                        :class=\"topic.tab|getTabClassName item.good item.top\">\n                        {{topic.tab|getTabStr topic.good topic.top}}\n                </span>\n                <span class=\"name\">{{topic.visit_count}}次浏览</span>\n            </div>\n        </section>\n\n        <section class='markdown-body topic-content' v-html=\"topic.content\">\n\n        </section>\n\n        <h3 class=\"topic-reply\">\n            <strong>{{topic.reply_count}}</strong> 回复\n        </h3>\n\n        <section class=\"reply-list\">\n            <ul>\n                <li v-for=\"item in topic.replies\">\n                    <section class=\"user\">\n                        <img class=\"head\" :src=\"item.author.avatar_url\"\n                            v-link=\"{name:'user',params:{loginname:item.author.loginname}}\"/>\n                        <div class=\"info\">\n                            <span class=\"cl\">\n                                <span class=\"name\" v-text=\"item.author.loginname\"></span>\n                                <span class=\"name mt10\">\n                                    <span></span>\n                                    发布于:{{item.create_at | getLastTimeStr true}}</span>\n                            </span>\n                            <span class=\"cr\">\n                                <span class=\"iconfont icon\"\n                                    :class=\"{'uped':isUps(item.ups)}\"\n                                    @click=\"upReply(item)\">&#xe608;</span>\n                                {{item.ups.length}}\n                                <span class=\"iconfont icon\" @click=\"addReply(item.id)\">&#xe609;</span>\n                            </span>\n                        </div>\n                    </section>\n                    <div class=\"reply_content\" v-html=\"item.content\"></div>\n                    <nv-reply :topic.sync=\"topic\"\n                            :topic-id=\"topicId\"\n                            :reply-id=\"item.id\"\n                            :reply-to=\"item.author.loginname\"\n                            :show.sync=\"curReplyId\"\n                            v-if=\"userId && curReplyId === item.id\"></nv-reply>\n                </li>\n            </ul>\n        </section>\n        <nv-top></nv-top>\n        <nv-reply v-if=\"userId\"\n                :topic.sync=\"topic\"\n                :topic-id=\"topicId\"\n                :reply-id=\"\" >\n        </nv-reply>\n\n    </div>\n\n    <div class='no-data' v-if=\"noData\">\n        <i class=\"iconfont icon-empty\">&#xe60a;</i>\n        该话题不存在!\n    </div>";
 
 /***/ },
-/* 146 */
+/* 174 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(147)
-	module.exports = __webpack_require__(148)
-	module.exports.template = __webpack_require__(149)
-
-
-/***/ },
-/* 147 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 148 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(107);
+	__webpack_require__(175)
+	module.exports = __webpack_require__(177)
 	
-	    module.exports = {
-	        data: function () {
-	            var self = this;
-	            return {
-	                topic: {
-	                    tab:'share',
-	                    title:'',
-	                    content:'',
-	                    accesstoken:localStorage.token
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(178)
+
+
+/***/ },
+/* 175 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(176);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-847fde68&file=new.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./new.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-847fde68&file=new.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./new.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 176 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".add-container {\n  margin-top: 50px;\n  background-color: #fff; }\n  .add-container .line {\n    padding: 10px 15px;\n    border-bottom: solid 1px #d4d4d4; }\n    .add-container .line .add-btn {\n      color: #fff;\n      background-color: #80bd01;\n      padding: 5px 15px;\n      border-radius: 5px; }\n    .add-container .line .add-tab {\n      display: inline-block;\n      width: calc(100% - 140px);\n      min-width: 50%;\n      font-size: 16px;\n      background: transparent; }\n      .add-container .line .add-tab :after {\n        content: 'xe60e'; }\n    .add-container .line .add-title {\n      font-size: 16px;\n      border: none;\n      width: 100%;\n      background: transparent;\n      height: 25px; }\n    .add-container .line .err {\n      border: solid 1px red; }\n  .add-container .add-content {\n    margin: 15px 2%;\n    width: 96%;\n    border-color: #d4d4d4;\n    color: #000; }\n  .add-container .err {\n    border: solid 1px red; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 177 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <nv-head page-type="主题"
+	//         :show-menu="false"
+	//         fix-head="true"></nv-head>
+	//     <div class="add-container">
+	//         <div class="line">选择分类：
+	//             <select class="add-tab" v-model="topic.tab">
+	//                 <option value="share">分享</option>
+	//                 <option value="ask">问答</option>
+	//                 <option value="job">招聘</option>
+	//             </select>
+	//             <a class="add-btn" @click="addTopic">发布</a>
+	//         </div>
+	//         <div class="line">
+	//             <input class="add-title" v-model="topic.title"
+	//                     type="text" :class="{'err':err=='title'}"
+	//                     placeholder="标题，字数10字以上" max-length="100"/>
+	//         </div>
+	//         <textarea v-model="topic.content" rows="35" class="add-content"
+	//             :class="{'err':err=='content'}"
+	//             v-model="content"
+	//             placeholder='回复支持Markdown语法,请注意标记代码'>
+	//         </textarea>
+	//     </div>
+	// </template>
+	
+	// <script>
+	__webpack_require__(136);
+	
+	exports.default = {
+	    data: function data() {
+	        var self = this;
+	        return {
+	            topic: {
+	                tab: 'share',
+	                title: '',
+	                content: '',
+	                accesstoken: localStorage.token
+	            },
+	            err: '',
+	            authorTxt: '<br/><br/><a class="from" href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
+	            alert: {
+	                txt: '',
+	                show: false,
+	                hideFn: function hideFn() {
+	                    var timer = undefined;
+	                    clearTimeout(timer);
+	                    timer = setTimeout(function () {
+	                        self.alert.show = false;
+	                    }, 1000);
+	                }
+	            }
+	        };
+	    },
+	
+	    methods: {
+	        addTopic: function addTopic() {
+	            var self = this,
+	                title = $.trim(self.topic.title),
+	                contents = $.trim(self.topic.content);
+	            if (!title || title.length < 10) {
+	                self.err = 'title';
+	                return false;
+	            }
+	            if (!contents) {
+	                self.err = 'content';
+	                return false;
+	            }
+	            self.topic.content = self.topic.content + self.authorTxt;
+	            $.ajax({
+	                type: 'POST',
+	                url: 'https://cnodejs.org/api/v1/topics',
+	                data: self.topic,
+	                dataType: 'json',
+	                success: function success(res) {
+	                    if (res.success) {
+	                        self.$route.router.go({ name: 'home' });
+	                    }
 	                },
-	                err:'',
-	                authorTxt:'<br/><br/><a class="from" href="https://github.com/shinygang/Vue-cnodejs">I‘m webapp-cnodejs-vue</a>',
-	                alert: {
-	                    txt: '',
-	                    show: false,
-	                    hideFn:function(){
-	                        var timer;
-	                        clearTimeout(timer);
-	                        timer = setTimeout(function () {
-	                            self.alert.show = false;
-	                        }, 1000);
-	                    }
-	                }
-	            }
-	        },
-	        methods: {
-	            addTopic:function(){
-	                var self = this
-	                    , title = $.trim(self.topic.title)
-	                    , contents = $.trim(self.topic.content);
-	                if(!title || title.length < 10){
-	                    self.err = 'title';
+	                error: function error(res) {
+	                    var error = JSON.parse(res.responseText);
+	                    self.alert.txt = error.error_msg;
+	                    self.alert.show = true;
+	                    self.alert.hideFn();
 	                    return false;
 	                }
-	                if(!contents){
-	                    self.err = 'content';
-	                    return false;
-	                }
-	                self.topic.content = self.topic.content+self.authorTxt;
-	                $.ajax({
-	                    type:'POST',
-	                    url:'https://cnodejs.org/api/v1/topics',
-	                    data: self.topic,
-	                    dataType: 'json',
-	                    success:function(res){
-	                        if(res.success){
-	                            self.$route.router.go({name:'home'});
-	                        }
-	                    },
-	                    error:function(res){
-	                        var error = JSON.parse(res.responseText);
-	                        self.alert.txt = error.error_msg;
-	                        self.alert.show = true;
-	                        self.alert.hideFn();
-	                        return false;
-	                    }
-	                });
-	            }
-	        },
-	        components:{
-	            "nvHead":__webpack_require__(114),
-	            "nvAlert":__webpack_require__(133)
+	            });
 	        }
+	    },
+	    components: {
+	        "nvHead": __webpack_require__(131),
+	        "nvAlert": __webpack_require__(160)
 	    }
+	};
+	// </script>
+
+	// <style lang="sass">
+	//     .add-container{
+	//         margin-top: 50px;
+	//         background-color: #fff;
+
+	//         .line{
+	//             padding: 10px 15px;
+	//             border-bottom: solid 1px #d4d4d4;
+
+	//             .add-btn{
+	//                 color: #fff;
+	//                 background-color: #80bd01;
+	//                 padding: 5px 15px;
+	//                 border-radius: 5px;
+	//             }
+
+	//             .add-tab{
+	//                 display: inline-block;
+	//                 width: calc(100% - 140px);
+	//                 min-width: 50%;
+	//                 font-size: 16px;
+	//                 background: transparent;
+	//                 :after{
+	//                     content:'xe60e';
+	//                 };
+	//             }
+
+	//             .add-title{
+	//                 font-size: 16px;
+	//                 border: none;
+	//                 width: 100%;
+	//                 background: transparent;
+	//                 height: 25px;
+	//             }
+	//             .err {
+	//                 border: solid 1px red;
+	//             }
+	//         }
+	//         .add-content {
+	//             margin: 15px 2%;
+	//             width: 96%;
+	//             border-color: #d4d4d4;
+	//             color: #000;
+	//         }
+	//         .err {
+	//             border: solid 1px red;
+	//         }
+	//     }
+
+	// </style>
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 149 */
+/* 178 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"主题\"\n        :show-menu=\"false\"\n        fix-head=\"true\"></nv-head>\n    <div class=\"add-container\">\n        <div class=\"line\">选择分类：\n            <select class=\"add-tab\" v-model=\"topic.tab\">\n                <option value=\"share\">分享</option>\n                <option value=\"ask\">问答</option>\n                <option value=\"job\">招聘</option>\n            </select>\n            <a class=\"add-btn\" @click=\"addTopic\">发布</a>\n        </div>\n        <div class=\"line\">\n            <input class=\"add-title\" v-model=\"topic.title\"\n                    type=\"text\" :class=\"{'err':err=='title'}\"\n                    placeholder=\"标题，字数10字以上\" max-length=\"100\"/>\n        </div>\n        <textarea v-model=\"topic.content\" rows=\"35\" class=\"add-content\"\n            :class=\"{'err':err=='content'}\"\n            v-model=\"content\"\n            placeholder='回复支持Markdown语法,请注意标记代码'>\n        </textarea>\n    </div>";
 
 /***/ },
-/* 150 */
+/* 179 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(151)
-	module.exports.template = __webpack_require__(153)
+	__webpack_require__(180)
+	module.exports = __webpack_require__(182)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(183)
 
 
 /***/ },
-/* 151 */
+/* 180 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(152);
-	    __webpack_require__(107);
-	    __webpack_require__(109);
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
-	    module.exports = {
-	        data: function(){
-	            return {
-	                showMenu: false,
-	                selectItem:2,
-	                token:localStorage.token || '',
-	                message:{},
-	                noData:false,
-	                currentData:[]
-	            }
-	        },
-	        route:{
-	            data:function(transition){
-	                var _self = this;
-	                $.get('https://cnodejs.org/api/v1/messages?accesstoken='+_self.token,function(d){
-	                    if(d && d.data){
-	                        _self.message = d.data;
-	                        if(d.data.hasnot_read_messages.length > 0){
-	                            _self.currentData = d.data.hasnot_read_messages;
-	                        }
-	                        else{
-	                            _self.currentData = d.data.has_read_messages;
-	                            _self.selectItem = 2;
-	                        }
-	                        _self.noData = _self.currentData.length === 0 ? true : false;
+	// load the styles
+	var content = __webpack_require__(181);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-757d71b3&file=message.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./message.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-757d71b3&file=message.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./message.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 181 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	exports.i(__webpack_require__(120), "");
+	exports.i(__webpack_require__(121), "");
+	
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\n/**\n * Global Reset of all HTML Elements\n *\n * Resetting all of our HTML Elements ensures a smoother\n * visual transition between browsers. If you don't believe me,\n * try temporarily commenting out this block of code, then go\n * and look at Mozilla versus Safari, both good browsers with\n * a good implementation of CSS. The thing is, all browser CSS\n * defaults are different and at the end of the day if visual\n * consistency is what we're shooting for, then we need to\n * make sure we're resetting all spacing elements.\n *\n */\nhtml, body {\n  border: 0;\n  font-family: \"Helvetica-Neue\", \"Helvetica\", Arial, sans-serif;\n  line-height: 1.5;\n  margin: 0;\n  padding: 0; }\n\ndiv, span, object, iframe, img, table, caption, thead, tbody,\ntfoot, tr, tr, td, article, aside, canvas, details, figure, hgroup, menu,\nnav, footer, header, section, summary, mark, audio, video {\n  border: 0;\n  margin: 0;\n  padding: 0; }\n\nh1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,\ndel, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,\nol, ul, li, fieldset, legend, label {\n  border: 0;\n  font-size: 100%;\n  vertical-align: baseline;\n  margin: 0;\n  padding: 0; }\n\narticle, aside, canvas, figure, figure img, figcaption, hgroup,\nfooter, header, nav, section, audio, video {\n  display: block; }\n\ntable {\n  border-collapse: separate;\n  border-spacing: 0; }\n  table caption, table th, table td {\n    text-align: left;\n    vertical-align: middle; }\n\nli {\n  list-style: none; }\n\na {\n  text-decoration: none; }\n\na img {\n  border: 0; }\n\n:focus {\n  outline: 0; }\n\n* {\n  -webkit-box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  -webkit-appearance: none; }\n\ninput {\n  -webkit-appearance: none; }\n\nselect {\n  -webkit-appearance: none;\n  background-color: #fff; }\n\nbody {\n  height: 100%;\n  width: 100%;\n  font-size: 14px;\n  color: #313131;\n  overflow-x: hidden;\n  line-height: 1;\n  background: url(" + __webpack_require__(122) + ") no-repeat center 250px; }\n\n.mt5 {\n  margin-top: 5px; }\n\n.mt10 {\n  margin-top: 10px; }\n\n.color80 {\n  color: #42b983; }\n\n.clear {\n  zoom: 1; }\n  .clear:after {\n    content: '';\n    display: table;\n    clear: both; }\n\n.display-flex, .user {\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flexbox;\n  display: flex; }\n\n.flex1, .user .title, .user .info {\n  -webkit-flex: 1;\n  -ms-flex: 1;\n  -webkit-box-flex: 1;\n  box-flex: 1;\n  flex: 1; }\n\n.align-justify {\n  -moz-box-align: justify-content;\n  -ms-flex-align: align-content;\n  -ms-flex-item-align: justify-content;\n  -webkit-box-align: justify-content;\n  /*老语法*/\n  -webkit-align-items: justify-content;\n  /*新语法*/\n  -webkit-align-content: justify-content;\n      -ms-flex-line-pack: justify-content;\n          align-content: justify-content;\n  -webkit-box-align: justify-content;\n  -webkit-align-items: justify-content;\n      -ms-flex-align: justify-content;\n          align-items: justify-content;\n  -webkit-box-pack: justify-content;\n  -webkit-justify-content: justify-content;\n      -ms-flex-pack: justify-content;\n          justify-content: justify-content; }\n\n.break, .user .title, .user .info .t-title {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.user {\n  width: 100%;\n  margin: 15px 0;\n  padding: 0 10px; }\n  .user .tab {\n    display: inline-block;\n    width: 40px;\n    color: #626262;\n    border-radius: 5px;\n    background-color: #e7e7e7;\n    margin-right: 10px;\n    text-align: center;\n    height: 20px;\n    line-height: 20px;\n    vertical-align: middle; }\n  .user .good {\n    background-color: #80bd01;\n    color: #fff; }\n  .user .title {\n    font-size: 18px;\n    font-weight: bold; }\n  .user .head {\n    display: inline-block;\n    width: 45px;\n    height: 45px;\n    border: 2px solid #fff6e6;\n    border-radius: 50%;\n    margin-right: 10px; }\n  .user .info {\n    display: block; }\n    .user .info:after {\n      clear: both; }\n    .user .info .t-title {\n      font-size: 18px;\n      font-weight: bold;\n      width: 100%; }\n    .user .info .cl {\n      float: left;\n      width: 70%; }\n      .user .info .cl .name {\n        display: block;\n        color: #626262; }\n      .user .info .cl .mt10 {\n        margin-top: 10px; }\n    .user .info .cr {\n      float: left;\n      width: 30%;\n      text-align: right; }\n      .user .info .cr .name {\n        display: block;\n        margin-top: 10px;\n        color: #80bd01;\n        font-size: 12px; }\n\n.reply_content {\n  padding: 0 15px;\n  margin-bottom: 15px; }\n  .reply_content img {\n    width: auto\\9;\n    height: auto;\n    max-width: 100%;\n    vertical-align: middle;\n    border: 0;\n    -ms-interpolation-mode: bicubic; }\n  .reply_content p {\n    line-height: 1.3; }\n\n.no-data {\n  width: 100%;\n  height: 100%;\n  padding: 40% 0;\n  color: #d4d4d4;\n  display: inline-block;\n  font-size: 18px;\n  text-align: center; }\n\n/*\r\n**   rework 分界线\r\n**   ------------\r\n*/\n/* 颜色 */\n/* 基础布局 */\n/* 综合布局 */\n.text-overflow, .title {\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden; }\n\n.title {\n  color: #2c3e50;\n  font-size: 16px;\n  line-height: 1.5; }\n\n.display-flex, .user {\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flexbox;\n  display: flex; }\n\n.flex {\n  display: block;\n  width: 100%;\n  -webkit-flex: 1;\n  -ms-flex: 1;\n  -webkit-box-flex: 1;\n  box-flex: 1;\n  flex: 1; }\n\n.tag {\n  padding: 5px 6px;\n  font-size: 10px;\n  font-weight: 400;\n  border-radius: 4px;\n  background-color: #e7e7e7;\n  text-align: center;\n  vertical-align: middle; }\n\n.user-avatar {\n  display: block;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  margin-right: 10px;\n  border: 1px solid #F3F3F3; }\n\n.page {\n  background-color: #fff;\n  height: 100%;\n  padding: 15px 0; }\n  .page .reply_num {\n    margin-top: 20px;\n    background-color: #e7e7e7;\n    padding: 10px 0 10px 10px;\n    border-top: solid 1px #d4d4d4;\n    border-bottom: solid 1px #d4d4d4; }\n  .page .reply-list {\n    width: 100%;\n    margin-top: 15px; }\n    .page .reply-list ul {\n      width: 100%;\n      list-style: none;\n      padding-left: 0; }\n      .page .reply-list ul li {\n        width: 100%;\n        list-style: none;\n        border-bottom: solid 1px #d4d4d4; }\n        .page .reply-list ul li:last-child {\n          border-bottom: none; }\n        .page .reply-list ul li .uped {\n          color: #80bd01; }\n        .page .reply-list ul li .icon {\n          font-size: 26px; }\n  .page .topic_content {\n    margin: 0 10px; }\n  .page .reply {\n    width: 100%;\n    margin-top: 15px;\n    border-top: solid 1px #d4d4d4; }\n    .page .reply .text {\n      margin: 15px 2%;\n      width: 96%;\n      border-color: #d4d4d4;\n      color: #000; }\n    .page .reply .btn {\n      display: inline-block;\n      border-radius: 5px;\n      text-align: center;\n      font-size: 16px;\n      margin: 0 2% 15px;\n      width: 96%;\n      background-color: #80bd01;\n      padding: 10px 0;\n      color: #fff; }\n    .page .reply .err {\n      border-color: red; }\n  .page .message {\n    border-bottom: solid 1px #d4d4d4;\n    padding: 10px 0; }\n  .page .tabs {\n    width: 100%;\n    height: 41px;\n    margin-top: 30px;\n    list-style: none;\n    border-bottom: solid 1px #d4d4d4;\n    position: relative; }\n    .page .tabs .item {\n      width: 50%;\n      padding: 12.5px 0;\n      float: left;\n      font-size: 16;\n      text-align: center;\n      font-weight: bold; }\n    .page .tabs .read {\n      font-size: 25px;\n      color: #80bd01;\n      position: absolute;\n      right: 5px;\n      top: 7.5px;\n      font-weight: bold; }\n    .page .tabs .br {\n      border-right: solid 1px #d4d4d4; }\n    .page .tabs .selected {\n      color: #ff5a5f;\n      border-bottom: solid 2px #ff5a5f; }\n  .page .icon-empty {\n    font-size: 125px;\n    display: block; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 182 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <style lang="sass">
+	//     @import '../assets/scss/detail.scss';
+	//     @import '../assets/scss/iconfont/iconfont.css';
+	//     @import '../assets/scss/github-markdown.css';
+	// </style>
+	
+	// <template>
+	//     <nv-head page-type="消息" fix-head="true" :show-menu.sync="showMenu"
+	//             :message-count="message.hasnot_read_messages.length" :need-add="true" ></nv-head>
+	//     <div class="page" >
+	//         <ul class="tabs">
+	//             <li class="item br" :class='{"selected":selectItem === 2}' @click="changeItem(2)">已读消息</li>
+	//             <li class="item" :class='{"selected":selectItem === 1}' @click="changeItem(1)">
+	//                 未读消息
+	//                 <i class="iconfont read" v-show="message.hasnot_read_messages.length > 0"
+	//                     @click="markall">&#xe60c;</i>
+	//             </li>
+	//         </ul>
+	//         <div class="message markdown-body" v-for="item in currentData">
+	//             <section class="user">
+	//                 <img class="head" :src="item.author.avatar_url" />
+	//                 <div class="info">
+	//                     <span class="cl">
+	//                         <span class="name">{{item.author.loginname}}</span>
+	//                         <span class="name" v-if="item.type==='at'">在回复中@了您</span>
+	//                         <span class="name" v-if="item.type==='reply'">回复了您的话题</span>
+	//                     </span>
+	//                     <span class="cr">
+	//                         <span class="name">{{item.reply.create_at | getLastTimeStr true}}</span>
+	//                     </span>
+	//                 </div>
+	//             </section>
+	//             <div class="reply_content" v-html="item.reply.content"></div>
+	//             <div class="topic-title" v-link="{name:'topic',params:{id:item.topic.id}}">
+	//                 话题：{{item.topic.title}}
+	//             </div>
+	//         </div>
+	//         <div class="no-data" v-show="noData">
+	//             <i class="iconfont icon-empty">&#xe60a;</i>
+	//             暂无数据!
+	//         </div>
+	//     </div>
+	// </template>
+	// <script>
+	exports.default = {
+	    data: function data() {
+	        return {
+	            showMenu: false,
+	            selectItem: 2,
+	            token: localStorage.token || '',
+	            message: {},
+	            noData: false,
+	            currentData: []
+	        };
+	    },
+	
+	    route: {
+	        data: function data(transition) {
+	            var _self = this;
+	            $.get('https://cnodejs.org/api/v1/messages?accesstoken=' + _self.token, function (d) {
+	                if (d && d.data) {
+	                    _self.message = d.data;
+	                    if (d.data.hasnot_read_messages.length > 0) {
+	                        _self.currentData = d.data.hasnot_read_messages;
+	                    } else {
+	                        _self.currentData = d.data.has_read_messages;
+	                        _self.selectItem = 2;
 	                    }
-	                    else{
-	                        _self.noData = true;
-	                    }
-	                });
-	            }
-	        },
-	        methods:{
-	            //切换tab
-	            changeItem:function(idx){
-	                this.selectItem = idx;
-	                this.currentData = idx ===1?this.message.hasnot_read_messages:this.message.has_read_messages;
-	                this.noData = this.currentData.length === 0 ? true : false;
-	            },
-	            //标记所有为已读
-	            markall:function(){
-	                $.post('https://cnodejs.org/api/v1/message/mark_all',{accesstoken:localStorage.token},
-	                    function(d){
-	                    if(d && d.success){
-	                        window.location.reload();
-	                    }
-	                })
-	            }
-	        },
-	        components:{
-	            "nvHead":__webpack_require__(114)
+	                    _self.noData = _self.currentData.length === 0 ? true : false;
+	                } else {
+	                    _self.noData = true;
+	                }
+	            });
 	        }
+	    },
+	    methods: {
+	        //切换tab
+	
+	        changeItem: function changeItem(idx) {
+	            this.selectItem = idx;
+	            this.currentData = idx === 1 ? this.message.hasnot_read_messages : this.message.has_read_messages;
+	            this.noData = this.currentData.length === 0 ? true : false;
+	        },
+	
+	        //标记所有为已读
+	        markall: function markall() {
+	            $.post('https://cnodejs.org/api/v1/message/mark_all', { accesstoken: localStorage.token }, function (d) {
+	                if (d && d.success) {
+	                    window.location.reload();
+	                }
+	            });
+	        }
+	    },
+	    components: {
+	        "nvHead": __webpack_require__(131)
 	    }
+	};
+	// </script>
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 152 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 153 */
+/* 183 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"消息\" fix-head=\"true\" :show-menu.sync=\"showMenu\"\n            :message-count=\"message.hasnot_read_messages.length\" :need-add=\"true\" ></nv-head>\n    <div class=\"page\" >\n        <ul class=\"tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">已读消息</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">\n                未读消息\n                <i class=\"iconfont read\" v-show=\"message.hasnot_read_messages.length > 0\"\n                    @click=\"markall\">&#xe60c;</i>\n            </li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\" />\n                <div class=\"info\">\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                        <span class=\"name\" v-if=\"item.type==='at'\">在回复中@了您</span>\n                        <span class=\"name\" v-if=\"item.type==='reply'\">回复了您的话题</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.reply.create_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n            <div class=\"reply_content\" v-html=\"item.reply.content\"></div>\n            <div class=\"topic-title\" v-link=\"{name:'topic',params:{id:item.topic.id}}\">\n                话题：{{item.topic.title}}\n            </div>\n        </div>\n        <div class=\"no-data\" v-show=\"noData\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </div>";
 
 /***/ },
-/* 154 */
+/* 184 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(155)
-	module.exports.template = __webpack_require__(156)
+	module.exports = __webpack_require__(185)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(186)
 
 
 /***/ },
-/* 155 */
+/* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = {
-	        components:{
-	            "nvHead":__webpack_require__(114)
-	        }
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	
+	//     <nv-head page-type="关于" fix-head="true" :need-add="true" ></nv-head>
+	
+	//     <dl class="about-info">
+	
+	//         <dt>关于项目</dt>
+	//         <dd>该项目是基于Cnodejs的api，采用vue.js重写的webapp。</dd>
+	
+	//         <dt>源码地址</dt>
+	
+	//         <dd>
+	//             <a href="https://github.com/shinygang/Vue-cnodejs">
+	//                 https://github.com/shinygang/Vue-cnodejs</a>
+	//         </dd>
+	
+	//         <dt>意见反馈</dt>
+	//         <dd>
+	//             <a href="https://github.com/shinygang/Vue-cnodejs/issues">
+	//                 发表意见或者提需求</a>
+	//         </dd>
+	
+	//         <dt>当前版本</dt>
+	//         <dd>V1.0 beta</dd>
+	
+	//     </dl>
+	
+	// </template>
+	// <script>
+	exports.default = {
+	    components: {
+	        "nvHead": __webpack_require__(131)
 	    }
+	};
+	// </script>
 
 /***/ },
-/* 156 */
+/* 186 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"关于\" fix-head=\"true\" :need-add=\"true\" ></nv-head>\n    \n    <dl class=\"about-info\">\n\n        <dt>关于项目</dt>\n        <dd>该项目是基于Cnodejs的api，采用vue.js重写的webapp。</dd>\n    \n        <dt>源码地址</dt>\n        \n        <dd>\n            <a href=\"https://github.com/shinygang/Vue-cnodejs\">\n                https://github.com/shinygang/Vue-cnodejs</a>\n        </dd>\n        \n        <dt>意见反馈</dt>\n        <dd>\n            <a href=\"https://github.com/shinygang/Vue-cnodejs/issues\">\n                发表意见或者提需求</a>\n        </dd>\n        \n        <dt>当前版本</dt>\n        <dd>V1.0 beta</dd>\n\n    </dl>";
 
 /***/ },
-/* 157 */
+/* 187 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(158)
-	module.exports = __webpack_require__(159)
-	module.exports.template = __webpack_require__(165)
-
-
-/***/ },
-/* 158 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 159 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function($) {var qrcode = __webpack_require__(160).qrcode;
+	__webpack_require__(188)
+	module.exports = __webpack_require__(190)
 	
-	    var browser = {
-	        versions: function() {
-	            var u = navigator.userAgent,
-	                app = navigator.appVersion;
-	            return { //移动终端浏览器版本信息
-	                ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
-	                android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
-	                iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
-	                iPad: u.indexOf('iPad') > -1, //是否iPad
-	            };
-	        }(),
-	    }
-	    module.exports = {
-	        data: function () {
-	            var self = this;
-	            return {
-	                token: '',
-	                /*弱提示*/
-	                alert: {
-	                    txt: '',
-	                    show: false,
-	                    hideFn:function(){
-	                        var timer;
-	                        clearTimeout(timer);
-	                        timer = setTimeout(function () {
-	                            self.alert.show = false;
-	                        }, 1000);
-	                    }
-	                },
-	                loading:{
-	                    show:false,
-	                    showTxt:'二维码识别中'
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(197)
+
+
+/***/ },
+/* 188 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(189);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-49fb7515&file=login.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./login.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-49fb7515&file=login.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./login.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 189 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".page-body {\n  padding: 50px 15px; }\n  .page-body .label {\n    display: inline-block;\n    width: 100%;\n    margin-top: 15px;\n    position: relative;\n    left: 0;\n    top: 0; }\n    .page-body .label .txt {\n      padding: 12px 0;\n      border: none;\n      border-bottom: 1px solid #4fc08d;\n      background-color: transparent;\n      width: 100%;\n      font-size: 14px;\n      color: #313131; }\n    .page-body .label .button {\n      display: inline-block;\n      width: 48%;\n      height: 42px;\n      line-height: 42px;\n      border-radius: 3px;\n      color: #fff;\n      font-size: 16px;\n      background-color: #4fc08d;\n      border: none;\n      border-bottom: 2px solid #3aa373;\n      text-align: center;\n      vertical-align: middle; }\n    .page-body .label .button:first-child {\n      margin-right: 2%; }\n    .page-body .label .file {\n      position: absolute;\n      top: 0;\n      left: 0;\n      height: 42px;\n      width: 48%;\n      outline: medium none;\n      filter: alpha(opacity=0);\n      -moz-opacity: 0;\n      opacity: 0; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 190 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	
+	var _llqrcode = __webpack_require__(191);
+	
+	var browser = {
+	    versions: (function () {
+	        var u = navigator.userAgent,
+	            app = navigator.appVersion;
+	        return { //移动终端浏览器版本信息
+	            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+	            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+	            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+	            iPad: u.indexOf('iPad') > -1 };
+	    })()
+	}; // <template>
+	//     <nv-head page-type="登录">
+	//     </nv-head>
+	//     <section class="page-body">
+	//         <div class="label">
+	//             <input class="txt" type="text" placeholder="Access Token" v-model="token" maxlength="36">
+	//         </div>
+	//         <div class="label">
+	//             <a class="button">选择二维码图片</a>
+	//             <input class="file" type="file" id="file_upload" @change="readPic"
+	//                 accept="image/*" capture="camera"/>
+	//             <a class="button" @click="logon">登录</a>
+	//         </div>
+	//     </section>
+	//     <nv-alert :content="alert.txt" :show="alert.show"></nv-alert>
+	//     <nv-loading :show="loading.show" :show-txt="loading.showTxt"></nv-loading>
+	// </template>
+	
+	// <script>
+	
+	//是否iPad
+	exports.default = {
+	    data: function data() {
+	        var self = this;
+	        return {
+	            token: '',
+	            /*弱提示*/
+	            alert: {
+	                txt: '',
+	                show: false,
+	                hideFn: function hideFn() {
+	                    var timer = undefined;
+	                    clearTimeout(timer);
+	                    timer = setTimeout(function () {
+	                        self.alert.show = false;
+	                    }, 1000);
 	                }
+	            },
+	            loading: {
+	                show: false,
+	                showTxt: '二维码识别中'
 	            }
-	        },
-	        methods: {
-	            logon: function(){
-	                var self = this;
-	                if(self.token == ''){
-	                    var text = "令牌格式错误,应为36位UUID字符串";
-	                    self.alert.txt = text;
+	        };
+	    },
+	
+	    methods: {
+	        logon: function logon() {
+	            var self = this;
+	            if (self.token == '') {
+	                var text = "令牌格式错误,应为36位UUID字符串";
+	                self.alert.txt = text;
+	                self.alert.show = true;
+	                self.alert.hideFn();
+	                return false;
+	            }
+	            $.ajax({
+	                type: 'POST',
+	                url: 'https://cnodejs.org/api/v1/accesstoken',
+	                data: { accesstoken: self.token },
+	                dataType: 'json',
+	                success: function success(res) {
+	                    localStorage.loginname = res.loginname;
+	                    localStorage.avatar_url = res.avatar_url;
+	                    localStorage.userId = res.id;
+	                    localStorage.token = self.token;
+	                    //e44d5f6d-6648-4eb8-96e3-e1bfb34f3635
+	                    var redirect = decodeURIComponent(self.$route.query.redirect || '/');
+	                    self.$route.router.go(redirect);
+	                },
+	                error: function error(res) {
+	                    var error = JSON.parse(res.responseText);
+	                    self.alert.txt = error.error_msg;
 	                    self.alert.show = true;
 	                    self.alert.hideFn();
 	                    return false;
 	                }
-	                $.ajax({
-	                    type:'POST',
-	                    url:'https://cnodejs.org/api/v1/accesstoken',
-	                    data:{accesstoken:self.token},
-	                    dataType: 'json',
-	                    success:function(res){
-	                        localStorage.loginname = res.loginname;
-	                        localStorage.avatar_url = res.avatar_url;
-	                        localStorage.userId = res.id;
-	                        localStorage.token = self.token;
-	                        //e44d5f6d-6648-4eb8-96e3-e1bfb34f3635
-	                        var redirect = decodeURIComponent(self.$route.query.redirect || '/');
-	                        self.$route.router.go(redirect);
-	                    },
-	                    error:function(res){
-	                        var error = JSON.parse(res.responseText);
-	                        self.alert.txt = error.error_msg;
-	                        self.alert.show = true;
-	                        self.alert.hideFn();
-	                        return false;
-	                    }
-	                })
-	            },
-	            readPic:function(e){
-	                var self = this;
-	                var file = e.currentTarget.files[0];//  this is my image
-	                var reader = new FileReader();
-	
-	                reader.onload = function (e) {
-	                    var dataURL = reader.result;
-	
-	                    var base64 = dataURL.split('base64,');
-	                    var param = { "img": base64[1] };
-	
-	                    self.loading.show = true;
-	                    if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
-	                        $.post('http://m.yueqingwang.com/common.ashx', param, function (d) {
-	                            self.loading.show = false;
-	                            if(d == "qrcode error"){
-	                                self.token = "";
-	                                var text = "二维码图片不清晰";
-	                                self.alert.txt = text;
-	                                self.alert.show = true;
-	                                self.alert.hideFn();
-	                                return false;
-	                            }
-	                            else{
-	                                self.token = d;
-	                            }
-	                        });
-	                    }
-	                    else{
-	                        qrcode.decode(dataURL);
-	                        qrcode.callback = function (data) {
-	                            self.loading.show = false;
-	                            self.token = data;
-	                        }
-	                    }
-	                }
-	                reader.readAsDataURL(file);
-	            },
+	            });
 	        },
-	        components:{
-	            "nvHead":__webpack_require__(114),
-	            "nvAlert":__webpack_require__(133),
-	            "nvLoading":__webpack_require__(161)
+	        readPic: function readPic(e) {
+	            var self = this;
+	            var file = e.currentTarget.files[0]; //  this is my image
+	            var reader = new FileReader();
+	
+	            reader.onload = function (e) {
+	                var dataURL = reader.result;
+	
+	                var base64 = dataURL.split('base64,');
+	                var param = { "img": base64[1] };
+	
+	                self.loading.show = true;
+	                if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
+	                    $.post('http://m.yueqingwang.com/common.ashx', param, function (d) {
+	                        self.loading.show = false;
+	                        if (d == "qrcode error") {
+	                            self.token = "";
+	                            var text = "二维码图片不清晰";
+	                            self.alert.txt = text;
+	                            self.alert.show = true;
+	                            self.alert.hideFn();
+	                            return false;
+	                        } else {
+	                            self.token = d;
+	                        }
+	                    });
+	                } else {
+	                    _llqrcode.qrcode.decode(dataURL);
+	                    _llqrcode.qrcode.callback = function (data) {
+	                        self.loading.show = false;
+	                        self.token = data;
+	                    };
+	                }
+	            };
+	            reader.readAsDataURL(file);
 	        }
+	    },
+	    components: {
+	        "nvHead": __webpack_require__(131),
+	        "nvAlert": __webpack_require__(160),
+	        "nvLoading": __webpack_require__(192)
 	    }
+	};
+	// </script>
+	// <style lang="sass">
+
+	// .page-body {
+	//     padding: 50px 15px;
+
+	//     .label{
+	//         display: inline-block;
+	//         width: 100%;
+	//         margin-top: 15px;
+	//         position: relative;
+	//         left: 0;
+	//         top: 0;
+
+	//         .txt{
+	//             padding: 12px 0;
+	//             border:none;
+	//             border-bottom: 1px solid #4fc08d;
+	//             background-color: transparent;
+	//             width: 100%;
+	//             font-size: 14px;
+	//             color: #313131;
+	//         }
+	//         .button {
+	//             display: inline-block;
+	//             width: 48%;
+	//             height: 42px;
+	//             line-height: 42px;
+	//             border-radius: 3px;
+	//             color: #fff;
+	//             font-size: 16px;
+	//             background-color: #4fc08d;
+	//             border: none;
+	//             border-bottom: 2px solid #3aa373;
+	//             text-align: center;
+	//             vertical-align: middle;
+	//         }
+	//         .button:first-child{
+	//             margin-right: 2%;
+	//         }
+	//         .file{
+	//             position: absolute;
+	//             top: 0;
+	//             left: 0;
+	//             height: 42px;
+	//             width: 48%;
+	//             outline: medium none;
+	//             filter:alpha(opacity=0);
+	//             -moz-opacity:0;
+	//             opacity:0;
+	//         }
+	//     }
+	// }
+	// </style>
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 160 */
+/* 191 */
 /***/ function(module, exports) {
 
-	'use strict'
+	'use strict';
 	
 	var _aa = {};
-	_aa._ab = function(f, e) {
+	_aa._ab = function (f, e) {
 	    var d = qrcode.width;
 	    var b = qrcode.height;
 	    var c = true;
@@ -32518,25 +34219,25 @@ webpackJsonp([0,1],[
 	        var a = Math.floor(e[g]);
 	        var h = Math.floor(e[g + 1]);
 	        if (a < -1 || a > d || h < -1 || h > b) {
-	            throw "Error._ab "
+	            throw "Error._ab ";
 	        }
 	        c = false;
 	        if (a == -1) {
 	            e[g] = 0;
-	            c = true
+	            c = true;
 	        } else {
 	            if (a == d) {
 	                e[g] = d - 1;
-	                c = true
+	                c = true;
 	            }
 	        }
 	        if (h == -1) {
 	            e[g + 1] = 0;
-	            c = true
+	            c = true;
 	        } else {
 	            if (h == b) {
 	                e[g + 1] = b - 1;
-	                c = true
+	                c = true;
 	            }
 	        }
 	    }
@@ -32545,30 +34246,30 @@ webpackJsonp([0,1],[
 	        var a = Math.floor(e[g]);
 	        var h = Math.floor(e[g + 1]);
 	        if (a < -1 || a > d || h < -1 || h > b) {
-	            throw "Error._ab "
+	            throw "Error._ab ";
 	        }
 	        c = false;
 	        if (a == -1) {
 	            e[g] = 0;
-	            c = true
+	            c = true;
 	        } else {
 	            if (a == d) {
 	                e[g] = d - 1;
-	                c = true
+	                c = true;
 	            }
 	        }
 	        if (h == -1) {
 	            e[g + 1] = 0;
-	            c = true
+	            c = true;
 	        } else {
 	            if (h == b) {
 	                e[g + 1] = b - 1;
-	                c = true
+	                c = true;
 	            }
 	        }
 	    }
 	};
-	_aa._af = function(b, d, a) {
+	_aa._af = function (b, d, a) {
 	    var l = new _ac(d);
 	    var k = new Array(d << 1);
 	    for (var g = 0; g < d; g++) {
@@ -32576,72 +34277,67 @@ webpackJsonp([0,1],[
 	        var j = g + 0.5;
 	        for (var i = 0; i < h; i += 2) {
 	            k[i] = (i >> 1) + 0.5;
-	            k[i + 1] = j
+	            k[i + 1] = j;
 	        }
 	        a._ad(k);
 	        _aa._ab(b, k);
 	        try {
 	            for (var i = 0; i < h; i += 2) {
-	                var e = (Math.floor(k[i]) * 4) + (Math.floor(k[i + 1]) * qrcode.width * 4);
+	                var e = Math.floor(k[i]) * 4 + Math.floor(k[i + 1]) * qrcode.width * 4;
 	                var f = b[Math.floor(k[i]) + qrcode.width * Math.floor(k[i + 1])];
 	                qrcode.imagedata.data[e] = f ? 255 : 0;
 	                qrcode.imagedata.data[e + 1] = f ? 255 : 0;
 	                qrcode.imagedata.data[e + 2] = 0;
 	                qrcode.imagedata.data[e + 3] = 255;
 	                if (f) {
-	                    l._dq(i >> 1, g)
+	                    l._dq(i >> 1, g);
 	                }
 	            }
 	        } catch (c) {
-	            throw "Error._ab"
+	            throw "Error._ab";
 	        }
 	    }
-	    return l
+	    return l;
 	};
-	_aa._ah = function(h, o, l, k, r, q, b, a, f, e, n, m, t, s, d, c, j, i) {
+	_aa._ah = function (h, o, l, k, r, q, b, a, f, e, n, m, t, s, d, c, j, i) {
 	    var g = _ae._ag(l, k, r, q, b, a, f, e, n, m, t, s, d, c, j, i);
-	    return _aa._af(h, o, g)
+	    return _aa._af(h, o, g);
 	};
 	
 	function _a1(b, a) {
 	    this.count = b;
 	    this._fc = a;
-	    this.__defineGetter__("Count",
-	        function() {
-	            return this.count
-	        });
-	    this.__defineGetter__("_dm",
-	        function() {
-	            return this._fc
-	        })
+	    this.__defineGetter__("Count", function () {
+	        return this.count;
+	    });
+	    this.__defineGetter__("_dm", function () {
+	        return this._fc;
+	    });
 	}
 	
 	function _a2(a, c, b) {
 	    this._bm = a;
 	    if (b) {
-	        this._do = new Array(c, b)
+	        this._do = new Array(c, b);
 	    } else {
-	        this._do = new Array(c)
+	        this._do = new Array(c);
 	    }
-	    this.__defineGetter__("_bo",
-	        function() {
-	            return this._bm
-	        });
-	    this.__defineGetter__("_dn",
-	        function() {
-	            return this._bm * this._fo
-	        });
-	    this.__defineGetter__("_fo",
-	        function() {
-	            var e = 0;
-	            for (var d = 0; d < this._do.length; d++) {
-	                e += this._do[d].length
-	            }
-	            return e
-	        });
-	    this._fb = function() {
-	        return this._do
-	    }
+	    this.__defineGetter__("_bo", function () {
+	        return this._bm;
+	    });
+	    this.__defineGetter__("_dn", function () {
+	        return this._bm * this._fo;
+	    });
+	    this.__defineGetter__("_fo", function () {
+	        var e = 0;
+	        for (var d = 0; d < this._do.length; d++) {
+	            e += this._do[d].length;
+	        }
+	        return e;
+	    });
+	    this._fb = function () {
+	        return this._do;
+	    };
 	}
 	
 	function _a3(k, l, h, g, f, e) {
@@ -32653,26 +34349,22 @@ webpackJsonp([0,1],[
 	    var a = h._fb();
 	    for (var d = 0; d < a.length; d++) {
 	        var c = a[d];
-	        j += c.Count * (c._dm + b)
+	        j += c.Count * (c._dm + b);
 	    }
 	    this._br = j;
-	    this.__defineGetter__("_fd",
-	        function() {
-	            return this._bs
-	        });
-	    this.__defineGetter__("_as",
-	        function() {
-	            return this._ar
-	        });
-	    this.__defineGetter__("_dp",
-	        function() {
-	            return this._br
-	        });
-	    this.__defineGetter__("_cr",
-	        function() {
-	            return 17 + 4 * this._bs
-	        });
-	    this._aq = function() {
+	    this.__defineGetter__("_fd", function () {
+	        return this._bs;
+	    });
+	    this.__defineGetter__("_as", function () {
+	        return this._ar;
+	    });
+	    this.__defineGetter__("_dp", function () {
+	        return this._br;
+	    });
+	    this.__defineGetter__("_cr", function () {
+	        return 17 + 4 * this._bs;
+	    });
+	    this._aq = function () {
 	        var r = this._cr;
 	        var o = new _ac(r);
 	        o._bq(0, 0, 9, 9);
@@ -32682,64 +34374,64 @@ webpackJsonp([0,1],[
 	        for (var m = 0; m < n; m++) {
 	            var q = this._ar[m] - 2;
 	            for (var s = 0; s < n; s++) {
-	                if ((m == 0 && (s == 0 || s == n - 1)) || (m == n - 1 && s == 0)) {
-	                    continue
+	                if (m == 0 && (s == 0 || s == n - 1) || m == n - 1 && s == 0) {
+	                    continue;
 	                }
-	                o._bq(this._ar[s] - 2, q, 5, 5)
+	                o._bq(this._ar[s] - 2, q, 5, 5);
 	            }
 	        }
 	        o._bq(6, 9, 1, r - 17);
 	        o._bq(9, 6, r - 17, 1);
 	        if (this._bs > 6) {
 	            o._bq(r - 11, 0, 3, 6);
-	            o._bq(0, r - 11, 6, 3)
+	            o._bq(0, r - 11, 6, 3);
 	        }
-	        return o
+	        return o;
 	    };
-	    this._bu = function(i) {
-	        return this._do[i.ordinal()]
-	    }
+	    this._bu = function (i) {
+	        return this._do[i.ordinal()];
+	    };
 	}
 	_a3._bv = new Array(31892, 34236, 39577, 42195, 48118, 51042, 55367, 58893, 63784, 68472, 70749, 76311, 79154, 84390, 87683, 92361, 96236, 102084, 102881, 110507, 110734, 117786, 119615, 126325, 127568, 133589, 136944, 141498, 145311, 150283, 152622, 158308, 161089, 167017);
 	_a3.VERSIONS = _ay();
-	_a3._av = function(a) {
+	_a3._av = function (a) {
 	    if (a < 1 || a > 40) {
-	        throw "bad arguments"
+	        throw "bad arguments";
 	    }
-	    return _a3.VERSIONS[a - 1]
+	    return _a3.VERSIONS[a - 1];
 	};
-	_a3._at = function(b) {
+	_a3._at = function (b) {
 	    if (b % 4 != 1) {
-	        throw "Error _at"
+	        throw "Error _at";
 	    }
 	    try {
-	        return _a3._av((b - 17) >> 2)
+	        return _a3._av(b - 17 >> 2);
 	    } catch (a) {
-	        throw "Error _av"
+	        throw "Error _av";
 	    }
 	};
-	_a3._aw = function(d) {
+	_a3._aw = function (d) {
 	    var b = 4294967295;
 	    var f = 0;
 	    for (var c = 0; c < _a3._bv.length; c++) {
 	        var a = _a3._bv[c];
 	        if (a == d) {
-	            return this._av(c + 7)
+	            return this._av(c + 7);
 	        }
 	        var e = _ax._gj(d, a);
 	        if (e < b) {
 	            f = c + 7;
-	            b = e
+	            b = e;
 	        }
 	    }
 	    if (b <= 3) {
-	        return this._av(f)
+	        return this._av(f);
 	    }
-	    return null
+	    return null;
 	};
 	
 	function _ay() {
-	    return new Array(new _a3(1, new Array(), new _a2(7, new _a1(1, 19)), new _a2(10, new _a1(1, 16)), new _a2(13, new _a1(1, 13)), new _a2(17, new _a1(1, 9))), new _a3(2, new Array(6, 18), new _a2(10, new _a1(1, 34)), new _a2(16, new _a1(1, 28)), new _a2(22, new _a1(1, 22)), new _a2(28, new _a1(1, 16))), new _a3(3, new Array(6, 22), new _a2(15, new _a1(1, 55)), new _a2(26, new _a1(1, 44)), new _a2(18, new _a1(2, 17)), new _a2(22, new _a1(2, 13))), new _a3(4, new Array(6, 26), new _a2(20, new _a1(1, 80)), new _a2(18, new _a1(2, 32)), new _a2(26, new _a1(2, 24)), new _a2(16, new _a1(4, 9))), new _a3(5, new Array(6, 30), new _a2(26, new _a1(1, 108)), new _a2(24, new _a1(2, 43)), new _a2(18, new _a1(2, 15), new _a1(2, 16)), new _a2(22, new _a1(2, 11), new _a1(2, 12))), new _a3(6, new Array(6, 34), new _a2(18, new _a1(2, 68)), new _a2(16, new _a1(4, 27)), new _a2(24, new _a1(4, 19)), new _a2(28, new _a1(4, 15))), new _a3(7, new Array(6, 22, 38), new _a2(20, new _a1(2, 78)), new _a2(18, new _a1(4, 31)), new _a2(18, new _a1(2, 14), new _a1(4, 15)), new _a2(26, new _a1(4, 13), new _a1(1, 14))), new _a3(8, new Array(6, 24, 42), new _a2(24, new _a1(2, 97)), new _a2(22, new _a1(2, 38), new _a1(2, 39)), new _a2(22, new _a1(4, 18), new _a1(2, 19)), new _a2(26, new _a1(4, 14), new _a1(2, 15))), new _a3(9, new Array(6, 26, 46), new _a2(30, new _a1(2, 116)), new _a2(22, new _a1(3, 36), new _a1(2, 37)), new _a2(20, new _a1(4, 16), new _a1(4, 17)), new _a2(24, new _a1(4, 12), new _a1(4, 13))), new _a3(10, new Array(6, 28, 50), new _a2(18, new _a1(2, 68), new _a1(2, 69)), new _a2(26, new _a1(4, 43), new _a1(1, 44)), new _a2(24, new _a1(6, 19), new _a1(2, 20)), new _a2(28, new _a1(6, 15), new _a1(2, 16))), new _a3(11, new Array(6, 30, 54), new _a2(20, new _a1(4, 81)), new _a2(30, new _a1(1, 50), new _a1(4, 51)), new _a2(28, new _a1(4, 22), new _a1(4, 23)), new _a2(24, new _a1(3, 12), new _a1(8, 13))), new _a3(12, new Array(6, 32, 58), new _a2(24, new _a1(2, 92), new _a1(2, 93)), new _a2(22, new _a1(6, 36), new _a1(2, 37)), new _a2(26, new _a1(4, 20), new _a1(6, 21)), new _a2(28, new _a1(7, 14), new _a1(4, 15))), new _a3(13, new Array(6, 34, 62), new _a2(26, new _a1(4, 107)), new _a2(22, new _a1(8, 37), new _a1(1, 38)), new _a2(24, new _a1(8, 20), new _a1(4, 21)), new _a2(22, new _a1(12, 11), new _a1(4, 12))), new _a3(14, new Array(6, 26, 46, 66), new _a2(30, new _a1(3, 115), new _a1(1, 116)), new _a2(24, new _a1(4, 40), new _a1(5, 41)), new _a2(20, new _a1(11, 16), new _a1(5, 17)), new _a2(24, new _a1(11, 12), new _a1(5, 13))), new _a3(15, new Array(6, 26, 48, 70), new _a2(22, new _a1(5, 87), new _a1(1, 88)), new _a2(24, new _a1(5, 41), new _a1(5, 42)), new _a2(30, new _a1(5, 24), new _a1(7, 25)), new _a2(24, new _a1(11, 12), new _a1(7, 13))), new _a3(16, new Array(6, 26, 50, 74), new _a2(24, new _a1(5, 98), new _a1(1, 99)), new _a2(28, new _a1(7, 45), new _a1(3, 46)), new _a2(24, new _a1(15, 19), new _a1(2, 20)), new _a2(30, new _a1(3, 15), new _a1(13, 16))), new _a3(17, new Array(6, 30, 54, 78), new _a2(28, new _a1(1, 107), new _a1(5, 108)), new _a2(28, new _a1(10, 46), new _a1(1, 47)), new _a2(28, new _a1(1, 22), new _a1(15, 23)), new _a2(28, new _a1(2, 14), new _a1(17, 15))), new _a3(18, new Array(6, 30, 56, 82), new _a2(30, new _a1(5, 120), new _a1(1, 121)), new _a2(26, new _a1(9, 43), new _a1(4, 44)), new _a2(28, new _a1(17, 22), new _a1(1, 23)), new _a2(28, new _a1(2, 14), new _a1(19, 15))), new _a3(19, new Array(6, 30, 58, 86), new _a2(28, new _a1(3, 113), new _a1(4, 114)), new _a2(26, new _a1(3, 44), new _a1(11, 45)), new _a2(26, new _a1(17, 21), new _a1(4, 22)), new _a2(26, new _a1(9, 13), new _a1(16, 14))), new _a3(20, new Array(6, 34, 62, 90), new _a2(28, new _a1(3, 107), new _a1(5, 108)), new _a2(26, new _a1(3, 41), new _a1(13, 42)), new _a2(30, new _a1(15, 24), new _a1(5, 25)), new _a2(28, new _a1(15, 15), new _a1(10, 16))), new _a3(21, new Array(6, 28, 50, 72, 94), new _a2(28, new _a1(4, 116), new _a1(4, 117)), new _a2(26, new _a1(17, 42)), new _a2(28, new _a1(17, 22), new _a1(6, 23)), new _a2(30, new _a1(19, 16), new _a1(6, 17))), new _a3(22, new Array(6, 26, 50, 74, 98), new _a2(28, new _a1(2, 111), new _a1(7, 112)), new _a2(28, new _a1(17, 46)), new _a2(30, new _a1(7, 24), new _a1(16, 25)), new _a2(24, new _a1(34, 13))), new _a3(23, new Array(6, 30, 54, 74, 102), new _a2(30, new _a1(4, 121), new _a1(5, 122)), new _a2(28, new _a1(4, 47), new _a1(14, 48)), new _a2(30, new _a1(11, 24), new _a1(14, 25)), new _a2(30, new _a1(16, 15), new _a1(14, 16))), new _a3(24, new Array(6, 28, 54, 80, 106), new _a2(30, new _a1(6, 117), new _a1(4, 118)), new _a2(28, new _a1(6, 45), new _a1(14, 46)), new _a2(30, new _a1(11, 24), new _a1(16, 25)), new _a2(30, new _a1(30, 16), new _a1(2, 17))), new _a3(25, new Array(6, 32, 58, 84, 110), new _a2(26, new _a1(8, 106), new _a1(4, 107)), new _a2(28, new _a1(8, 47), new _a1(13, 48)), new _a2(30, new _a1(7, 24), new _a1(22, 25)), new _a2(30, new _a1(22, 15), new _a1(13, 16))), new _a3(26, new Array(6, 30, 58, 86, 114), new _a2(28, new _a1(10, 114), new _a1(2, 115)), new _a2(28, new _a1(19, 46), new _a1(4, 47)), new _a2(28, new _a1(28, 22), new _a1(6, 23)), new _a2(30, new _a1(33, 16), new _a1(4, 17))), new _a3(27, new Array(6, 34, 62, 90, 118), new _a2(30, new _a1(8, 122), new _a1(4, 123)), new _a2(28, new _a1(22, 45), new _a1(3, 46)), new _a2(30, new _a1(8, 23), new _a1(26, 24)), new _a2(30, new _a1(12, 15), new _a1(28, 16))), new _a3(28, new Array(6, 26, 50, 74, 98, 122), new _a2(30, new _a1(3, 117), new _a1(10, 118)), new _a2(28, new _a1(3, 45), new _a1(23, 46)), new _a2(30, new _a1(4, 24), new _a1(31, 25)), new _a2(30, new _a1(11, 15), new _a1(31, 16))), new _a3(29, new Array(6, 30, 54, 78, 102, 126), new _a2(30, new _a1(7, 116), new _a1(7, 117)), new _a2(28, new _a1(21, 45), new _a1(7, 46)), new _a2(30, new _a1(1, 23), new _a1(37, 24)), new _a2(30, new _a1(19, 15), new _a1(26, 16))), new _a3(30, new Array(6, 26, 52, 78, 104, 130), new _a2(30, new _a1(5, 115), new _a1(10, 116)), new _a2(28, new _a1(19, 47), new _a1(10, 48)), new _a2(30, new _a1(15, 24), new _a1(25, 25)), new _a2(30, new _a1(23, 15), new _a1(25, 16))), new _a3(31, new Array(6, 30, 56, 82, 108, 134), new _a2(30, new _a1(13, 115), new _a1(3, 116)), new _a2(28, new _a1(2, 46), new _a1(29, 47)), new _a2(30, new _a1(42, 24), new _a1(1, 25)), new _a2(30, new _a1(23, 15), new _a1(28, 16))), new _a3(32, new Array(6, 34, 60, 86, 112, 138), new _a2(30, new _a1(17, 115)), new _a2(28, new _a1(10, 46), new _a1(23, 47)), new _a2(30, new _a1(10, 24), new _a1(35, 25)), new _a2(30, new _a1(19, 15), new _a1(35, 16))), new _a3(33, new Array(6, 30, 58, 86, 114, 142), new _a2(30, new _a1(17, 115), new _a1(1, 116)), new _a2(28, new _a1(14, 46), new _a1(21, 47)), new _a2(30, new _a1(29, 24), new _a1(19, 25)), new _a2(30, new _a1(11, 15), new _a1(46, 16))), new _a3(34, new Array(6, 34, 62, 90, 118, 146), new _a2(30, new _a1(13, 115), new _a1(6, 116)), new _a2(28, new _a1(14, 46), new _a1(23, 47)), new _a2(30, new _a1(44, 24), new _a1(7, 25)), new _a2(30, new _a1(59, 16), new _a1(1, 17))), new _a3(35, new Array(6, 30, 54, 78, 102, 126, 150), new _a2(30, new _a1(12, 121), new _a1(7, 122)), new _a2(28, new _a1(12, 47), new _a1(26, 48)), new _a2(30, new _a1(39, 24), new _a1(14, 25)), new _a2(30, new _a1(22, 15), new _a1(41, 16))), new _a3(36, new Array(6, 24, 50, 76, 102, 128, 154), new _a2(30, new _a1(6, 121), new _a1(14, 122)), new _a2(28, new _a1(6, 47), new _a1(34, 48)), new _a2(30, new _a1(46, 24), new _a1(10, 25)), new _a2(30, new _a1(2, 15), new _a1(64, 16))), new _a3(37, new Array(6, 28, 54, 80, 106, 132, 158), new _a2(30, new _a1(17, 122), new _a1(4, 123)), new _a2(28, new _a1(29, 46), new _a1(14, 47)), new _a2(30, new _a1(49, 24), new _a1(10, 25)), new _a2(30, new _a1(24, 15), new _a1(46, 16))), new _a3(38, new Array(6, 32, 58, 84, 110, 136, 162), new _a2(30, new _a1(4, 122), new _a1(18, 123)), new _a2(28, new _a1(13, 46), new _a1(32, 47)), new _a2(30, new _a1(48, 24), new _a1(14, 25)), new _a2(30, new _a1(42, 15), new _a1(32, 16))), new _a3(39, new Array(6, 26, 54, 82, 110, 138, 166), new _a2(30, new _a1(20, 117), new _a1(4, 118)), new _a2(28, new _a1(40, 47), new _a1(7, 48)), new _a2(30, new _a1(43, 24), new _a1(22, 25)), new _a2(30, new _a1(10, 15), new _a1(67, 16))), new _a3(40, new Array(6, 30, 58, 86, 114, 142, 170), new _a2(30, new _a1(19, 118), new _a1(6, 119)), new _a2(28, new _a1(18, 47), new _a1(31, 48)), new _a2(30, new _a1(34, 24), new _a1(34, 25)), new _a2(30, new _a1(20, 15), new _a1(61, 16))))
+	    return new Array(new _a3(1, new Array(), new _a2(7, new _a1(1, 19)), new _a2(10, new _a1(1, 16)), new _a2(13, new _a1(1, 13)), new _a2(17, new _a1(1, 9))), new _a3(2, new Array(6, 18), new _a2(10, new _a1(1, 34)), new _a2(16, new _a1(1, 28)), new _a2(22, new _a1(1, 22)), new _a2(28, new _a1(1, 16))), new _a3(3, new Array(6, 22), new _a2(15, new _a1(1, 55)), new _a2(26, new _a1(1, 44)), new _a2(18, new _a1(2, 17)), new _a2(22, new _a1(2, 13))), new _a3(4, new Array(6, 26), new _a2(20, new _a1(1, 80)), new _a2(18, new _a1(2, 32)), new _a2(26, new _a1(2, 24)), new _a2(16, new _a1(4, 9))), new _a3(5, new Array(6, 30), new _a2(26, new _a1(1, 108)), new _a2(24, new _a1(2, 43)), new _a2(18, new _a1(2, 15), new _a1(2, 16)), new _a2(22, new _a1(2, 11), new _a1(2, 12))), new _a3(6, new Array(6, 34), new _a2(18, new _a1(2, 68)), new _a2(16, new _a1(4, 27)), new _a2(24, new _a1(4, 19)), new _a2(28, new _a1(4, 15))), new _a3(7, new Array(6, 22, 38), new _a2(20, new _a1(2, 78)), new _a2(18, new _a1(4, 31)), new _a2(18, new _a1(2, 14), new _a1(4, 15)), new _a2(26, new _a1(4, 13), new _a1(1, 14))), new _a3(8, new Array(6, 24, 42), new _a2(24, new _a1(2, 97)), new _a2(22, new _a1(2, 38), new _a1(2, 39)), new _a2(22, new _a1(4, 18), new _a1(2, 19)), new _a2(26, new _a1(4, 14), new _a1(2, 15))), new _a3(9, new Array(6, 26, 46), new _a2(30, new _a1(2, 116)), new _a2(22, new _a1(3, 36), new _a1(2, 37)), new _a2(20, new _a1(4, 16), new _a1(4, 17)), new _a2(24, new _a1(4, 12), new _a1(4, 13))), new _a3(10, new Array(6, 28, 50), new _a2(18, new _a1(2, 68), new _a1(2, 69)), new _a2(26, new _a1(4, 43), new _a1(1, 44)), new _a2(24, new _a1(6, 19), new _a1(2, 20)), new _a2(28, new _a1(6, 15), new _a1(2, 16))), new _a3(11, new Array(6, 30, 54), new _a2(20, new _a1(4, 81)), new _a2(30, new _a1(1, 50), new _a1(4, 51)), new _a2(28, new _a1(4, 22), new _a1(4, 23)), new _a2(24, new _a1(3, 12), new _a1(8, 13))), new _a3(12, new Array(6, 32, 58), new _a2(24, new _a1(2, 92), new _a1(2, 93)), new _a2(22, new _a1(6, 36), new _a1(2, 37)), new _a2(26, new _a1(4, 20), new _a1(6, 21)), new _a2(28, new _a1(7, 14), new _a1(4, 15))), new _a3(13, new Array(6, 34, 62), new _a2(26, new _a1(4, 107)), new _a2(22, new _a1(8, 37), new _a1(1, 38)), new _a2(24, new _a1(8, 20), new _a1(4, 21)), new _a2(22, new _a1(12, 11), new _a1(4, 12))), new _a3(14, new Array(6, 26, 46, 66), new _a2(30, new _a1(3, 115), new _a1(1, 116)), new _a2(24, new _a1(4, 40), new _a1(5, 41)), new _a2(20, new _a1(11, 16), new _a1(5, 17)), new _a2(24, new _a1(11, 12), new _a1(5, 13))), new _a3(15, new Array(6, 26, 48, 70), new _a2(22, new _a1(5, 87), new _a1(1, 88)), new _a2(24, new _a1(5, 41), new _a1(5, 42)), new _a2(30, new _a1(5, 24), new _a1(7, 25)), new _a2(24, new _a1(11, 12), new _a1(7, 13))), new _a3(16, new Array(6, 26, 50, 74), new _a2(24, new _a1(5, 98), new _a1(1, 99)), new _a2(28, new _a1(7, 45), new _a1(3, 46)), new _a2(24, new _a1(15, 19), new _a1(2, 20)), new _a2(30, new _a1(3, 15), new _a1(13, 16))), new _a3(17, new Array(6, 30, 54, 78), new _a2(28, new _a1(1, 107), new _a1(5, 108)), new _a2(28, new _a1(10, 46), new _a1(1, 47)), new _a2(28, new _a1(1, 22), new _a1(15, 23)), new _a2(28, new _a1(2, 14), new _a1(17, 15))), new _a3(18, new Array(6, 30, 56, 82), new _a2(30, new _a1(5, 120), new _a1(1, 121)), new _a2(26, new _a1(9, 43), new _a1(4, 44)), new _a2(28, new _a1(17, 22), new _a1(1, 23)), new _a2(28, new _a1(2, 14), new _a1(19, 15))), new _a3(19, new Array(6, 30, 58, 86), new _a2(28, new _a1(3, 113), new _a1(4, 114)), new _a2(26, new _a1(3, 44), new _a1(11, 45)), new _a2(26, new _a1(17, 21), new _a1(4, 22)), new _a2(26, new _a1(9, 13), new _a1(16, 14))), new _a3(20, new Array(6, 34, 62, 90), new _a2(28, new _a1(3, 107), new _a1(5, 108)), new _a2(26, new _a1(3, 41), new _a1(13, 42)), new _a2(30, new _a1(15, 24), new _a1(5, 25)), new _a2(28, new _a1(15, 15), new _a1(10, 16))), new _a3(21, new Array(6, 28, 50, 72, 94), new _a2(28, new _a1(4, 116), new _a1(4, 117)), new _a2(26, new _a1(17, 42)), new _a2(28, new _a1(17, 22), new _a1(6, 23)), new _a2(30, new _a1(19, 16), new _a1(6, 17))), new _a3(22, new Array(6, 26, 50, 74, 98), new _a2(28, new _a1(2, 111), new _a1(7, 112)), new _a2(28, new _a1(17, 46)), new _a2(30, new _a1(7, 24), new _a1(16, 25)), new _a2(24, new _a1(34, 13))), new _a3(23, new Array(6, 30, 54, 74, 102), new _a2(30, new _a1(4, 121), new _a1(5, 122)), new _a2(28, new _a1(4, 47), new _a1(14, 48)), new _a2(30, new _a1(11, 24), new _a1(14, 25)), new _a2(30, new _a1(16, 15), new _a1(14, 16))), new _a3(24, new Array(6, 28, 54, 80, 106), new _a2(30, new _a1(6, 117), new _a1(4, 118)), new _a2(28, new _a1(6, 45), new _a1(14, 46)), new _a2(30, new _a1(11, 24), new _a1(16, 25)), new _a2(30, new _a1(30, 16), new _a1(2, 17))), new _a3(25, new Array(6, 32, 58, 84, 110), new _a2(26, new _a1(8, 106), new _a1(4, 107)), new _a2(28, new _a1(8, 47), new _a1(13, 48)), new _a2(30, new _a1(7, 24), new _a1(22, 25)), new _a2(30, new _a1(22, 15), new _a1(13, 16))), new _a3(26, new Array(6, 30, 58, 86, 114), new _a2(28, new _a1(10, 114), new _a1(2, 115)), new _a2(28, new _a1(19, 46), new _a1(4, 47)), new _a2(28, new _a1(28, 22), new _a1(6, 23)), new _a2(30, new _a1(33, 16), new _a1(4, 17))), new _a3(27, new Array(6, 34, 62, 90, 118), new _a2(30, new _a1(8, 122), new _a1(4, 123)), new _a2(28, new _a1(22, 45), new _a1(3, 46)), new _a2(30, new _a1(8, 23), new _a1(26, 24)), new _a2(30, new _a1(12, 15), new _a1(28, 16))), new _a3(28, new Array(6, 26, 50, 74, 98, 122), new _a2(30, new _a1(3, 117), new _a1(10, 118)), new _a2(28, new _a1(3, 45), new _a1(23, 46)), new _a2(30, new _a1(4, 24), new _a1(31, 25)), new _a2(30, new _a1(11, 15), new _a1(31, 16))), new _a3(29, new Array(6, 30, 54, 78, 102, 126), new _a2(30, new _a1(7, 116), new _a1(7, 117)), new _a2(28, new _a1(21, 45), new _a1(7, 46)), new _a2(30, new _a1(1, 23), new _a1(37, 24)), new _a2(30, new _a1(19, 15), new _a1(26, 16))), new _a3(30, new Array(6, 26, 52, 78, 104, 130), new _a2(30, new _a1(5, 115), new _a1(10, 116)), new _a2(28, new _a1(19, 47), new _a1(10, 48)), new _a2(30, new _a1(15, 24), new _a1(25, 25)), new _a2(30, new _a1(23, 15), new _a1(25, 16))), new _a3(31, new Array(6, 30, 56, 82, 108, 134), new _a2(30, new _a1(13, 115), new _a1(3, 116)), new _a2(28, new _a1(2, 46), new _a1(29, 47)), new _a2(30, new _a1(42, 24), new _a1(1, 25)), new _a2(30, new _a1(23, 15), new _a1(28, 16))), new _a3(32, new Array(6, 34, 60, 86, 112, 138), new _a2(30, new _a1(17, 115)), new _a2(28, new _a1(10, 46), new _a1(23, 47)), new _a2(30, new _a1(10, 24), new _a1(35, 25)), new _a2(30, new _a1(19, 15), new _a1(35, 16))), new _a3(33, new Array(6, 30, 58, 86, 114, 142), new _a2(30, new _a1(17, 115), new _a1(1, 116)), new _a2(28, new _a1(14, 46), new _a1(21, 47)), new _a2(30, new _a1(29, 24), new _a1(19, 25)), new _a2(30, new _a1(11, 15), new _a1(46, 16))), new _a3(34, new Array(6, 34, 62, 90, 118, 146), new _a2(30, new _a1(13, 115), new _a1(6, 116)), new _a2(28, new _a1(14, 46), new _a1(23, 47)), new _a2(30, new _a1(44, 24), new _a1(7, 25)), new _a2(30, new _a1(59, 16), new _a1(1, 17))), new _a3(35, new Array(6, 30, 54, 78, 102, 126, 150), new _a2(30, new _a1(12, 121), new _a1(7, 122)), new _a2(28, new _a1(12, 47), new _a1(26, 48)), new _a2(30, new _a1(39, 24), new _a1(14, 25)), new _a2(30, new _a1(22, 15), new _a1(41, 16))), new _a3(36, new Array(6, 24, 50, 76, 102, 128, 154), new _a2(30, new _a1(6, 121), new _a1(14, 122)), new _a2(28, new _a1(6, 47), new _a1(34, 48)), new _a2(30, new _a1(46, 24), new _a1(10, 25)), new _a2(30, new _a1(2, 15), new _a1(64, 16))), new _a3(37, new Array(6, 28, 54, 80, 106, 132, 158), new _a2(30, new _a1(17, 122), new _a1(4, 123)), new _a2(28, new _a1(29, 46), new _a1(14, 47)), new _a2(30, new _a1(49, 24), new _a1(10, 25)), new _a2(30, new _a1(24, 15), new _a1(46, 16))), new _a3(38, new Array(6, 32, 58, 84, 110, 136, 162), new _a2(30, new _a1(4, 122), new _a1(18, 123)), new _a2(28, new _a1(13, 46), new _a1(32, 47)), new _a2(30, new _a1(48, 24), new _a1(14, 25)), new _a2(30, new _a1(42, 15), new _a1(32, 16))), new _a3(39, new Array(6, 26, 54, 82, 110, 138, 166), new _a2(30, new _a1(20, 117), new _a1(4, 118)), new _a2(28, new _a1(40, 47), new _a1(7, 48)), new _a2(30, new _a1(43, 24), new _a1(22, 25)), new _a2(30, new _a1(10, 15), new _a1(67, 16))), new _a3(40, new Array(6, 30, 58, 86, 114, 142, 170), new _a2(30, new _a1(19, 118), new _a1(6, 119)), new _a2(28, new _a1(18, 47), new _a1(31, 48)), new _a2(30, new _a1(34, 24), new _a1(34, 25)), new _a2(30, new _a1(20, 15), new _a1(61, 16))));
 	}
 	
 	function _ae(i, f, c, h, e, b, g, d, a) {
@@ -32752,7 +34444,7 @@ webpackJsonp([0,1],[
 	    this.a31 = c;
 	    this.a32 = b;
 	    this.a33 = a;
-	    this._ad = function(w) {
+	    this._ad = function (w) {
 	        var t = w.length;
 	        var A = this.a11;
 	        var z = this.a12;
@@ -32768,36 +34460,36 @@ webpackJsonp([0,1],[
 	            var s = w[n + 1];
 	            var l = v * u + o * s + j;
 	            w[n] = (A * u + r * s + m) / l;
-	            w[n + 1] = (z * u + q * s + k) / l
+	            w[n + 1] = (z * u + q * s + k) / l;
 	        }
 	    };
-	    this._fp = function(m, k) {
+	    this._fp = function (m, k) {
 	        var r = m.length;
 	        for (var l = 0; l < r; l++) {
 	            var j = m[l];
 	            var q = k[l];
 	            var o = this.a13 * j + this.a23 * q + this.a33;
 	            m[l] = (this.a11 * j + this.a21 * q + this.a31) / o;
-	            k[l] = (this.a12 * j + this.a22 * q + this.a32) / o
+	            k[l] = (this.a12 * j + this.a22 * q + this.a32) / o;
 	        }
 	    };
-	    this._fr = function() {
-	        return new _ae(this.a22 * this.a33 - this.a23 * this.a32, this.a23 * this.a31 - this.a21 * this.a33, this.a21 * this.a32 - this.a22 * this.a31, this.a13 * this.a32 - this.a12 * this.a33, this.a11 * this.a33 - this.a13 * this.a31, this.a12 * this.a31 - this.a11 * this.a32, this.a12 * this.a23 - this.a13 * this.a22, this.a13 * this.a21 - this.a11 * this.a23, this.a11 * this.a22 - this.a12 * this.a21)
+	    this._fr = function () {
+	        return new _ae(this.a22 * this.a33 - this.a23 * this.a32, this.a23 * this.a31 - this.a21 * this.a33, this.a21 * this.a32 - this.a22 * this.a31, this.a13 * this.a32 - this.a12 * this.a33, this.a11 * this.a33 - this.a13 * this.a31, this.a12 * this.a31 - this.a11 * this.a32, this.a12 * this.a23 - this.a13 * this.a22, this.a13 * this.a21 - this.a11 * this.a23, this.a11 * this.a22 - this.a12 * this.a21);
 	    };
-	    this.times = function(j) {
-	        return new _ae(this.a11 * j.a11 + this.a21 * j.a12 + this.a31 * j.a13, this.a11 * j.a21 + this.a21 * j.a22 + this.a31 * j.a23, this.a11 * j.a31 + this.a21 * j.a32 + this.a31 * j.a33, this.a12 * j.a11 + this.a22 * j.a12 + this.a32 * j.a13, this.a12 * j.a21 + this.a22 * j.a22 + this.a32 * j.a23, this.a12 * j.a31 + this.a22 * j.a32 + this.a32 * j.a33, this.a13 * j.a11 + this.a23 * j.a12 + this.a33 * j.a13, this.a13 * j.a21 + this.a23 * j.a22 + this.a33 * j.a23, this.a13 * j.a31 + this.a23 * j.a32 + this.a33 * j.a33)
-	    }
+	    this.times = function (j) {
+	        return new _ae(this.a11 * j.a11 + this.a21 * j.a12 + this.a31 * j.a13, this.a11 * j.a21 + this.a21 * j.a22 + this.a31 * j.a23, this.a11 * j.a31 + this.a21 * j.a32 + this.a31 * j.a33, this.a12 * j.a11 + this.a22 * j.a12 + this.a32 * j.a13, this.a12 * j.a21 + this.a22 * j.a22 + this.a32 * j.a23, this.a12 * j.a31 + this.a22 * j.a32 + this.a32 * j.a33, this.a13 * j.a11 + this.a23 * j.a12 + this.a33 * j.a13, this.a13 * j.a21 + this.a23 * j.a22 + this.a33 * j.a23, this.a13 * j.a31 + this.a23 * j.a32 + this.a33 * j.a33);
+	    };
 	}
-	_ae._ag = function(q, e, o, d, n, c, m, b, h, r, l, f, a, j, i, s) {
+	_ae._ag = function (q, e, o, d, n, c, m, b, h, r, l, f, a, j, i, s) {
 	    var g = this._be(q, e, o, d, n, c, m, b);
 	    var k = this._bf(h, r, l, f, a, j, i, s);
-	    return k.times(g)
+	    return k.times(g);
 	};
-	_ae._bf = function(f, h, d, g, b, e, a, c) {
+	_ae._bf = function (f, h, d, g, b, e, a, c) {
 	    var dy2 = c - e;
 	    var dy3 = h - g + e - c;
 	    if (dy2 == 0 && dy3 == 0) {
-	        return new _ae(d - f, b - d, f, g - h, e - g, h, 0, 0, 1)
+	        return new _ae(d - f, b - d, f, g - h, e - g, h, 0, 0, 1);
 	    } else {
 	        var dx1 = d - b;
 	        var dx2 = a - b;
@@ -32806,23 +34498,23 @@ webpackJsonp([0,1],[
 	        var _dr = dx1 * dy2 - dx2 * dy1;
 	        var a13 = (dx3 * dy2 - dx2 * dy3) / _dr;
 	        var a23 = (dx1 * dy3 - dx3 * dy1) / _dr;
-	        return new _ae(d - f + a13 * d, a - f + a23 * a, f, g - h + a13 * g, c - h + a23 * c, h, a13, a23, 1)
+	        return new _ae(d - f + a13 * d, a - f + a23 * a, f, g - h + a13 * g, c - h + a23 * c, h, a13, a23, 1);
 	    }
 	};
-	_ae._be = function(f, h, d, g, b, e, a, c) {
-	    return this._bf(f, h, d, g, b, e, a, c)._fr()
+	_ae._be = function (f, h, d, g, b, e, a, c) {
+	    return this._bf(f, h, d, g, b, e, a, c)._fr();
 	};
 	
 	function _bg(b, a) {
 	    this.bits = b;
-	    this.points = a
+	    this.points = a;
 	}
 	var xDiff = 0;
 	var yDiff = 0;
 	function Detector(a) {
 	    this.image = a;
 	    this._am = null;
-	    this._bi = function(m, l, c, b) {
+	    this._bi = function (m, l, c, b) {
 	        var d = Math.abs(b - l) > Math.abs(c - m);
 	        if (d) {
 	            var s = m;
@@ -32830,7 +34522,7 @@ webpackJsonp([0,1],[
 	            l = s;
 	            s = c;
 	            c = b;
-	            b = s
+	            b = s;
 	        }
 	        var j = Math.abs(c - m);
 	        var i = Math.abs(b - l);
@@ -32838,88 +34530,87 @@ webpackJsonp([0,1],[
 	        var v = l < b ? 1 : -1;
 	        var f = m < c ? 1 : -1;
 	        var e = 0;
-	        for (var h = m,
-	                g = l; h != c; h += f) {
+	        for (var h = m, g = l; h != c; h += f) {
 	            var u = d ? g : h;
 	            var t = d ? h : g;
 	            if (e == 1) {
 	                if (this.image[u + t * qrcode.width]) {
-	                    e++
+	                    e++;
 	                }
 	            } else {
 	                if (!this.image[u + t * qrcode.width]) {
-	                    e++
+	                    e++;
 	                }
 	            }
 	            if (e == 3) {
 	                var o = h - m;
 	                var n = g - l;
-	                return Math.sqrt((o * o + n * n))
+	                return Math.sqrt(o * o + n * n);
 	            }
 	            q += i;
 	            if (q > 0) {
 	                if (g == b) {
-	                    break
+	                    break;
 	                }
 	                g += v;
-	                q -= j
+	                q -= j;
 	            }
 	        }
 	        var k = c - m;
 	        var r = b - l;
-	        return Math.sqrt((k * k + r * r))
+	        return Math.sqrt(k * k + r * r);
 	    };
-	    this._bh = function(i, g, h, f) {
+	    this._bh = function (i, g, h, f) {
 	        var b = this._bi(i, g, h, f);
 	        var e = 1;
 	        var d = i - (h - i);
 	        if (d < 0) {
 	            e = i / (i - d);
-	            d = 0
+	            d = 0;
 	        } else {
 	            if (d >= qrcode.width) {
 	                e = (qrcode.width - 1 - i) / (d - i);
-	                d = qrcode.width - 1
+	                d = qrcode.width - 1;
 	            }
 	        }
 	        var c = Math.floor(g - (f - g) * e);
 	        e = 1;
 	        if (c < 0) {
 	            e = g / (g - c);
-	            c = 0
+	            c = 0;
 	        } else {
 	            if (c >= qrcode.height) {
 	                e = (qrcode.height - 1 - g) / (c - g);
-	                c = qrcode.height - 1
+	                c = qrcode.height - 1;
 	            }
 	        }
 	        d = Math.floor(i + (d - i) * e);
 	        b += this._bi(i, g, d, c);
-	        return b - 1
+	        return b - 1;
 	    };
-	    this._bj = function(c, d) {
+	    this._bj = function (c, d) {
 	        var b = this._bh(Math.floor(c.X), Math.floor(c.Y), Math.floor(d.X), Math.floor(d.Y));
 	        var e = this._bh(Math.floor(d.X), Math.floor(d.Y), Math.floor(c.X), Math.floor(c.Y));
 	        if (isNaN(b)) {
-	            return e / 7
+	            return e / 7;
 	        }
 	        if (isNaN(e)) {
-	            return b / 7
+	            return b / 7;
 	        }
-	        return (b + e) / 14
+	        return (b + e) / 14;
 	    };
-	    this._bk = function(d, c, b) {
-	        return (this._bj(d, c) + this._bj(d, b)) / 2
+	    this._bk = function (d, c, b) {
+	        return (this._bj(d, c) + this._bj(d, b)) / 2;
 	    };
-	    this.distance = function(c, b) {
+	    this.distance = function (c, b) {
 	        xDiff = c.X - b.X;
 	        yDiff = c.Y - b.Y;
-	        return Math.sqrt((xDiff * xDiff + yDiff * yDiff))
+	        return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	    };
-	    this._bx = function(g, f, d, e) {
+	    this._bx = function (g, f, d, e) {
 	        var b = Math.round(this.distance(g, f) / e);
 	        var c = Math.round(this.distance(g, d) / e);
-	        var h = ((b + c) >> 1) + 7;
+	        var h = (b + c >> 1) + 7;
 	        switch (h & 3) {
 	            case 0:
 	                h++;
@@ -32928,23 +34619,23 @@ webpackJsonp([0,1],[
 	                h--;
 	                break;
 	            case 3:
-	                throw "Error"
+	                throw "Error";
 	        }
-	        return h
+	        return h;
 	    };
-	    this._bl = function(g, f, d, j) {
+	    this._bl = function (g, f, d, j) {
 	        var k = Math.floor(j * g);
 	        var h = Math.max(0, f - k);
 	        var i = Math.min(qrcode.width - 1, f + k);
 	        if (i - h < g * 3) {
-	            throw "Error"
+	            throw "Error";
 	        }
 	        var b = Math.max(0, d - k);
 	        var c = Math.min(qrcode.height - 1, d + k);
 	        var e = new _ak(this.image, h, b, i - h, c - b, g, this._am);
-	        return e.find()
+	        return e.find();
 	    };
-	    this.createTransform = function(l, h, k, b, g) {
+	    this.createTransform = function (l, h, k, b, g) {
 	        var j = g - 3.5;
 	        var i;
 	        var f;
@@ -32953,26 +34644,26 @@ webpackJsonp([0,1],[
 	        if (b != null) {
 	            i = b.X;
 	            f = b.Y;
-	            e = c = j - 3
+	            e = c = j - 3;
 	        } else {
-	            i = (h.X - l.X) + k.X;
-	            f = (h.Y - l.Y) + k.Y;
-	            e = c = j
+	            i = h.X - l.X + k.X;
+	            f = h.Y - l.Y + k.Y;
+	            e = c = j;
 	        }
 	        var d = _ae._ag(3.5, 3.5, j, 3.5, e, c, 3.5, j, l.X, l.Y, h.X, h.Y, i, f, k.X, k.Y);
-	        return d
+	        return d;
 	    };
-	    this._bz = function(e, b, d) {
+	    this._bz = function (e, b, d) {
 	        var c = _aa;
-	        return c._af(e, d, b)
+	        return c._af(e, d, b);
 	    };
-	    this._cd = function(r) {
+	    this._cd = function (r) {
 	        var j = r._gq;
 	        var h = r._gs;
 	        var n = r._gp;
 	        var d = this._bk(j, h, n);
 	        if (d < 1) {
-	            throw "Error"
+	            throw "Error";
 	        }
 	        var s = this._bx(j, h, n, d);
 	        var b = _a3._at(s);
@@ -32986,100 +34677,96 @@ webpackJsonp([0,1],[
 	            var t = Math.floor(j.Y + c * (e - j.Y));
 	            for (var q = 4; q <= 16; q <<= 1) {
 	                l = this._bl(d, u, t, q);
-	                break
+	                break;
 	            }
 	        }
 	        var g = this.createTransform(j, h, n, l, s);
 	        var m = this._bz(this.image, g, s);
 	        var o;
 	        if (l == null) {
-	            o = new Array(n, j, h)
+	            o = new Array(n, j, h);
 	        } else {
-	            o = new Array(n, j, h, l)
+	            o = new Array(n, j, h, l);
 	        }
-	        return new _bg(m, o)
+	        return new _bg(m, o);
 	    };
-	    this.detect = function() {
+	    this.detect = function () {
 	        var b = new _cc()._ce(this.image);
-	        return this._cd(b)
-	    }
+	        return this._cd(b);
+	    };
 	}
 	var _ca = 21522;
 	var _cb = new Array(new Array(21522, 0), new Array(20773, 1), new Array(24188, 2), new Array(23371, 3), new Array(17913, 4), new Array(16590, 5), new Array(20375, 6), new Array(19104, 7), new Array(30660, 8), new Array(29427, 9), new Array(32170, 10), new Array(30877, 11), new Array(26159, 12), new Array(25368, 13), new Array(27713, 14), new Array(26998, 15), new Array(5769, 16), new Array(5054, 17), new Array(7399, 18), new Array(6608, 19), new Array(1890, 20), new Array(597, 21), new Array(3340, 22), new Array(2107, 23), new Array(13663, 24), new Array(12392, 25), new Array(16177, 26), new Array(14854, 27), new Array(9396, 28), new Array(8579, 29), new Array(11994, 30), new Array(11245, 31));
 	var _ch = new Array(0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4);
 	
 	function _ax(a) {
-	    this._cf = _cg.forBits((a >> 3) & 3);
-	    this._fe = (a & 7);
-	    this.__defineGetter__("_cg",
-	        function() {
-	            return this._cf
-	        });
-	    this.__defineGetter__("_dx",
-	        function() {
-	            return this._fe
-	        });
-	    this.GetHashCode = function() {
-	        return (this._cf.ordinal() << 3) | _fe
+	    this._cf = _cg.forBits(a >> 3 & 3);
+	    this._fe = a & 7;
+	    this.__defineGetter__("_cg", function () {
+	        return this._cf;
+	    });
+	    this.__defineGetter__("_dx", function () {
+	        return this._fe;
+	    });
+	    this.GetHashCode = function () {
+	        return this._cf.ordinal() << 3 | _fe;
 	    };
-	    this.Equals = function(c) {
+	    this.Equals = function (c) {
 	        var b = c;
-	        return this._cf == b._cf && this._fe == b._fe
-	    }
+	        return this._cf == b._cf && this._fe == b._fe;
+	    };
 	}
-	_ax._gj = function(d, c) {
+	_ax._gj = function (d, c) {
 	    d ^= c;
-	    return _ch[d & 15] + _ch[(_ew(d, 4) & 15)] + _ch[(_ew(d, 8) & 15)] + _ch[(_ew(d, 12) & 15)] + _ch[(_ew(d, 16) & 15)] + _ch[(_ew(d, 20) & 15)] + _ch[(_ew(d, 24) & 15)] + _ch[(_ew(d, 28) & 15)]
+	    return _ch[d & 15] + _ch[_ew(d, 4) & 15] + _ch[_ew(d, 8) & 15] + _ch[_ew(d, 12) & 15] + _ch[_ew(d, 16) & 15] + _ch[_ew(d, 20) & 15] + _ch[_ew(d, 24) & 15] + _ch[_ew(d, 28) & 15];
 	};
-	_ax._ci = function(a) {
+	_ax._ci = function (a) {
 	    var b = _ax._cj(a);
 	    if (b != null) {
-	        return b
+	        return b;
 	    }
-	    return _ax._cj(a ^ _ca)
+	    return _ax._cj(a ^ _ca);
 	};
-	_ax._cj = function(d) {
+	_ax._cj = function (d) {
 	    var b = 4294967295;
 	    var a = 0;
 	    for (var c = 0; c < _cb.length; c++) {
 	        var g = _cb[c];
 	        var f = g[0];
 	        if (f == d) {
-	            return new _ax(g[1])
+	            return new _ax(g[1]);
 	        }
 	        var e = this._gj(d, f);
 	        if (e < b) {
 	            a = g[1];
-	            b = e
+	            b = e;
 	        }
 	    }
 	    if (b <= 3) {
-	        return new _ax(a)
+	        return new _ax(a);
 	    }
-	    return null
+	    return null;
 	};
 	
 	function _cg(a, c, b) {
 	    this._ff = a;
 	    this.bits = c;
 	    this.name = b;
-	    this.__defineGetter__("Bits",
-	        function() {
-	            return this.bits
-	        });
-	    this.__defineGetter__("Name",
-	        function() {
-	            return this.name
-	        });
-	    this.ordinal = function() {
-	        return this._ff
-	    }
+	    this.__defineGetter__("Bits", function () {
+	        return this.bits;
+	    });
+	    this.__defineGetter__("Name", function () {
+	        return this.name;
+	    });
+	    this.ordinal = function () {
+	        return this._ff;
+	    };
 	}
-	_cg.forBits = function(a) {
+	_cg.forBits = function (a) {
 	    if (a < 0 || a >= FOR_BITS.length) {
-	        throw "bad arguments"
+	        throw "bad arguments";
 	    }
-	    return FOR_BITS[a]
+	    return FOR_BITS[a];
 	};
 	var L = new _cg(0, 1, "L");
 	var M = new _cg(1, 0, "M");
@@ -33089,97 +34776,92 @@ webpackJsonp([0,1],[
 	
 	function _ac(d, a) {
 	    if (!a) {
-	        a = d
+	        a = d;
 	    }
 	    if (d < 1 || a < 1) {
-	        throw "Both dimensions must be greater than 0"
+	        throw "Both dimensions must be greater than 0";
 	    }
 	    this.width = d;
 	    this.height = a;
 	    var c = d >> 5;
 	    if ((d & 31) != 0) {
-	        c++
+	        c++;
 	    }
 	    this.rowSize = c;
 	    this.bits = new Array(c * a);
 	    for (var b = 0; b < this.bits.length; b++) {
-	        this.bits[b] = 0
+	        this.bits[b] = 0;
 	    }
-	    this.__defineGetter__("Width",
-	        function() {
-	            return this.width
-	        });
-	    this.__defineGetter__("Height",
-	        function() {
-	            return this.height
-	        });
-	    this.__defineGetter__("Dimension",
-	        function() {
-	            if (this.width != this.height) {
-	                throw "Can't call getDimension() on a non-square matrix"
-	            }
-	            return this.width
-	        });
-	    this._ds = function(e, g) {
+	    this.__defineGetter__("Width", function () {
+	        return this.width;
+	    });
+	    this.__defineGetter__("Height", function () {
+	        return this.height;
+	    });
+	    this.__defineGetter__("Dimension", function () {
+	        if (this.width != this.height) {
+	            throw "Can't call getDimension() on a non-square matrix";
+	        }
+	        return this.width;
+	    });
+	    this._ds = function (e, g) {
 	        var f = g * this.rowSize + (e >> 5);
-	        return ((_ew(this.bits[f], (e & 31))) & 1) != 0
+	        return (_ew(this.bits[f], e & 31) & 1) != 0;
 	    };
-	    this._dq = function(e, g) {
+	    this._dq = function (e, g) {
 	        var f = g * this.rowSize + (e >> 5);
-	        this.bits[f] |= 1 << (e & 31)
+	        this.bits[f] |= 1 << (e & 31);
 	    };
-	    this.flip = function(e, g) {
+	    this.flip = function (e, g) {
 	        var f = g * this.rowSize + (e >> 5);
-	        this.bits[f] ^= 1 << (e & 31)
+	        this.bits[f] ^= 1 << (e & 31);
 	    };
-	    this.clear = function() {
+	    this.clear = function () {
 	        var e = this.bits.length;
 	        for (var f = 0; f < e; f++) {
-	            this.bits[f] = 0
+	            this.bits[f] = 0;
 	        }
 	    };
-	    this._bq = function(g, j, f, m) {
+	    this._bq = function (g, j, f, m) {
 	        if (j < 0 || g < 0) {
-	            throw "Left and top must be nonnegative"
+	            throw "Left and top must be nonnegative";
 	        }
 	        if (m < 1 || f < 1) {
-	            throw "Height and width must be at least 1"
+	            throw "Height and width must be at least 1";
 	        }
 	        var l = g + f;
 	        var e = j + m;
 	        if (e > this.height || l > this.width) {
-	            throw "The region must fit inside the matrix"
+	            throw "The region must fit inside the matrix";
 	        }
 	        for (var i = j; i < e; i++) {
 	            var h = i * this.rowSize;
 	            for (var k = g; k < l; k++) {
-	                this.bits[h + (k >> 5)] |= 1 << (k & 31)
+	                this.bits[h + (k >> 5)] |= 1 << (k & 31);
 	            }
 	        }
-	    }
+	    };
 	}
 	
 	function _dl(a, b) {
 	    this._dv = a;
 	    this._dw = b;
-	    this.__defineGetter__("_du",
-	        function() {
-	            return this._dv
-	        });
-	    this.__defineGetter__("Codewords",
-	        function() {
-	            return this._dw
-	        })
+	    this.__defineGetter__("_du", function () {
+	        return this._dv;
+	    });
+	    this.__defineGetter__("Codewords", function () {
+	        return this._dw;
+	    });
 	}
-	_dl._gn = function(c, h, s) {
+	_dl._gn = function (c, h, s) {
 	    if (c.length != h._dp) {
-	        throw "bad arguments"
+	        throw "bad arguments";
 	    }
 	    var k = h._bu(s);
 	    var e = 0;
 	    var d = k._fb();
 	    for (var r = 0; r < d.length; r++) {
-	        e += d[r].Count
+	        e += d[r].Count;
 	    }
 	    var l = new Array(e);
 	    var n = 0;
@@ -33188,7 +34870,7 @@ webpackJsonp([0,1],[
 	        for (var r = 0; r < f.Count; r++) {
 	            var m = f._dm;
 	            var t = k._bo + m;
-	            l[n++] = new _dl(m, new Array(t))
+	            l[n++] = new _dl(m, new Array(t));
 	        }
 	    }
 	    var u = l[0]._dw.length;
@@ -33196,108 +34878,108 @@ webpackJsonp([0,1],[
 	    while (b >= 0) {
 	        var w = l[b]._dw.length;
 	        if (w == u) {
-	            break
+	            break;
 	        }
-	        b--
+	        b--;
 	    }
 	    b++;
 	    var g = u - k._bo;
 	    var a = 0;
 	    for (var r = 0; r < g; r++) {
 	        for (var o = 0; o < n; o++) {
-	            l[o]._dw[r] = c[a++]
+	            l[o]._dw[r] = c[a++];
 	        }
 	    }
 	    for (var o = b; o < n; o++) {
-	        l[o]._dw[g] = c[a++]
+	        l[o]._dw[g] = c[a++];
 	    }
 	    var q = l[0]._dw.length;
 	    for (var r = g; r < q; r++) {
 	        for (var o = 0; o < n; o++) {
 	            var v = o < b ? r : r + 1;
-	            l[o]._dw[v] = c[a++]
+	            l[o]._dw[v] = c[a++];
 	        }
 	    }
-	    return l
+	    return l;
 	};
 	
 	function _cl(a) {
 	    var b = a.Dimension;
 	    if (b < 21 || (b & 3) != 1) {
-	        throw "Error _cl"
+	        throw "Error _cl";
 	    }
 	    this._au = a;
 	    this._cp = null;
 	    this._co = null;
-	    this._dk = function(d, c, e) {
-	        return this._au._ds(d, c) ? (e << 1) | 1 : e << 1
+	    this._dk = function (d, c, e) {
+	        return this._au._ds(d, c) ? e << 1 | 1 : e << 1;
 	    };
-	    this._cm = function() {
+	    this._cm = function () {
 	        if (this._co != null) {
-	            return this._co
+	            return this._co;
 	        }
 	        var g = 0;
 	        for (var e = 0; e < 6; e++) {
-	            g = this._dk(e, 8, g)
+	            g = this._dk(e, 8, g);
 	        }
 	        g = this._dk(7, 8, g);
 	        g = this._dk(8, 8, g);
 	        g = this._dk(8, 7, g);
 	        for (var c = 5; c >= 0; c--) {
-	            g = this._dk(8, c, g)
+	            g = this._dk(8, c, g);
 	        }
 	        this._co = _ax._ci(g);
 	        if (this._co != null) {
-	            return this._co
+	            return this._co;
 	        }
 	        var f = this._au.Dimension;
 	        g = 0;
 	        var d = f - 8;
 	        for (var e = f - 1; e >= d; e--) {
-	            g = this._dk(e, 8, g)
+	            g = this._dk(e, 8, g);
 	        }
 	        for (var c = f - 7; c < f; c++) {
-	            g = this._dk(8, c, g)
+	            g = this._dk(8, c, g);
 	        }
 	        this._co = _ax._ci(g);
 	        if (this._co != null) {
-	            return this._co
+	            return this._co;
 	        }
-	        throw "Error _cm"
+	        throw "Error _cm";
 	    };
-	    this._cq = function() {
+	    this._cq = function () {
 	        if (this._cp != null) {
-	            return this._cp
+	            return this._cp;
 	        }
 	        var h = this._au.Dimension;
-	        var f = (h - 17) >> 2;
+	        var f = h - 17 >> 2;
 	        if (f <= 6) {
-	            return _a3._av(f)
+	            return _a3._av(f);
 	        }
 	        var g = 0;
 	        var e = h - 11;
 	        for (var c = 5; c >= 0; c--) {
 	            for (var d = h - 9; d >= e; d--) {
-	                g = this._dk(d, c, g)
+	                g = this._dk(d, c, g);
 	            }
 	        }
 	        this._cp = _a3._aw(g);
 	        if (this._cp != null && this._cp._cr == h) {
-	            return this._cp
+	            return this._cp;
 	        }
 	        g = 0;
 	        for (var d = 5; d >= 0; d--) {
 	            for (var c = h - 9; c >= e; c--) {
-	                g = this._dk(d, c, g)
+	                g = this._dk(d, c, g);
 	            }
 	        }
 	        this._cp = _a3._aw(g);
 	        if (this._cp != null && this._cp._cr == h) {
-	            return this._cp
+	            return this._cp;
 	        }
-	        throw "Error _cq"
+	        throw "Error _cq";
 	    };
-	    this._gk = function() {
+	    this._gk = function () {
 	        var r = this._cm();
 	        var o = this._cq();
 	        var c = _dx._gl(r._dx);
@@ -33311,7 +34993,7 @@ webpackJsonp([0,1],[
 	        var h = 0;
 	        for (var e = f - 1; e > 0; e -= 2) {
 	            if (e == 6) {
-	                e--
+	                e--;
 	            }
 	            for (var l = 0; l < f; l++) {
 	                var g = n ? f - 1 - l : l;
@@ -33320,162 +35002,162 @@ webpackJsonp([0,1],[
 	                        h++;
 	                        q <<= 1;
 	                        if (this._au._ds(e - d, g)) {
-	                            q |= 1
+	                            q |= 1;
 	                        }
 	                        if (h == 8) {
 	                            s[m++] = q;
 	                            h = 0;
-	                            q = 0
+	                            q = 0;
 	                        }
 	                    }
 	                }
 	            }
-	            n ^= true
+	            n ^= true;
 	        }
 	        if (m != o._dp) {
-	            throw "Error _gk"
+	            throw "Error _gk";
 	        }
-	        return s
-	    }
+	        return s;
+	    };
 	}
 	var _dx = {};
-	_dx._gl = function(a) {
+	_dx._gl = function (a) {
 	    if (a < 0 || a > 7) {
-	        throw "bad arguments"
+	        throw "bad arguments";
 	    }
-	    return _dx._dy[a]
+	    return _dx._dy[a];
 	};
 	
 	function _fg() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(b, a) {
-	        return ((b + a) & 1) == 0
-	    }
+	    this._fw = function (b, a) {
+	        return (b + a & 1) == 0;
+	    };
 	}
 	
 	function _fh() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(b, a) {
-	        return (b & 1) == 0
-	    }
+	    this._fw = function (b, a) {
+	        return (b & 1) == 0;
+	    };
 	}
 	
 	function _fi() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(b, a) {
-	        return a % 3 == 0
-	    }
+	    this._fw = function (b, a) {
+	        return a % 3 == 0;
+	    };
 	}
 	
 	function _fj() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(b, a) {
-	        return (b + a) % 3 == 0
-	    }
+	    this._fw = function (b, a) {
+	        return (b + a) % 3 == 0;
+	    };
 	}
 	
 	function _fk() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(b, a) {
-	        return (((_ew(b, 1)) + (a / 3)) & 1) == 0
-	    }
+	    this._fw = function (b, a) {
+	        return (_ew(b, 1) + a / 3 & 1) == 0;
+	    };
 	}
 	
 	function _fl() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(c, b) {
+	    this._fw = function (c, b) {
 	        var a = c * b;
-	        return (a & 1) + (a % 3) == 0
-	    }
+	        return (a & 1) + a % 3 == 0;
+	    };
 	}
 	
 	function _fm() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(c, b) {
+	    this._fw = function (c, b) {
 	        var a = c * b;
-	        return (((a & 1) + (a % 3)) & 1) == 0
-	    }
+	        return ((a & 1) + a % 3 & 1) == 0;
+	    };
 	}
 	
 	function _fn() {
-	    this._dj = function(c, d) {
+	    this._dj = function (c, d) {
 	        for (var b = 0; b < d; b++) {
 	            for (var a = 0; a < d; a++) {
 	                if (this._fw(b, a)) {
-	                    c.flip(a, b)
+	                    c.flip(a, b);
 	                }
 	            }
 	        }
 	    };
-	    this._fw = function(b, a) {
-	        return ((((b + a) & 1) + ((b * a) % 3)) & 1) == 0
-	    }
+	    this._fw = function (b, a) {
+	        return ((b + a & 1) + b * a % 3 & 1) == 0;
+	    };
 	}
 	_dx._dy = new Array(new _fg(), new _fh(), new _fi(), new _fj(), new _fk(), new _fl(), new _fm(), new _fn());
 	
 	function _db(_fa) {
 	    this._fa = _fa;
-	    this.decode = function(received, _fv) {
+	    this.decode = function (received, _fv) {
 	        var poly = new _bp(this._fa, received);
 	        var _dh = new Array(_fv);
 	        for (var i = 0; i < _dh.length; i++) {
-	            _dh[i] = 0
+	            _dh[i] = 0;
 	        }
 	        var _fq = false;
 	        var noError = true;
@@ -33483,11 +35165,11 @@ webpackJsonp([0,1],[
 	            var evs = poly.evaluateAt(this._fa.exp(_fq ? i + 1 : i));
 	            _dh[_dh.length - 1 - i] = evs;
 	            if (evs != 0) {
-	                noError = false
+	                noError = false;
 	            }
 	        }
 	        if (noError) {
-	            return
+	            return;
 	        }
 	        var _fu = new _bp(this._fa, _dh);
 	        var _dg = this._eb(this._fa._ba(_fv, 1), _fu, _fv);
@@ -33498,16 +35180,16 @@ webpackJsonp([0,1],[
 	        for (var i = 0; i < _dz.length; i++) {
 	            var position = received.length - 1 - this._fa.log(_dz[i]);
 	            if (position < 0) {
-	                throw "ReedSolomonException Bad error location"
+	                throw "ReedSolomonException Bad error location";
 	            }
-	            received[position] = _az._bd(received[position], _ea[i])
+	            received[position] = _az._bd(received[position], _ea[i]);
 	        }
 	    };
-	    this._eb = function(a, b, R) {
+	    this._eb = function (a, b, R) {
 	        if (a._ec < b._ec) {
 	            var temp = a;
 	            a = b;
-	            b = temp
+	            b = temp;
 	        }
 	        var rLast = a;
 	        var r = b;
@@ -33523,7 +35205,7 @@ webpackJsonp([0,1],[
 	            sLast = s;
 	            tLast = t;
 	            if (rLast.Zero) {
-	                throw "r_{i-1} was zero"
+	                throw "r_{i-1} was zero";
 	            }
 	            r = rLastLast;
 	            var q = this._fa.Zero;
@@ -33533,39 +35215,39 @@ webpackJsonp([0,1],[
 	                var _fx = r._ec - rLast._ec;
 	                var scale = this._fa.multiply(r._ex(r._ec), _fy);
 	                q = q._bd(this._fa._ba(_fx, scale));
-	                r = r._bd(rLast._dc(_fx, scale))
+	                r = r._bd(rLast._dc(_fx, scale));
 	            }
 	            s = q.multiply1(sLast)._bd(_ga);
-	            t = q.multiply1(tLast)._bd(_gb)
+	            t = q.multiply1(tLast)._bd(_gb);
 	        }
 	        var _de = t._ex(0);
 	        if (_de == 0) {
-	            throw "ReedSolomonException sigmaTilde(0) was zero"
+	            throw "ReedSolomonException sigmaTilde(0) was zero";
 	        }
 	        var inverse = this._fa.inverse(_de);
 	        var sigma = t.multiply2(inverse);
 	        var omega = r.multiply2(inverse);
-	        return new Array(sigma, omega)
+	        return new Array(sigma, omega);
 	    };
-	    this._ey = function(_ez) {
+	    this._ey = function (_ez) {
 	        var _fz = _ez._ec;
 	        if (_fz == 1) {
-	            return new Array(_ez._ex(1))
+	            return new Array(_ez._ex(1));
 	        }
 	        var result = new Array(_fz);
 	        var e = 0;
 	        for (var i = 1; i < 256 && e < _fz; i++) {
 	            if (_ez.evaluateAt(i) == 0) {
 	                result[e] = this._fa.inverse(i);
-	                e++
+	                e++;
 	            }
 	        }
 	        if (e != _fz) {
-	            throw "Error locator degree does not match number of roots"
+	            throw "Error locator degree does not match number of roots";
 	        }
-	        return result
+	        return result;
 	    };
-	    this._di = function(_fs, _dz, _fq) {
+	    this._di = function (_fs, _dz, _fq) {
 	        var s = _dz.length;
 	        var result = new Array(s);
 	        for (var i = 0; i < s; i++) {
@@ -33573,109 +35255,106 @@ webpackJsonp([0,1],[
 	            var _dr = 1;
 	            for (var j = 0; j < s; j++) {
 	                if (i != j) {
-	                    _dr = this._fa.multiply(_dr, _az._bd(1, this._fa.multiply(_dz[j], _gc)))
+	                    _dr = this._fa.multiply(_dr, _az._bd(1, this._fa.multiply(_dz[j], _gc)));
 	                }
 	            }
 	            result[i] = this._fa.multiply(_fs.evaluateAt(_gc), this._fa.inverse(_dr));
 	            if (_fq) {
-	                result[i] = this._fa.multiply(result[i], _gc)
+	                result[i] = this._fa.multiply(result[i], _gc);
 	            }
 	        }
-	        return result
-	    }
+	        return result;
+	    };
 	}
 	
 	function _bp(f, e) {
 	    if (e == null || e.length == 0) {
-	        throw "bad arguments"
+	        throw "bad arguments";
 	    }
 	    this._fa = f;
 	    var c = e.length;
 	    if (c > 1 && e[0] == 0) {
 	        var d = 1;
 	        while (d < c && e[d] == 0) {
-	            d++
+	            d++;
 	        }
 	        if (d == c) {
-	            this._dd = f.Zero._dd
+	            this._dd = f.Zero._dd;
 	        } else {
 	            this._dd = new Array(c - d);
 	            for (var b = 0; b < this._dd.length; b++) {
-	                this._dd[b] = 0
+	                this._dd[b] = 0;
 	            }
 	            for (var a = 0; a < this._dd.length; a++) {
-	                this._dd[a] = e[d + a]
+	                this._dd[a] = e[d + a];
 	            }
 	        }
 	    } else {
-	        this._dd = e
+	        this._dd = e;
 	    }
-	    this.__defineGetter__("Zero",
-	        function() {
-	            return this._dd[0] == 0
-	        });
-	    this.__defineGetter__("_ec",
-	        function() {
-	            return this._dd.length - 1
-	        });
-	    this.__defineGetter__("Coefficients",
-	        function() {
-	            return this._dd
-	        });
-	    this._ex = function(g) {
-	        return this._dd[this._dd.length - 1 - g]
+	    this.__defineGetter__("Zero", function () {
+	        return this._dd[0] == 0;
+	    });
+	    this.__defineGetter__("_ec", function () {
+	        return this._dd.length - 1;
+	    });
+	    this.__defineGetter__("Coefficients", function () {
+	        return this._dd;
+	    });
+	    this._ex = function (g) {
+	        return this._dd[this._dd.length - 1 - g];
 	    };
-	    this.evaluateAt = function(h) {
+	    this.evaluateAt = function (h) {
 	        if (h == 0) {
-	            return this._ex(0)
+	            return this._ex(0);
 	        }
 	        var l = this._dd.length;
 	        if (h == 1) {
 	            var g = 0;
 	            for (var k = 0; k < l; k++) {
-	                g = _az._bd(g, this._dd[k])
+	                g = _az._bd(g, this._dd[k]);
 	            }
-	            return g
+	            return g;
 	        }
 	        var j = this._dd[0];
 	        for (var k = 1; k < l; k++) {
-	            j = _az._bd(this._fa.multiply(h, j), this._dd[k])
+	            j = _az._bd(this._fa.multiply(h, j), this._dd[k]);
 	        }
-	        return j
+	        return j;
 	    };
-	    this._bd = function(g) {
+	    this._bd = function (g) {
 	        if (this._fa != g._fa) {
-	            throw "GF256Polys do not have same _az _fa"
+	            throw "GF256Polys do not have same _az _fa";
 	        }
 	        if (this.Zero) {
-	            return g
+	            return g;
 	        }
 	        if (g.Zero) {
-	            return this
+	            return this;
 	        }
 	        var o = this._dd;
 	        var n = g._dd;
 	        if (o.length > n.length) {
 	            var j = o;
 	            o = n;
-	            n = j
+	            n = j;
 	        }
 	        var h = new Array(n.length);
 	        var k = n.length - o.length;
 	        for (var m = 0; m < k; m++) {
-	            h[m] = n[m]
+	            h[m] = n[m];
 	        }
 	        for (var l = k; l < n.length; l++) {
-	            h[l] = _az._bd(o[l - k], n[l])
+	            h[l] = _az._bd(o[l - k], n[l]);
 	        }
-	        return new _bp(f, h)
+	        return new _bp(f, h);
 	    };
-	    this.multiply1 = function(o) {
+	    this.multiply1 = function (o) {
 	        if (this._fa != o._fa) {
-	            throw "GF256Polys do not have same _az _fa"
+	            throw "GF256Polys do not have same _az _fa";
 	        }
 	        if (this.Zero || o.Zero) {
-	            return this._fa.Zero
+	            return this._fa.Zero;
 	        }
 	        var r = this._dd;
 	        var g = r.length;
@@ -33685,48 +35364,48 @@ webpackJsonp([0,1],[
 	        for (var m = 0; m < g; m++) {
 	            var h = r[m];
 	            for (var k = 0; k < n; k++) {
-	                q[m + k] = _az._bd(q[m + k], this._fa.multiply(h, l[k]))
+	                q[m + k] = _az._bd(q[m + k], this._fa.multiply(h, l[k]));
 	            }
 	        }
-	        return new _bp(this._fa, q)
+	        return new _bp(this._fa, q);
 	    };
-	    this.multiply2 = function(g) {
+	    this.multiply2 = function (g) {
 	        if (g == 0) {
-	            return this._fa.Zero
+	            return this._fa.Zero;
 	        }
 	        if (g == 1) {
-	            return this
+	            return this;
 	        }
 	        var j = this._dd.length;
 	        var k = new Array(j);
 	        for (var h = 0; h < j; h++) {
-	            k[h] = this._fa.multiply(this._dd[h], g)
+	            k[h] = this._fa.multiply(this._dd[h], g);
 	        }
-	        return new _bp(this._fa, k)
+	        return new _bp(this._fa, k);
 	    };
-	    this._dc = function(l, g) {
+	    this._dc = function (l, g) {
 	        if (l < 0) {
-	            throw "bad arguments"
+	            throw "bad arguments";
 	        }
 	        if (g == 0) {
-	            return this._fa.Zero
+	            return this._fa.Zero;
 	        }
 	        var j = this._dd.length;
 	        var k = new Array(j + l);
 	        for (var h = 0; h < k.length; h++) {
-	            k[h] = 0
+	            k[h] = 0;
 	        }
 	        for (var h = 0; h < j; h++) {
-	            k[h] = this._fa.multiply(this._dd[h], g)
+	            k[h] = this._fa.multiply(this._dd[h], g);
 	        }
-	        return new _bp(this._fa, k)
+	        return new _bp(this._fa, k);
 	    };
-	    this.divide = function(l) {
+	    this.divide = function (l) {
 	        if (this._fa != l._fa) {
-	            throw "GF256Polys do not have same _az _fa"
+	            throw "GF256Polys do not have same _az _fa";
 	        }
 	        if (l.Zero) {
-	            throw "Divide by 0"
+	            throw "Divide by 0";
 	        }
 	        var j = this._fa.Zero;
 	        var o = this;
@@ -33738,10 +35417,10 @@ webpackJsonp([0,1],[
 	            var i = l._dc(m, h);
 	            var k = this._fa._ba(m, h);
 	            j = j._bd(k);
-	            o = o._bd(i)
+	            o = o._bd(i);
 	        }
-	        return new Array(j, o)
-	    }
+	        return new Array(j, o);
+	    };
 	}
 	
 	function _az(b) {
@@ -33752,11 +35431,11 @@ webpackJsonp([0,1],[
 	        this._gh[e] = a;
 	        a <<= 1;
 	        if (a >= 256) {
-	            a ^= b
+	            a ^= b;
 	        }
 	    }
 	    for (var e = 0; e < 255; e++) {
-	        this._gi[this._gh[e]] = e
+	        this._gi[this._gh[e]] = e;
 	    }
 	    var d = new Array(1);
 	    d[0] = 0;
@@ -33764,80 +35443,78 @@ webpackJsonp([0,1],[
 	    var c = new Array(1);
 	    c[0] = 1;
 	    this.one = new _bp(this, new Array(c));
-	    this.__defineGetter__("Zero",
-	        function() {
-	            return this.zero
-	        });
-	    this.__defineGetter__("One",
-	        function() {
-	            return this.one
-	        });
-	    this._ba = function(j, f) {
+	    this.__defineGetter__("Zero", function () {
+	        return this.zero;
+	    });
+	    this.__defineGetter__("One", function () {
+	        return this.one;
+	    });
+	    this._ba = function (j, f) {
 	        if (j < 0) {
-	            throw "bad arguments"
+	            throw "bad arguments";
 	        }
 	        if (f == 0) {
-	            return zero
+	            return zero;
 	        }
 	        var h = new Array(j + 1);
 	        for (var g = 0; g < h.length; g++) {
-	            h[g] = 0
+	            h[g] = 0;
 	        }
 	        h[0] = f;
-	        return new _bp(this, h)
+	        return new _bp(this, h);
 	    };
-	    this.exp = function(f) {
-	        return this._gh[f]
+	    this.exp = function (f) {
+	        return this._gh[f];
 	    };
-	    this.log = function(f) {
+	    this.log = function (f) {
 	        if (f == 0) {
-	            throw "bad arguments"
+	            throw "bad arguments";
 	        }
-	        return this._gi[f]
+	        return this._gi[f];
 	    };
-	    this.inverse = function(f) {
+	    this.inverse = function (f) {
 	        if (f == 0) {
-	            throw "System.ArithmeticException"
+	            throw "System.ArithmeticException";
 	        }
-	        return this._gh[255 - this._gi[f]]
+	        return this._gh[255 - this._gi[f]];
 	    };
-	    this.multiply = function(g, f) {
+	    this.multiply = function (g, f) {
 	        if (g == 0 || f == 0) {
-	            return 0
+	            return 0;
 	        }
 	        if (g == 1) {
-	            return f
+	            return f;
 	        }
 	        if (f == 1) {
-	            return g
+	            return g;
 	        }
-	        return this._gh[(this._gi[g] + this._gi[f]) % 255]
-	    }
+	        return this._gh[(this._gi[g] + this._gi[f]) % 255];
+	    };
 	}
 	_az._bb = new _az(285);
 	_az._bc = new _az(301);
-	_az._bd = function(d, c) {
-	    return d ^ c
+	_az._bd = function (d, c) {
+	    return d ^ c;
 	};
 	var Decoder = {};
 	Decoder.rsDecoder = new _db(_az._bb);
-	Decoder.correctErrors = function(g, b) {
+	Decoder.correctErrors = function (g, b) {
 	    var d = g.length;
 	    var f = new Array(d);
 	    for (var e = 0; e < d; e++) {
-	        f[e] = g[e] & 255
+	        f[e] = g[e] & 255;
 	    }
 	    var a = g.length - b;
 	    try {
-	        Decoder.rsDecoder.decode(f, a)
+	        Decoder.rsDecoder.decode(f, a);
 	    } catch (c) {
-	        throw c
+	        throw c;
 	    }
 	    for (var e = 0; e < b; e++) {
-	        g[e] = f[e]
+	        g[e] = f[e];
 	    }
 	};
-	Decoder.decode = function(r) {
+	Decoder.decode = function (r) {
 	    var b = new _cl(r);
 	    var o = b._cq();
 	    var c = b._cm()._cg;
@@ -33845,7 +35522,7 @@ webpackJsonp([0,1],[
 	    var a = _dl._gn(q, o, c);
 	    var f = 0;
 	    for (var k = 0; k < a.length; k++) {
-	        f += a[k]._du
+	        f += a[k]._du;
 	    }
 	    var e = new Array(f);
 	    var n = 0;
@@ -33855,25 +35532,25 @@ webpackJsonp([0,1],[
 	        var g = m._du;
 	        Decoder.correctErrors(d, g);
 	        for (var k = 0; k < g; k++) {
-	            e[n++] = d[k]
+	            e[n++] = d[k];
 	        }
 	    }
 	    var l = new QRCodeDataBlockReader(e, o._fd, c.Bits);
-	    return l
+	    return l;
 	};
 	var browser = {
-	    versions: function() {
+	    versions: (function () {
 	        var u = navigator.userAgent,
 	            app = navigator.appVersion;
-	        return { //移动终端浏览器版本信息 
-	            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端 
-	            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器 
-	            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器 
-	            iPad: u.indexOf('iPad') > -1, //是否iPad 
-	        };
-	    }(),
-	}
+	        return { //移动终端浏览器版本信息
+	            ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), //ios终端
+	            android: u.indexOf('Android') > -1 || u.indexOf('Linux') > -1, //android终端或uc浏览器
+	            iPhone: u.indexOf('iPhone') > -1, //是否为iPhone或者QQHD浏览器
+	            iPad: u.indexOf('iPad') > -1 };
+	    })()
+	};
 	
+	//是否iPad
 	var qrcode = {};
 	qrcode.imagedata = null;
 	qrcode.width = 0;
@@ -33881,13 +35558,9 @@ webpackJsonp([0,1],[
 	qrcode.qrCodeSymbol = null;
 	qrcode.debug = false;
 	qrcode.maxImgSize = 1024 * 1024;
-	qrcode._eo = [
-	    [10, 9, 8, 8],
-	    [12, 11, 16, 10],
-	    [14, 13, 16, 12]
-	];
+	qrcode._eo = [[10, 9, 8, 8], [12, 11, 16, 10], [14, 13, 16, 12]];
 	qrcode.callback = null;
-	qrcode.decode = function(d) {
+	qrcode.decode = function (d) {
 	    if (arguments.length == 0) {
 	        var b = document.getElementById("qr-canvas");
 	        var a = b.getContext("2d");
@@ -33896,20 +35569,19 @@ webpackJsonp([0,1],[
 	        qrcode.imagedata = a.getImageData(0, 0, qrcode.width, qrcode.height);
 	        qrcode.result = qrcode.process(a);
 	        if (qrcode.callback != null) {
-	            qrcode.callback(qrcode.result)
+	            qrcode.callback(qrcode.result);
 	        }
-	        return qrcode.result
+	        return qrcode.result;
 	    } else {
 	        var c = new Image();
-	        c.onload = function() {
+	        c.onload = function () {
 	            var g = document.getElementById("out-canvas");
 	            if (g != null) {
 	                var j = g.getContext("2d");
 	                j.clearRect(0, 0, 320, 240);
 	                if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
 	                    drawImageIOSFix(j, c, 0, 0, 320, 240);
-	                }
-	                else{
+	                } else {
 	                    j.drawImage(c, 0, 0, 320, 240);
 	                }
 	            }
@@ -33920,11 +35592,11 @@ webpackJsonp([0,1],[
 	            if (c.width * c.height > qrcode.maxImgSize) {
 	                var k = c.width / c.height;
 	                f = Math.sqrt(qrcode.maxImgSize / k);
-	                l = k * f
+	                l = k * f;
 	            }
 	            i.width = l;
 	            i.height = f;
-	            i.style.display ="none";
+	            i.style.display = "none";
 	            var u = navigator.userAgent,
 	                app = navigator.appVersion;
 	            if (browser.versions.iPhone || browser.versions.iPad || browser.versions.ios) {
@@ -33935,109 +35607,109 @@ webpackJsonp([0,1],[
 	            qrcode.width = i.width;
 	            qrcode.height = i.height;
 	            try {
-	                qrcode.imagedata = h.getImageData(0, 0, i.width, i.height)
+	                qrcode.imagedata = h.getImageData(0, 0, i.width, i.height);
 	            } catch (m) {
 	                qrcode.result = "Cross domain image reading not supported in your browser! Save it to your computer then drag and drop the file!";
 	                if (qrcode.callback != null) {
-	                    qrcode.callback(qrcode.result)
+	                    qrcode.callback(qrcode.result);
 	                }
-	                return
+	                return;
 	            }
 	            try {
-	                qrcode.result = qrcode.process(h)
+	                qrcode.result = qrcode.process(h);
 	            } catch (m) {
 	                console.log(m);
-	                qrcode.result = "error decoding QR Code"
+	                qrcode.result = "error decoding QR Code";
 	            }
 	            if (qrcode.callback != null) {
-	                qrcode.callback(qrcode.result)
+	                qrcode.callback(qrcode.result);
 	            }
 	        };
-	        c.src = d
+	        c.src = d;
 	    }
 	};
-	qrcode.isUrl = function(a) {
+	qrcode.isUrl = function (a) {
 	    var b = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
-	    return b.test(a)
+	    return b.test(a);
 	};
-	qrcode.decode_url = function(b) {
+	qrcode.decode_url = function (b) {
 	    var d = "";
 	    try {
-	        d = escape(b)
+	        d = escape(b);
 	    } catch (c) {
 	        console.log(c);
-	        d = b
+	        d = b;
 	    }
 	    var a = "";
 	    try {
-	        a = decodeURIComponent(d)
+	        a = decodeURIComponent(d);
 	    } catch (c) {
 	        console.log(c);
-	        a = d
+	        a = d;
 	    }
-	    return a
+	    return a;
 	};
-	qrcode.decode_utf8 = function(a) {
+	qrcode.decode_utf8 = function (a) {
 	    if (qrcode.isUrl(a)) {
-	        return qrcode.decode_url(a)
+	        return qrcode.decode_url(a);
 	    } else {
-	        return a
+	        return a;
 	    }
 	};
-	qrcode.process = function(r) {
+	qrcode.process = function (r) {
 	    var a = new Date().getTime();
 	    var c = qrcode.grayScaleToBitmap(qrcode.grayscale());
 	    if (qrcode.debug) {
 	        for (var m = 0; m < qrcode.height; m++) {
 	            for (var n = 0; n < qrcode.width; n++) {
-	                var o = (n * 4) + (m * qrcode.width * 4);
+	                var o = n * 4 + m * qrcode.width * 4;
 	                qrcode.imagedata.data[o] = c[n + m * qrcode.width] ? 0 : 0;
 	                qrcode.imagedata.data[o + 1] = c[n + m * qrcode.width] ? 0 : 0;
-	                qrcode.imagedata.data[o + 2] = c[n + m * qrcode.width] ? 255 : 0
+	                qrcode.imagedata.data[o + 2] = c[n + m * qrcode.width] ? 255 : 0;
 	            }
 	        }
-	        r.putImageData(qrcode.imagedata, 0, 0)
+	        r.putImageData(qrcode.imagedata, 0, 0);
 	    }
 	    var h = new Detector(c);
 	    var q = h.detect();
 	    if (qrcode.debug) {
-	        r.putImageData(qrcode.imagedata, 0, 0)
+	        r.putImageData(qrcode.imagedata, 0, 0);
 	    }
 	    var k = Decoder.decode(q.bits);
 	    var g = k.DataByte;
 	    var l = "";
 	    for (var f = 0; f < g.length; f++) {
 	        for (var e = 0; e < g[f].length; e++) {
-	            l += String.fromCharCode(g[f][e])
+	            l += String.fromCharCode(g[f][e]);
 	        }
 	    }
 	    var d = new Date().getTime();
 	    var b = d - a;
 	    console.log(b);
-	    return qrcode.decode_utf8(l)
+	    return qrcode.decode_utf8(l);
 	};
-	qrcode.getPixel = function(a, b) {
+	qrcode.getPixel = function (a, b) {
 	    if (qrcode.width < a) {
-	        throw "point error"
+	        throw "point error";
 	    }
 	    if (qrcode.height < b) {
-	        throw "point error"
+	        throw "point error";
 	    }
-	    var point = (a * 4) + (b * qrcode.width * 4);
+	    var point = a * 4 + b * qrcode.width * 4;
 	    var p = (qrcode.imagedata.data[point] * 33 + qrcode.imagedata.data[point + 1] * 34 + qrcode.imagedata.data[point + 2] * 33) / 100;
-	    return p
+	    return p;
 	};
-	qrcode.binarize = function(d) {
+	qrcode.binarize = function (d) {
 	    var c = new Array(qrcode.width * qrcode.height);
 	    for (var e = 0; e < qrcode.height; e++) {
 	        for (var b = 0; b < qrcode.width; b++) {
 	            var a = qrcode.getPixel(b, e);
-	            c[b + e * qrcode.width] = a <= d ? true : false
+	            c[b + e * qrcode.width] = a <= d ? true : false;
 	        }
 	    }
-	    return c
+	    return c;
 	};
-	qrcode._em = function(d) {
+	qrcode._em = function (d) {
 	    var c = 4;
 	    var k = Math.floor(qrcode.width / c);
 	    var j = Math.floor(qrcode.height / c);
@@ -34045,7 +35717,7 @@ webpackJsonp([0,1],[
 	    for (var g = 0; g < c; g++) {
 	        f[g] = new Array(c);
 	        for (var e = 0; e < c; e++) {
-	            f[g][e] = new Array(0, 0)
+	            f[g][e] = new Array(0, 0);
 	        }
 	    }
 	    for (var o = 0; o < c; o++) {
@@ -34055,10 +35727,10 @@ webpackJsonp([0,1],[
 	                for (var n = 0; n < k; n++) {
 	                    var h = d[k * a + n + (j * o + l) * qrcode.width];
 	                    if (h < f[a][o][0]) {
-	                        f[a][o][0] = h
+	                        f[a][o][0] = h;
 	                    }
 	                    if (h > f[a][o][1]) {
-	                        f[a][o][1] = h
+	                        f[a][o][1] = h;
 	                    }
 	                }
 	            }
@@ -34066,16 +35738,16 @@ webpackJsonp([0,1],[
 	    }
 	    var m = new Array(c);
 	    for (var b = 0; b < c; b++) {
-	        m[b] = new Array(c)
+	        m[b] = new Array(c);
 	    }
 	    for (var o = 0; o < c; o++) {
 	        for (var a = 0; a < c; a++) {
-	            m[a][o] = Math.floor((f[a][o][0] + f[a][o][1]) / 2)
+	            m[a][o] = Math.floor((f[a][o][0] + f[a][o][1]) / 2);
 	        }
 	    }
-	    return m
+	    return m;
 	};
-	qrcode.grayScaleToBitmap = function(f) {
+	qrcode.grayScaleToBitmap = function (f) {
 	    var j = qrcode._em(f);
 	    var b = j.length;
 	    var e = Math.floor(qrcode.width / b);
@@ -34085,52 +35757,52 @@ webpackJsonp([0,1],[
 	        for (var a = 0; a < b; a++) {
 	            for (var g = 0; g < d; g++) {
 	                for (var h = 0; h < e; h++) {
-	                    c[e * a + h + (d * i + g) * qrcode.width] = (f[e * a + h + (d * i + g) * qrcode.width] < j[a][i]) ? true : false
+	                    c[e * a + h + (d * i + g) * qrcode.width] = f[e * a + h + (d * i + g) * qrcode.width] < j[a][i] ? true : false;
 	                }
 	            }
 	        }
 	    }
-	    return c
+	    return c;
 	};
-	qrcode.grayscale = function() {
+	qrcode.grayscale = function () {
 	    var c = new Array(qrcode.width * qrcode.height);
 	    for (var d = 0; d < qrcode.height; d++) {
 	        for (var b = 0; b < qrcode.width; b++) {
 	            var a = qrcode.getPixel(b, d);
-	            c[b + d * qrcode.width] = a
+	            c[b + d * qrcode.width] = a;
 	        }
 	    }
-	    return c
+	    return c;
 	};
 	
 	function _ew(a, b) {
 	    if (a >= 0) {
-	        return a >> b
+	        return a >> b;
 	    } else {
-	        return (a >> b) + (2 << ~b)
+	        return (a >> b) + (2 << ~b);
 	    }
 	}
-	Array.prototype.remove = function(c, b) {
+	Array.prototype.remove = function (c, b) {
 	    var a = this.slice((b || c) + 1 || this.length);
 	    this.length = c < 0 ? this.length + c : c;
-	    return this.push.apply(this, a)
+	    return this.push.apply(this, a);
 	};
 	var _gf = 3;
 	var _eh = 57;
 	var _el = 8;
 	var _eg = 2;
 	exports.qrcode = qrcode;
-	qrcode._er = function(c) {
+	qrcode._er = function (c) {
 	    function b(l, k) {
 	        xDiff = l.X - k.X;
 	        yDiff = l.Y - k.Y;
-	        return Math.sqrt((xDiff * xDiff + yDiff * yDiff))
+	        return Math.sqrt(xDiff * xDiff + yDiff * yDiff);
 	    }
 	
 	    function d(k, o, n) {
 	        var m = o.x;
 	        var l = o.y;
-	        return ((n.x - m) * (k.y - l)) - ((n.y - l) * (k.x - m))
+	        return (n.x - m) * (k.y - l) - (n.y - l) * (k.x - m);
 	    }
 	    var i = b(c[0], c[1]);
 	    var f = b(c[1], c[2]);
@@ -34139,26 +35811,26 @@ webpackJsonp([0,1],[
 	    if (f >= i && f >= e) {
 	        j = c[0];
 	        a = c[1];
-	        h = c[2]
+	        h = c[2];
 	    } else {
 	        if (e >= f && e >= i) {
 	            j = c[1];
 	            a = c[0];
-	            h = c[2]
+	            h = c[2];
 	        } else {
 	            j = c[2];
 	            a = c[0];
-	            h = c[1]
+	            h = c[1];
 	        }
 	    }
 	    if (d(a, j, h) < 0) {
 	        var g = a;
 	        a = h;
-	        h = g
+	        h = g;
 	    }
 	    c[0] = a;
 	    c[1] = j;
-	    c[2] = h
+	    c[2] = h;
 	};
 	
 	function detectVerticalSquash(img) {
@@ -34181,10 +35853,10 @@ webpackJsonp([0,1],[
 	        } else {
 	            sy = py;
 	        }
-	        py = (ey + sy) >> 1;
+	        py = ey + sy >> 1;
 	    }
-	    var ratio = (py / ih);
-	    return (ratio === 0) ? 1 : ratio;
+	    var ratio = py / ih;
+	    return ratio === 0 ? 1 : ratio;
 	}
 	
 	/**
@@ -34196,9 +35868,7 @@ webpackJsonp([0,1],[
 	    // Works only if whole image is displayed:
 	    // ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh / vertSquashRatio);
 	    // The following works correct also when only a part of the image is displayed:
-	    ctx.drawImage(img, sx * vertSquashRatio, sy * vertSquashRatio,
-	        sw * vertSquashRatio, sh * vertSquashRatio,
-	        dx, dy, dw, dh);
+	    ctx.drawImage(img, sx * vertSquashRatio, sy * vertSquashRatio, sw * vertSquashRatio, sh * vertSquashRatio, dx, dy, dw, dh);
 	}
 	
 	function _cz(c, a, b) {
@@ -34206,50 +35876,43 @@ webpackJsonp([0,1],[
 	    this.y = a;
 	    this.count = 1;
 	    this._aj = b;
-	    this.__defineGetter__("_ei",
-	        function() {
-	            return this._aj
-	        });
-	    this.__defineGetter__("Count",
-	        function() {
-	            return this.count
-	        });
-	    this.__defineGetter__("X",
-	        function() {
-	            return this.x
-	        });
-	    this.__defineGetter__("Y",
-	        function() {
-	            return this.y
-	        });
-	    this._ek = function() {
-	        this.count++
+	    this.__defineGetter__("_ei", function () {
+	        return this._aj;
+	    });
+	    this.__defineGetter__("Count", function () {
+	        return this.count;
+	    });
+	    this.__defineGetter__("X", function () {
+	        return this.x;
+	    });
+	    this.__defineGetter__("Y", function () {
+	        return this.y;
+	    });
+	    this._ek = function () {
+	        this.count++;
 	    };
-	    this._ev = function(f, e, d) {
+	    this._ev = function (f, e, d) {
 	        if (Math.abs(e - this.y) <= f && Math.abs(d - this.x) <= f) {
 	            var g = Math.abs(f - this._aj);
-	            return g <= 1 || g / this._aj <= 1
+	            return g <= 1 || g / this._aj <= 1;
 	        }
-	        return false
-	    }
+	        return false;
+	    };
 	}
 	
 	function _es(a) {
 	    this._go = a[0];
 	    this._gu = a[1];
 	    this._gr = a[2];
-	    this.__defineGetter__("_gp",
-	        function() {
-	            return this._go
-	        });
-	    this.__defineGetter__("_gq",
-	        function() {
-	            return this._gu
-	        });
-	    this.__defineGetter__("_gs",
-	        function() {
-	            return this._gr
-	        })
+	    this.__defineGetter__("_gp", function () {
+	        return this._go;
+	    });
+	    this.__defineGetter__("_gq", function () {
+	        return this._gu;
+	    });
+	    this.__defineGetter__("_gs", function () {
+	        return this._gr;
+	    });
 	}
 	
 	function _cc() {
@@ -34258,143 +35921,142 @@ webpackJsonp([0,1],[
 	    this._ge = false;
 	    this._al = new Array(0, 0, 0, 0, 0);
 	    this._am = null;
-	    this.__defineGetter__("_da",
-	        function() {
-	            this._al[0] = 0;
-	            this._al[1] = 0;
-	            this._al[2] = 0;
-	            this._al[3] = 0;
-	            this._al[4] = 0;
-	            return this._al
-	        });
-	    this._ao = function(f) {
+	    this.__defineGetter__("_da", function () {
+	        this._al[0] = 0;
+	        this._al[1] = 0;
+	        this._al[2] = 0;
+	        this._al[3] = 0;
+	        this._al[4] = 0;
+	        return this._al;
+	    });
+	    this._ao = function (f) {
 	        var b = 0;
 	        for (var d = 0; d < 5; d++) {
 	            var e = f[d];
 	            if (e == 0) {
-	                return false
+	                return false;
 	            }
-	            b += e
+	            b += e;
 	        }
 	        if (b < 7) {
-	            return false
+	            return false;
 	        }
 	        var c = Math.floor((b << _el) / 7);
 	        var a = Math.floor(c / 2);
-	        return Math.abs(c - (f[0] << _el)) < a && Math.abs(c - (f[1] << _el)) < a && Math.abs(3 * c - (f[2] << _el)) < 3 * a && Math.abs(c - (f[3] << _el)) < a && Math.abs(c - (f[4] << _el)) < a
+	        return Math.abs(c - (f[0] << _el)) < a && Math.abs(c - (f[1] << _el)) < a && Math.abs(3 * c - (f[2] << _el)) < 3 * a && Math.abs(c - (f[3] << _el)) < a && Math.abs(c - (f[4] << _el)) < a;
 	    };
-	    this._an = function(b, a) {
-	        return (a - b[4] - b[3]) - b[2] / 2
+	    this._an = function (b, a) {
+	        return a - b[4] - b[3] - b[2] / 2;
 	    };
-	    this._ap = function(a, j, d, g) {
+	    this._ap = function (a, j, d, g) {
 	        var c = this.image;
 	        var h = qrcode.height;
 	        var b = this._da;
 	        var f = a;
 	        while (f >= 0 && c[j + f * qrcode.width]) {
 	            b[2]++;
-	            f--
+	            f--;
 	        }
 	        if (f < 0) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (f >= 0 && !c[j + f * qrcode.width] && b[1] <= d) {
 	            b[1]++;
-	            f--
+	            f--;
 	        }
 	        if (f < 0 || b[1] > d) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (f >= 0 && c[j + f * qrcode.width] && b[0] <= d) {
 	            b[0]++;
-	            f--
+	            f--;
 	        }
 	        if (b[0] > d) {
-	            return NaN
+	            return NaN;
 	        }
 	        f = a + 1;
 	        while (f < h && c[j + f * qrcode.width]) {
 	            b[2]++;
-	            f++
+	            f++;
 	        }
 	        if (f == h) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (f < h && !c[j + f * qrcode.width] && b[3] < d) {
 	            b[3]++;
-	            f++
+	            f++;
 	        }
 	        if (f == h || b[3] >= d) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (f < h && c[j + f * qrcode.width] && b[4] < d) {
 	            b[4]++;
-	            f++
+	            f++;
 	        }
 	        if (b[4] >= d) {
-	            return NaN
+	            return NaN;
 	        }
 	        var e = b[0] + b[1] + b[2] + b[3] + b[4];
 	        if (5 * Math.abs(e - g) >= 2 * g) {
-	            return NaN
+	            return NaN;
 	        }
-	        return this._ao(b) ? this._an(b, f) : NaN
+	        return this._ao(b) ? this._an(b, f) : NaN;
 	    };
-	    this._ej = function(b, a, e, h) {
+	    this._ej = function (b, a, e, h) {
 	        var d = this.image;
 	        var i = qrcode.width;
 	        var c = this._da;
 	        var g = b;
 	        while (g >= 0 && d[g + a * qrcode.width]) {
 	            c[2]++;
-	            g--
+	            g--;
 	        }
 	        if (g < 0) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (g >= 0 && !d[g + a * qrcode.width] && c[1] <= e) {
 	            c[1]++;
-	            g--
+	            g--;
 	        }
 	        if (g < 0 || c[1] > e) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (g >= 0 && d[g + a * qrcode.width] && c[0] <= e) {
 	            c[0]++;
-	            g--
+	            g--;
 	        }
 	        if (c[0] > e) {
-	            return NaN
+	            return NaN;
 	        }
 	        g = b + 1;
 	        while (g < i && d[g + a * qrcode.width]) {
 	            c[2]++;
-	            g++
+	            g++;
 	        }
 	        if (g == i) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (g < i && !d[g + a * qrcode.width] && c[3] < e) {
 	            c[3]++;
-	            g++
+	            g++;
 	        }
 	        if (g == i || c[3] >= e) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (g < i && d[g + a * qrcode.width] && c[4] < e) {
 	            c[4]++;
-	            g++
+	            g++;
 	        }
 	        if (c[4] >= e) {
-	            return NaN
+	            return NaN;
 	        }
 	        var f = c[0] + c[1] + c[2] + c[3] + c[4];
 	        if (5 * Math.abs(f - h) >= h) {
-	            return NaN
+	            return NaN;
 	        }
-	        return this._ao(c) ? this._an(c, g) : NaN
+	        return this._ao(c) ? this._an(c, g) : NaN;
 	    };
-	    this._cu = function(c, f, e) {
+	    this._cu = function (c, f, e) {
 	        var d = c[0] + c[1] + c[2] + c[3] + c[4];
 	        var n = this._an(c, e);
 	        var b = this._ap(f, Math.floor(n), c[2], d);
@@ -34409,25 +36071,25 @@ webpackJsonp([0,1],[
 	                    if (a._ev(l, b, n)) {
 	                        a._ek();
 	                        m = true;
-	                        break
+	                        break;
 	                    }
 	                }
 	                if (!m) {
 	                    var k = new _cz(n, b, l);
 	                    this._cv.push(k);
 	                    if (this._am != null) {
-	                        this._am._ep(k)
+	                        this._am._ep(k);
 	                    }
 	                }
-	                return true
+	                return true;
 	            }
 	        }
-	        return false
+	        return false;
 	    };
-	    this._ee = function() {
+	    this._ee = function () {
 	        var h = this._cv.length;
 	        if (h < 3) {
-	            throw "Couldn't find enough finder patterns"
+	            throw "Couldn't find enough finder patterns";
 	        }
 	        if (h > 3) {
 	            var b = 0;
@@ -34435,19 +36097,19 @@ webpackJsonp([0,1],[
 	            for (var d = 0; d < h; d++) {
 	                var g = this._cv[d]._ei;
 	                b += g;
-	                j += (g * g)
+	                j += g * g;
 	            }
 	            var a = b / h;
-	            this._cv.sort(function(m, l) {
+	            this._cv.sort(function (m, l) {
 	                var k = Math.abs(l._ei - a);
 	                var i = Math.abs(m._ei - a);
 	                if (k < i) {
-	                    return (-1)
+	                    return -1;
 	                } else {
 	                    if (k == i) {
-	                        return 0
+	                        return 0;
 	                    } else {
-	                        return 1
+	                        return 1;
 	                    }
 	                }
 	            });
@@ -34457,43 +36119,43 @@ webpackJsonp([0,1],[
 	                var f = this._cv[d];
 	                if (Math.abs(f._ei - a) > c) {
 	                    this._cv.remove(d);
-	                    d--
+	                    d--;
 	                }
 	            }
 	        }
 	        if (this._cv.length > 3) {
-	            this._cv.sort(function(k, i) {
+	            this._cv.sort(function (k, i) {
 	                if (k.count > i.count) {
-	                    return -1
+	                    return -1;
 	                }
 	                if (k.count < i.count) {
-	                    return 1
+	                    return 1;
 	                }
-	                return 0
-	            })
+	                return 0;
+	            });
 	        }
-	        return new Array(this._cv[0], this._cv[1], this._cv[2])
+	        return new Array(this._cv[0], this._cv[1], this._cv[2]);
 	    };
-	    this._eq = function() {
+	    this._eq = function () {
 	        var b = this._cv.length;
 	        if (b <= 1) {
-	            return 0
+	            return 0;
 	        }
 	        var c = null;
 	        for (var d = 0; d < b; d++) {
 	            var a = this._cv[d];
 	            if (a.Count >= _eg) {
 	                if (c == null) {
-	                    c = a
+	                    c = a;
 	                } else {
 	                    this._ge = true;
-	                    return Math.floor((Math.abs(c.X - a.X) - Math.abs(c.Y - a.Y)) / 2)
+	                    return Math.floor((Math.abs(c.X - a.X) - Math.abs(c.Y - a.Y)) / 2);
 	                }
 	            }
 	        }
-	        return 0
+	        return 0;
 	    };
-	    this._cx = function() {
+	    this._cx = function () {
 	        var g = 0;
 	        var c = 0;
 	        var a = this._cv.length;
@@ -34501,28 +36163,28 @@ webpackJsonp([0,1],[
 	            var f = this._cv[d];
 	            if (f.Count >= _eg) {
 	                g++;
-	                c += f._ei
+	                c += f._ei;
 	            }
 	        }
 	        if (g < 3) {
-	            return false
+	            return false;
 	        }
 	        var e = c / a;
 	        var b = 0;
 	        for (var d = 0; d < a; d++) {
 	            f = this._cv[d];
-	            b += Math.abs(f._ei - e)
+	            b += Math.abs(f._ei - e);
 	        }
-	        return b <= 0.05 * c
+	        return b <= 0.05 * c;
 	    };
-	    this._ce = function(e) {
+	    this._ce = function (e) {
 	        var o = false;
 	        this.image = e;
 	        var n = qrcode.height;
 	        var k = qrcode.width;
-	        var a = Math.floor((3 * n) / (4 * _eh));
+	        var a = Math.floor(3 * n / (4 * _eh));
 	        if (a < _gf || o) {
-	            a = _gf
+	            a = _gf;
 	        }
 	        var g = false;
 	        var d = new Array(5);
@@ -34536,9 +36198,9 @@ webpackJsonp([0,1],[
 	            for (var f = 0; f < k; f++) {
 	                if (e[f + h * qrcode.width]) {
 	                    if ((b & 1) == 1) {
-	                        b++
+	                        b++;
 	                    }
-	                    d[b]++
+	                    d[b]++;
 	                } else {
 	                    if ((b & 1) == 0) {
 	                        if (b == 4) {
@@ -34547,39 +36209,39 @@ webpackJsonp([0,1],[
 	                                if (c) {
 	                                    a = 2;
 	                                    if (this._ge) {
-	                                        g = this._cx()
+	                                        g = this._cx();
 	                                    } else {
 	                                        var m = this._eq();
 	                                        if (m > d[2]) {
 	                                            h += m - d[2] - a;
-	                                            f = k - 1
+	                                            f = k - 1;
 	                                        }
 	                                    }
 	                                } else {
 	                                    do {
-	                                        f++
+	                                        f++;
 	                                    } while (f < k && !e[f + h * qrcode.width]);
-	                                    f--
+	                                    f--;
 	                                }
 	                                b = 0;
 	                                d[0] = 0;
 	                                d[1] = 0;
 	                                d[2] = 0;
 	                                d[3] = 0;
-	                                d[4] = 0
+	                                d[4] = 0;
 	                            } else {
 	                                d[0] = d[2];
 	                                d[1] = d[3];
 	                                d[2] = d[4];
 	                                d[3] = 1;
 	                                d[4] = 0;
-	                                b = 3
+	                                b = 3;
 	                            }
 	                        } else {
-	                            d[++b]++
+	                            d[++b]++;
 	                        }
 	                    } else {
-	                        d[b]++
+	                        d[b]++;
 	                    }
 	                }
 	            }
@@ -34588,15 +36250,15 @@ webpackJsonp([0,1],[
 	                if (c) {
 	                    a = d[0];
 	                    if (this._ge) {
-	                        g = _cx()
+	                        g = _cx();
 	                    }
 	                }
 	            }
 	        }
 	        var l = this._ee();
 	        qrcode._er(l);
-	        return new _es(l)
-	    }
+	        return new _es(l);
+	    };
 	}
 	
 	function _ai(c, a, b) {
@@ -34604,32 +36266,28 @@ webpackJsonp([0,1],[
 	    this.y = a;
 	    this.count = 1;
 	    this._aj = b;
-	    this.__defineGetter__("_ei",
-	        function() {
-	            return this._aj
-	        });
-	    this.__defineGetter__("Count",
-	        function() {
-	            return this.count
-	        });
-	    this.__defineGetter__("X",
-	        function() {
-	            return Math.floor(this.x)
-	        });
-	    this.__defineGetter__("Y",
-	        function() {
-	            return Math.floor(this.y)
-	        });
-	    this._ek = function() {
-	        this.count++
+	    this.__defineGetter__("_ei", function () {
+	        return this._aj;
+	    });
+	    this.__defineGetter__("Count", function () {
+	        return this.count;
+	    });
+	    this.__defineGetter__("X", function () {
+	        return Math.floor(this.x);
+	    });
+	    this.__defineGetter__("Y", function () {
+	        return Math.floor(this.y);
+	    });
+	    this._ek = function () {
+	        this.count++;
 	    };
-	    this._ev = function(f, e, d) {
+	    this._ev = function (f, e, d) {
 	        if (Math.abs(e - this.y) <= f && Math.abs(d - this.x) <= f) {
 	            var g = Math.abs(f - this._aj);
-	            return g <= 1 || g / this._aj <= 1
+	            return g <= 1 || g / this._aj <= 1;
 	        }
-	        return false
-	    }
+	        return false;
+	    };
 	}
 	
 	function _ak(g, c, b, f, a, e, d) {
@@ -34642,20 +36300,20 @@ webpackJsonp([0,1],[
 	    this._ef = e;
 	    this._al = new Array(0, 0, 0);
 	    this._am = d;
-	    this._an = function(i, h) {
-	        return (h - i[2]) - i[1] / 2
+	    this._an = function (i, h) {
+	        return h - i[2] - i[1] / 2;
 	    };
-	    this._ao = function(l) {
+	    this._ao = function (l) {
 	        var k = this._ef;
 	        var h = k / 2;
 	        for (var j = 0; j < 3; j++) {
 	            if (Math.abs(k - l[j]) >= h) {
-	                return false
+	                return false;
 	            }
 	        }
-	        return true
+	        return true;
 	    };
-	    this._ap = function(h, r, l, o) {
+	    this._ap = function (h, r, l, o) {
 	        var k = this.image;
 	        var q = qrcode.height;
 	        var j = this._al;
@@ -34665,40 +36323,40 @@ webpackJsonp([0,1],[
 	        var n = h;
 	        while (n >= 0 && k[r + n * qrcode.width] && j[1] <= l) {
 	            j[1]++;
-	            n--
+	            n--;
 	        }
 	        if (n < 0 || j[1] > l) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (n >= 0 && !k[r + n * qrcode.width] && j[0] <= l) {
 	            j[0]++;
-	            n--
+	            n--;
 	        }
 	        if (j[0] > l) {
-	            return NaN
+	            return NaN;
 	        }
 	        n = h + 1;
 	        while (n < q && k[r + n * qrcode.width] && j[1] <= l) {
 	            j[1]++;
-	            n++
+	            n++;
 	        }
 	        if (n == q || j[1] > l) {
-	            return NaN
+	            return NaN;
 	        }
 	        while (n < q && !k[r + n * qrcode.width] && j[2] <= l) {
 	            j[2]++;
-	            n++
+	            n++;
 	        }
 	        if (j[2] > l) {
-	            return NaN
+	            return NaN;
 	        }
 	        var m = j[0] + j[1] + j[2];
 	        if (5 * Math.abs(m - o) >= 2 * o) {
-	            return NaN
+	            return NaN;
 	        }
-	        return this._ao(j) ? this._an(j, n) : NaN
+	        return this._ao(j) ? this._an(j, n) : NaN;
 	    };
-	    this._cu = function(l, o, n) {
+	    this._cu = function (l, o, n) {
 	        var m = l[0] + l[1] + l[2];
 	        var u = this._an(l, n);
 	        var k = this._ap(o, Math.floor(u), 2 * l[1], m);
@@ -34708,73 +36366,73 @@ webpackJsonp([0,1],[
 	            for (var q = 0; q < r; q++) {
 	                var h = this._cv[q];
 	                if (h._ev(t, k, u)) {
-	                    return new _ai(u, k, t)
+	                    return new _ai(u, k, t);
 	                }
 	            }
 	            var s = new _ai(u, k, t);
 	            this._cv.push(s);
 	            if (this._am != null) {
-	                this._am._ep(s)
+	                this._am._ep(s);
 	            }
 	        }
-	        return null
+	        return null;
 	    };
-	    this.find = function() {
+	    this.find = function () {
 	        var q = this.startX;
 	        var t = this.height;
 	        var r = q + f;
 	        var s = b + (t >> 1);
 	        var m = new Array(0, 0, 0);
 	        for (var k = 0; k < t; k++) {
-	            var o = s + ((k & 1) == 0 ? ((k + 1) >> 1) : -((k + 1) >> 1));
+	            var o = s + ((k & 1) == 0 ? k + 1 >> 1 : -(k + 1 >> 1));
 	            m[0] = 0;
 	            m[1] = 0;
 	            m[2] = 0;
 	            var n = q;
 	            while (n < r && !g[n + qrcode.width * o]) {
-	                n++
+	                n++;
 	            }
 	            var h = 0;
 	            while (n < r) {
 	                if (g[n + o * qrcode.width]) {
 	                    if (h == 1) {
-	                        m[h]++
+	                        m[h]++;
 	                    } else {
 	                        if (h == 2) {
 	                            if (this._ao(m)) {
 	                                var l = this._cu(m, o, n);
 	                                if (l != null) {
-	                                    return l
+	                                    return l;
 	                                }
 	                            }
 	                            m[0] = m[2];
 	                            m[1] = 1;
 	                            m[2] = 0;
-	                            h = 1
+	                            h = 1;
 	                        } else {
-	                            m[++h]++
+	                            m[++h]++;
 	                        }
 	                    }
 	                } else {
 	                    if (h == 1) {
-	                        h++
+	                        h++;
 	                    }
-	                    m[h]++
+	                    m[h]++;
 	                }
-	                n++
+	                n++;
 	            }
 	            if (this._ao(m)) {
 	                var l = this._cu(m, o, r);
 	                if (l != null) {
-	                    return l
+	                    return l;
 	                }
 	            }
 	        }
 	        if (!(this._cv.length == 0)) {
-	            return this._cv[0]
+	            return this._cv[0];
 	        }
-	        throw "Couldn't find enough alignment patterns"
-	    }
+	        throw "Couldn't find enough alignment patterns";
+	    };
 	}
 	
 	function QRCodeDataBlockReader(c, a, b) {
@@ -34784,87 +36442,87 @@ webpackJsonp([0,1],[
 	    this.blocks = c;
 	    this._en = b;
 	    if (a <= 9) {
-	        this.dataLengthMode = 0
+	        this.dataLengthMode = 0;
 	    } else {
 	        if (a >= 10 && a <= 26) {
-	            this.dataLengthMode = 1
+	            this.dataLengthMode = 1;
 	        } else {
 	            if (a >= 27 && a <= 40) {
-	                this.dataLengthMode = 2
+	                this.dataLengthMode = 2;
 	            }
 	        }
 	    }
-	    this._gd = function(f) {
+	    this._gd = function (f) {
 	        var k = 0;
 	        if (f < this._cw + 1) {
 	            var m = 0;
 	            for (var e = 0; e < f; e++) {
-	                m += (1 << e)
+	                m += 1 << e;
 	            }
-	            m <<= (this._cw - f + 1);
-	            k = (this.blocks[this._ed] & m) >> (this._cw - f + 1);
+	            m <<= this._cw - f + 1;
+	            k = (this.blocks[this._ed] & m) >> this._cw - f + 1;
 	            this._cw -= f;
-	            return k
+	            return k;
 	        } else {
 	            if (f < this._cw + 1 + 8) {
 	                var j = 0;
 	                for (var e = 0; e < this._cw + 1; e++) {
-	                    j += (1 << e)
+	                    j += 1 << e;
 	                }
-	                k = (this.blocks[this._ed] & j) << (f - (this._cw + 1));
+	                k = (this.blocks[this._ed] & j) << f - (this._cw + 1);
 	                this._ed++;
-	                k += ((this.blocks[this._ed]) >> (8 - (f - (this._cw + 1))));
+	                k += this.blocks[this._ed] >> 8 - (f - (this._cw + 1));
 	                this._cw = this._cw - f % 8;
 	                if (this._cw < 0) {
-	                    this._cw = 8 + this._cw
+	                    this._cw = 8 + this._cw;
 	                }
-	                return k
+	                return k;
 	            } else {
 	                if (f < this._cw + 1 + 16) {
 	                    var j = 0;
 	                    var h = 0;
 	                    for (var e = 0; e < this._cw + 1; e++) {
-	                        j += (1 << e)
+	                        j += 1 << e;
 	                    }
-	                    var g = (this.blocks[this._ed] & j) << (f - (this._cw + 1));
+	                    var g = (this.blocks[this._ed] & j) << f - (this._cw + 1);
 	                    this._ed++;
-	                    var d = this.blocks[this._ed] << (f - (this._cw + 1 + 8));
+	                    var d = this.blocks[this._ed] << f - (this._cw + 1 + 8);
 	                    this._ed++;
 	                    for (var e = 0; e < f - (this._cw + 1 + 8); e++) {
-	                        h += (1 << e)
+	                        h += 1 << e;
 	                    }
 	                    h <<= 8 - (f - (this._cw + 1 + 8));
-	                    var l = (this.blocks[this._ed] & h) >> (8 - (f - (this._cw + 1 + 8)));
+	                    var l = (this.blocks[this._ed] & h) >> 8 - (f - (this._cw + 1 + 8));
 	                    k = g + d + l;
 	                    this._cw = this._cw - (f - 8) % 8;
 	                    if (this._cw < 0) {
-	                        this._cw = 8 + this._cw
+	                        this._cw = 8 + this._cw;
 	                    }
-	                    return k
+	                    return k;
 	                } else {
-	                    return 0
+	                    return 0;
 	                }
 	            }
 	        }
 	    };
-	    this.NextMode = function() {
-	        if ((this._ed > this.blocks.length - this._en - 2)) {
-	            return 0
+	    this.NextMode = function () {
+	        if (this._ed > this.blocks.length - this._en - 2) {
+	            return 0;
 	        } else {
-	            return this._gd(4)
+	            return this._gd(4);
 	        }
 	    };
-	    this.getDataLength = function(d) {
+	    this.getDataLength = function (d) {
 	        var e = 0;
 	        while (true) {
-	            if ((d >> e) == 1) {
-	                break
+	            if (d >> e == 1) {
+	                break;
 	            }
-	            e++
+	            e++;
 	        }
-	        return this._gd(qrcode._eo[this.dataLengthMode][e])
+	        return this._gd(qrcode._eo[this.dataLengthMode][e]);
 	    };
-	    this.getRomanAndFigureString = function(h) {
+	    this.getRomanAndFigureString = function (h) {
 	        var f = h;
 	        var g = 0;
 	        var j = "";
@@ -34876,18 +36534,18 @@ webpackJsonp([0,1],[
 	                var e = g % 45;
 	                j += d[i];
 	                j += d[e];
-	                f -= 2
+	                f -= 2;
 	            } else {
 	                if (f == 1) {
 	                    g = this._gd(6);
 	                    j += d[g];
-	                    f -= 1
+	                    f -= 1;
 	                }
 	            }
 	        } while (f > 0);
-	        return j
+	        return j;
 	    };
-	    this.getFigureString = function(f) {
+	    this.getFigureString = function (f) {
 	        var d = f;
 	        var e = 0;
 	        var g = "";
@@ -34895,42 +36553,42 @@ webpackJsonp([0,1],[
 	            if (d >= 3) {
 	                e = this._gd(10);
 	                if (e < 100) {
-	                    g += "0"
+	                    g += "0";
 	                }
 	                if (e < 10) {
-	                    g += "0"
+	                    g += "0";
 	                }
-	                d -= 3
+	                d -= 3;
 	            } else {
 	                if (d == 2) {
 	                    e = this._gd(7);
 	                    if (e < 10) {
-	                        g += "0"
+	                        g += "0";
 	                    }
-	                    d -= 2
+	                    d -= 2;
 	                } else {
 	                    if (d == 1) {
 	                        e = this._gd(4);
-	                        d -= 1
+	                        d -= 1;
 	                    }
 	                }
 	            }
-	            g += e
+	            g += e;
 	        } while (d > 0);
-	        return g
+	        return g;
 	    };
-	    this.get8bitByteArray = function(g) {
+	    this.get8bitByteArray = function (g) {
 	        var e = g;
 	        var f = 0;
 	        var d = new Array();
 	        do {
 	            f = this._gd(8);
 	            d.push(f);
-	            e--
+	            e--;
 	        } while (e > 0);
-	        return d
+	        return d;
 	    };
-	    this.getKanjiString = function(j) {
+	    this.getKanjiString = function (j) {
 	        var g = j;
 	        var i = 0;
 	        var h = "";
@@ -34941,170 +36599,356 @@ webpackJsonp([0,1],[
 	            var k = (f << 8) + e;
 	            var d = 0;
 	            if (k + 33088 <= 40956) {
-	                d = k + 33088
+	                d = k + 33088;
 	            } else {
-	                d = k + 49472
+	                d = k + 49472;
 	            }
 	            h += String.fromCharCode(d);
-	            g--
+	            g--;
 	        } while (g > 0);
-	        return h
+	        return h;
 	    };
-	    this.__defineGetter__("DataByte",
-	        function() {
-	            var g = new Array();
-	            var e = 1;
-	            var f = 2;
-	            var d = 4;
-	            var n = 8;
-	            do {
-	                var k = this.NextMode();
-	                if (k == 0) {
-	                    if (g.length > 0) {
-	                        break
-	                    } else {
-	                        throw "Empty data block"
+	    this.__defineGetter__("DataByte", function () {
+	        var g = new Array();
+	        var e = 1;
+	        var f = 2;
+	        var d = 4;
+	        var n = 8;
+	        do {
+	            var k = this.NextMode();
+	            if (k == 0) {
+	                if (g.length > 0) {
+	                    break;
+	                } else {
+	                    throw "Empty data block";
+	                }
+	            }
+	            if (k != e && k != f && k != d && k != n) {
+	                throw "Invalid mode: " + k + " in (block:" + this._ed + " bit:" + this._cw + ")";
+	            }
+	            var dataLength = this.getDataLength(k);
+	            if (dataLength < 1) {
+	                throw "Invalid data length: " + dataLength;
+	            }
+	            switch (k) {
+	                case e:
+	                    var l = this.getFigureString(dataLength);
+	                    var i = new Array(l.length);
+	                    for (var h = 0; h < l.length; h++) {
+	                        i[h] = l.charCodeAt(h);
 	                    }
-	                }
-	                if (k != e && k != f && k != d && k != n) {
-	                    throw "Invalid mode: " + k + " in (block:" + this._ed + " bit:" + this._cw + ")"
-	                }
-	                var dataLength = this.getDataLength(k);
-	                if (dataLength < 1) {
-	                    throw "Invalid data length: " + dataLength
-	                }
-	                switch (k) {
-	                    case e:
-	                        var l = this.getFigureString(dataLength);
-	                        var i = new Array(l.length);
-	                        for (var h = 0; h < l.length; h++) {
-	                            i[h] = l.charCodeAt(h)
-	                        }
-	                        g.push(i);
-	                        break;
-	                    case f:
-	                        var l = this.getRomanAndFigureString(dataLength);
-	                        var i = new Array(l.length);
-	                        for (var h = 0; h < l.length; h++) {
-	                            i[h] = l.charCodeAt(h)
-	                        }
-	                        g.push(i);
-	                        break;
-	                    case d:
-	                        var m = this.get8bitByteArray(dataLength);
-	                        g.push(m);
-	                        break;
-	                    case n:
-	                        var l = this.getKanjiString(dataLength);
-	                        g.push(l);
-	                        break
-	                }
-	            } while (true);
-	            return g
-	        })
+	                    g.push(i);
+	                    break;
+	                case f:
+	                    var l = this.getRomanAndFigureString(dataLength);
+	                    var i = new Array(l.length);
+	                    for (var h = 0; h < l.length; h++) {
+	                        i[h] = l.charCodeAt(h);
+	                    }
+	                    g.push(i);
+	                    break;
+	                case d:
+	                    var m = this.get8bitByteArray(dataLength);
+	                    g.push(m);
+	                    break;
+	                case n:
+	                    var l = this.getKanjiString(dataLength);
+	                    g.push(l);
+	                    break;
+	            }
+	        } while (true);
+	        return g;
+	    });
 	};
 
-
 /***/ },
-/* 161 */
+/* 192 */
 /***/ function(module, exports, __webpack_require__) {
 
-	__webpack_require__(162)
-	module.exports = __webpack_require__(163)
-	module.exports.template = __webpack_require__(164)
+	__webpack_require__(193)
+	module.exports = __webpack_require__(195)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(196)
 
 
 /***/ },
-/* 162 */
+/* 193 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(194);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1dda5674&file=loading.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./loading.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-1dda5674&file=loading.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./loading.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 194 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".wx_loading {\n  position: fixed;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  z-index: 9999;\n  background-color: transparent; }\n  .wx_loading .wx_loading_inner {\n    text-align: center;\n    background-color: rgba(0, 0, 0, 0.5);\n    color: #ffffff;\n    position: fixed;\n    top: 50%;\n    left: 50%;\n    margin-left: -70px;\n    margin-top: -48px;\n    width: 150px;\n    border-radius: 6px;\n    font-size: 14px;\n    padding: 58px 0 10px 0; }\n    .wx_loading .wx_loading_inner .wx_loading_icon {\n      position: absolute;\n      top: 15px;\n      left: 50%;\n      margin-left: -16px;\n      width: 24px;\n      height: 24px;\n      border: 2px solid #fff;\n      border-radius: 24px;\n      -webkit-animation: gif 1s infinite linear;\n      animation: gif 1s infinite linear;\n      clip: rect(0 auto 12px 0); }\n\n@keyframes gif {\n  0% {\n    -webkit-transform: rotate(0deg);\n    transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg);\n    transform: rotate(360deg); } }\n\n@-webkit-keyframes gif {\n  0% {\n    -webkit-transform: rotate(0deg); }\n  100% {\n    -webkit-transform: rotate(360deg); } }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 195 */
 /***/ function(module, exports) {
 
-	// removed by extract-text-webpack-plugin
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <template>
+	//     <div v-show="show" id="wxloading" class="wx_loading">
+	//         <div class="wx_loading_inner">
+	//             <i class="wx_loading_icon"></i>{{showTxt}}...
+	//         </div>
+	//     </div>
+	// </template>
+	// <script>
+	exports.default = {
+	    replace: true,
+	    props: ['showTxt', "show"]
+	};
+	// </script>
+	// <style lang="sass">
+	//     .wx_loading {
+	//         position: fixed;
+	//         top: 0;
+	//         left: 0;
+	//         bottom: 0;
+	//         right: 0;
+	//         z-index: 9999;
+	//         background-color: rgba(0, 0, 0, 0);
+	//         .wx_loading_inner {
+	//             text-align: center;
+	//             background-color: rgba(0, 0, 0, 0.5);
+	//             color: #ffffff;
+	//             position: fixed;
+	//             top: 50%;
+	//             left: 50%;
+	//             margin-left: -70px;
+	//             margin-top: -48px;
+	//             width: 150px;
+	//             border-radius: 6px;
+	//             font-size: 14px;
+	//             padding: 58px 0 10px 0;
+	//             .wx_loading_icon {
+	//                 position: absolute;
+	//                 top: 15px;
+	//                 left: 50%;
+	//                 margin-left: -16px;
+	//                 width: 24px;
+	//                 height: 24px;
+	//                 border: 2px solid #fff;
+	//                 border-radius: 24px;
+	//                 -webkit-animation: gif 1s infinite linear;
+	//                 animation: gif 1s infinite linear;
+	//                 clip: rect(0 auto 12px 0);
+	//                 @keyframes gif {
+	//                     0% {
+	//                         -webkit-transform: rotate(0deg);
+	//                         transform: rotate(0deg);
+	//                     }
+	//                     100% {
+	//                         -webkit-transform: rotate(360deg);
+	//                         transform: rotate(360deg);
+	//                     }
+	//                 }
+	//                 @-webkit-keyframes gif {
+	//                     0% {
+	//                         -webkit-transform: rotate(0deg);
+	//                     }
+	//                     100% {
+	//                         -webkit-transform: rotate(360deg);
+	//                     }
+	//                 }
+	//             }
+	//         }
+	//     }
+	// </style>
 
 /***/ },
-/* 163 */
-/***/ function(module, exports) {
-
-	module.exports={
-	        replace:true,
-	        props: ['showTxt',"show"]
-	    }
-
-/***/ },
-/* 164 */
+/* 196 */
 /***/ function(module, exports) {
 
 	module.exports = "<div v-show=\"show\" id=\"wxloading\" class=\"wx_loading\">\n        <div class=\"wx_loading_inner\">\n            <i class=\"wx_loading_icon\"></i>{{showTxt}}...\n        </div>\n    </div>";
 
 /***/ },
-/* 165 */
+/* 197 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"登录\">\n    </nv-head>\n    <section class=\"page-body\">\n        <div class=\"label\">\n            <input class=\"txt\" type=\"text\" placeholder=\"Access Token\" v-model=\"token\" maxlength=\"36\">\n        </div>\n        <div class=\"label\">\n            <a class=\"button\">选择二维码图片</a>\n            <input class=\"file\" type=\"file\" id=\"file_upload\" @change=\"readPic\"\n                accept=\"image/*\" capture=\"camera\"/>\n            <a class=\"button\" @click=\"logon\">登录</a>\n        </div>\n    </section>\n    <nv-alert :content=\"alert.txt\" :show=\"alert.show\"></nv-alert>\n    <nv-loading :show=\"loading.show\" :show-txt=\"loading.showTxt\"></nv-loading>";
 
 /***/ },
-/* 166 */
+/* 198 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(167)
-	module.exports.template = __webpack_require__(169)
+	__webpack_require__(199)
+	module.exports = __webpack_require__(201)
+	
+	if (module.exports.__esModule) module.exports = module.exports.default
+	;(typeof module.exports === "function" ? module.exports.options : module.exports).template = __webpack_require__(202)
 
 
 /***/ },
-/* 167 */
+/* 199 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function($) {__webpack_require__(168);
-	    __webpack_require__(107);
+	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
-	    module.exports = {
-	        data: function(){
-	            return {
-	                user:{},
-	                currentData:[],
-	                selectItem:1
-	            }
-	        },
-	        route:{
-	            data:function(transition){
-	                var _self = this;
-	                var loginname = transition.to.params.loginname;
+	// load the styles
+	var content = __webpack_require__(200);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(123)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-ca306262&file=user.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./user.vue", function() {
+				var newContent = require("!!./../../node_modules/css-loader/index.js!./../../node_modules/vue-loader/lib/style-rewriter.js?id=_v-ca306262&file=user.vue!./../../node_modules/sass-loader/index.js!./../../node_modules/vue-loader/lib/selector.js?type=style&index=0!./user.vue");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 200 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(119)();
+	// imports
+	exports.i(__webpack_require__(120), "");
 	
-	                $.get('https://cnodejs.org/api/v1/user/'+loginname,function(d){
-	                    if(d && d.data){
-	                        var data = d.data;
-	                        _self.user = data;
-	                        if(data.recent_replies.length > 0){
-	                            _self.currentData = data.recent_replies;
-	                        }
-	                        else{
-	                            _self.currentData = data.recent_topics;
-	                            _self.selectItem = 2;
-	                        }
+	// module
+	exports.push([module.id, "@charset \"UTF-8\";\n/**\n * Global Reset of all HTML Elements\n *\n * Resetting all of our HTML Elements ensures a smoother\n * visual transition between browsers. If you don't believe me,\n * try temporarily commenting out this block of code, then go\n * and look at Mozilla versus Safari, both good browsers with\n * a good implementation of CSS. The thing is, all browser CSS\n * defaults are different and at the end of the day if visual\n * consistency is what we're shooting for, then we need to\n * make sure we're resetting all spacing elements.\n *\n */\nhtml, body {\n  border: 0;\n  font-family: \"Helvetica-Neue\", \"Helvetica\", Arial, sans-serif;\n  line-height: 1.5;\n  margin: 0;\n  padding: 0; }\n\ndiv, span, object, iframe, img, table, caption, thead, tbody,\ntfoot, tr, tr, td, article, aside, canvas, details, figure, hgroup, menu,\nnav, footer, header, section, summary, mark, audio, video {\n  border: 0;\n  margin: 0;\n  padding: 0; }\n\nh1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, address, cit, code,\ndel, dfn, em, ins, q, samp, small, strong, sub, sup, b, i, hr, dl, dt, dd,\nol, ul, li, fieldset, legend, label {\n  border: 0;\n  font-size: 100%;\n  vertical-align: baseline;\n  margin: 0;\n  padding: 0; }\n\narticle, aside, canvas, figure, figure img, figcaption, hgroup,\nfooter, header, nav, section, audio, video {\n  display: block; }\n\ntable {\n  border-collapse: separate;\n  border-spacing: 0; }\n  table caption, table th, table td {\n    text-align: left;\n    vertical-align: middle; }\n\nli {\n  list-style: none; }\n\na {\n  text-decoration: none; }\n\na img {\n  border: 0; }\n\n:focus {\n  outline: 0; }\n\n* {\n  -webkit-box-sizing: border-box; }\n\ntextarea {\n  resize: none;\n  -webkit-appearance: none; }\n\ninput {\n  -webkit-appearance: none; }\n\nselect {\n  -webkit-appearance: none;\n  background-color: #fff; }\n\nbody {\n  height: 100%;\n  width: 100%;\n  font-size: 14px;\n  color: #313131;\n  overflow-x: hidden;\n  line-height: 1;\n  background: url(" + __webpack_require__(122) + ") no-repeat center 250px; }\n\n.mt5 {\n  margin-top: 5px; }\n\n.mt10 {\n  margin-top: 10px; }\n\n.color80 {\n  color: #42b983; }\n\n.clear {\n  zoom: 1; }\n  .clear:after {\n    content: '';\n    display: table;\n    clear: both; }\n\n.display-flex, .user {\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flexbox;\n  display: flex; }\n\n.flex1, .user .title, .user .info {\n  -webkit-flex: 1;\n  -ms-flex: 1;\n  -webkit-box-flex: 1;\n  box-flex: 1;\n  flex: 1; }\n\n.align-justify {\n  -moz-box-align: justify-content;\n  -ms-flex-align: align-content;\n  -ms-flex-item-align: justify-content;\n  -webkit-box-align: justify-content;\n  /*老语法*/\n  -webkit-align-items: justify-content;\n  /*新语法*/\n  -webkit-align-content: justify-content;\n      -ms-flex-line-pack: justify-content;\n          align-content: justify-content;\n  -webkit-box-align: justify-content;\n  -webkit-align-items: justify-content;\n      -ms-flex-align: justify-content;\n          align-items: justify-content;\n  -webkit-box-pack: justify-content;\n  -webkit-justify-content: justify-content;\n      -ms-flex-pack: justify-content;\n          justify-content: justify-content; }\n\n.break, .user .title, .user .info .t-title {\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap; }\n\n.user {\n  width: 100%;\n  margin: 15px 0;\n  padding: 0 10px; }\n  .user .tab {\n    display: inline-block;\n    width: 40px;\n    color: #626262;\n    border-radius: 5px;\n    background-color: #e7e7e7;\n    margin-right: 10px;\n    text-align: center;\n    height: 20px;\n    line-height: 20px;\n    vertical-align: middle; }\n  .user .good {\n    background-color: #80bd01;\n    color: #fff; }\n  .user .title {\n    font-size: 18px;\n    font-weight: bold; }\n  .user .head {\n    display: inline-block;\n    width: 45px;\n    height: 45px;\n    border: 2px solid #fff6e6;\n    border-radius: 50%;\n    margin-right: 10px; }\n  .user .info {\n    display: block; }\n    .user .info:after {\n      clear: both; }\n    .user .info .t-title {\n      font-size: 18px;\n      font-weight: bold;\n      width: 100%; }\n    .user .info .cl {\n      float: left;\n      width: 70%; }\n      .user .info .cl .name {\n        display: block;\n        color: #626262; }\n      .user .info .cl .mt10 {\n        margin-top: 10px; }\n    .user .info .cr {\n      float: left;\n      width: 30%;\n      text-align: right; }\n      .user .info .cr .name {\n        display: block;\n        margin-top: 10px;\n        color: #80bd01;\n        font-size: 12px; }\n\n.reply_content {\n  padding: 0 15px;\n  margin-bottom: 15px; }\n  .reply_content img {\n    width: auto\\9;\n    height: auto;\n    max-width: 100%;\n    vertical-align: middle;\n    border: 0;\n    -ms-interpolation-mode: bicubic; }\n  .reply_content p {\n    line-height: 1.3; }\n\n.no-data {\n  width: 100%;\n  height: 100%;\n  padding: 40% 0;\n  color: #d4d4d4;\n  display: inline-block;\n  font-size: 18px;\n  text-align: center; }\n\n/*\r\n**   rework 分界线\r\n**   ------------\r\n*/\n/* 颜色 */\n/* 基础布局 */\n/* 综合布局 */\n.text-overflow, .title {\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden; }\n\n.title {\n  color: #2c3e50;\n  font-size: 16px;\n  line-height: 1.5; }\n\n.display-flex, .user {\n  /* Firefox */\n  display: -ms-flexbox;\n  /* IE10 */\n  display: -webkit-box;\n  /* Safari */\n  display: -webkit-flex;\n  /* Chrome, WebKit */\n  display: flexbox;\n  display: flex; }\n\n.flex {\n  display: block;\n  width: 100%;\n  -webkit-flex: 1;\n  -ms-flex: 1;\n  -webkit-box-flex: 1;\n  box-flex: 1;\n  flex: 1; }\n\n.tag {\n  padding: 5px 6px;\n  font-size: 10px;\n  font-weight: 400;\n  border-radius: 4px;\n  background-color: #e7e7e7;\n  text-align: center;\n  vertical-align: middle; }\n\n.user-avatar {\n  display: block;\n  width: 40px;\n  height: 40px;\n  border-radius: 50%;\n  margin-right: 10px;\n  border: 1px solid #F3F3F3; }\n\n.userinfo {\n  margin-top: 45px;\n  width: 100%;\n  background-color: #e7e7e7;\n  text-align: center;\n  height: 180px; }\n  .userinfo .u-img {\n    width: 100px;\n    height: 100px;\n    border-radius: 50%;\n    margin-top: 15px;\n    display: inline-block; }\n  .userinfo .u-name {\n    color: #000; }\n  .userinfo .u-bottom {\n    background-color: #e7e7e7;\n    width: 100%;\n    margin-top: 20px; }\n    .userinfo .u-bottom .u-time {\n      width: 50%;\n      float: left;\n      padding-left: 10px; }\n    .userinfo .u-bottom .u-score {\n      width: 50%;\n      float: left;\n      text-align: right;\n      padding-right: 10px;\n      color: #80bd01; }\n\n.message {\n  background-color: #fff;\n  padding: 5px;\n  border-bottom: solid 1px #d4d4d4; }\n\n.user-tabs {\n  width: 100%;\n  height: 41px;\n  list-style: none;\n  border-bottom: solid 1px #d4d4d4;\n  position: relative; }\n  .user-tabs .item {\n    width: 50%;\n    padding: 12.5px 0;\n    float: left;\n    font-size: 16;\n    text-align: center;\n    font-weight: bold; }\n  .user-tabs .read {\n    font-size: 25px;\n    color: #80bd01;\n    position: absolute;\n    right: 5px;\n    top: 7.5px;\n    font-weight: bold; }\n  .user-tabs .br {\n    border-right: solid 1px #d4d4d4; }\n  .user-tabs .selected {\n    color: #ff5a5f;\n    border-bottom: solid 2px #ff5a5f; }\n\n.icon-empty {\n  font-size: 125px;\n  color: #d4d4d4;\n  display: block; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 201 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	    value: true
+	});
+	// <style lang="sass">
+	//     @import '../assets/scss/user.scss';
+	//     @import '../assets/scss/iconfont/iconfont.css';
+	// </style>
+	// <template>
+	//     <nv-head page-type="用户信息" fix-head="true" :show-menu="false" :need-add="true" ></nv-head>
+	//     <section class="userinfo">
+	//         <img class="u-img" :src="user.avatar_url" /><br/>
+	//         <span class="u-name" v-text="user.loginname"></span>
+	//         <div class="u-bottom">
+	//             <span class="u-time" v-text="user.create_at | getLastTimeStr false"></span>
+	//             <span class="u-score">积分：{{user.score}}</span>
+	//         </div>
+	//     </section>
+	//     <section class="topics">
+	//         <ul class="user-tabs">
+	//             <li class="item br" :class='{"selected":selectItem === 1}' @click="changeItem(1)">最近回复</li>
+	//             <li class="item" :class='{"selected":selectItem === 2}' @click="changeItem(2)">最新发布</li>
+	//         </ul>
+	//         <div class="message markdown-body" v-for="item in currentData">
+	//             <section class="user">
+	//                 <img class="head" :src="item.author.avatar_url"
+	//                     v-link="{name:'user',params:{loginname:item.author.loginname}}" />
+	//                 <div class="info" v-link="{name:'topic',params:{id:item.id}}">
+	//                     <div class="t-title">{{item.title}}</div>
+	//                     <span class="cl">
+	//                         <span class="name">{{item.author.loginname}}</span>
+	//                     </span>
+	//                     <span class="cr">
+	//                         <span class="name">{{item.last_reply_at | getLastTimeStr true}}</span>
+	//                     </span>
+	//                 </div>
+	//             </section>
+	//         </div>
+	//         <div class="no-data" v-show="currentData.length === 0">
+	//             <i class="iconfont icon-empty">&#xe60a;</i>
+	//             暂无数据!
+	//         </div>
+	//     </section>
+	// </template>
+	// <script>
+	exports.default = {
+	    data: function data() {
+	        return {
+	            user: {},
+	            currentData: [],
+	            selectItem: 1
+	        };
+	    },
+	
+	    route: {
+	        data: function data(transition) {
+	            var _self = this;
+	            var loginname = transition.to.params.loginname;
+	
+	            $.get('https://cnodejs.org/api/v1/user/' + loginname, function (d) {
+	                if (d && d.data) {
+	                    var data = d.data;
+	                    _self.user = data;
+	                    if (data.recent_replies.length > 0) {
+	                        _self.currentData = data.recent_replies;
+	                    } else {
+	                        _self.currentData = data.recent_topics;
+	                        _self.selectItem = 2;
 	                    }
-	                });
-	            }
-	        },
-	        methods:{
-	            //切换tab
-	            changeItem:function(idx){
-	                this.selectItem = idx;
-	                this.currentData = idx ===1 ? this.user.recent_replies:this.user.recent_topics;
-	            }
-	        },
-	        components:{
-	            "nvHead":__webpack_require__(114)
+	                }
+	            });
 	        }
+	    },
+	    methods: {
+	        //切换tab
+	
+	        changeItem: function changeItem(idx) {
+	            this.selectItem = idx;
+	            this.currentData = idx === 1 ? this.user.recent_replies : this.user.recent_topics;
+	        }
+	    },
+	    components: {
+	        "nvHead": __webpack_require__(131)
 	    }
+	};
+	// </script>
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(17)))
 
 /***/ },
-/* 168 */
-/***/ function(module, exports) {
-
-	// removed by extract-text-webpack-plugin
-
-/***/ },
-/* 169 */
+/* 202 */
 /***/ function(module, exports) {
 
 	module.exports = "<nv-head page-type=\"用户信息\" fix-head=\"true\" :show-menu=\"false\" :need-add=\"true\" ></nv-head>\n    <section class=\"userinfo\">\n        <img class=\"u-img\" :src=\"user.avatar_url\" /><br/>\n        <span class=\"u-name\" v-text=\"user.loginname\"></span>\n        <div class=\"u-bottom\">\n            <span class=\"u-time\" v-text=\"user.create_at | getLastTimeStr false\"></span>\n            <span class=\"u-score\">积分：{{user.score}}</span>\n        </div>\n    </section>\n    <section class=\"topics\">\n        <ul class=\"user-tabs\">\n            <li class=\"item br\" :class='{\"selected\":selectItem === 1}' @click=\"changeItem(1)\">最近回复</li>\n            <li class=\"item\" :class='{\"selected\":selectItem === 2}' @click=\"changeItem(2)\">最新发布</li>\n        </ul>\n        <div class=\"message markdown-body\" v-for=\"item in currentData\">\n            <section class=\"user\">\n                <img class=\"head\" :src=\"item.author.avatar_url\"\n                    v-link=\"{name:'user',params:{loginname:item.author.loginname}}\" />\n                <div class=\"info\" v-link=\"{name:'topic',params:{id:item.id}}\">\n                    <div class=\"t-title\">{{item.title}}</div>\n                    <span class=\"cl\">\n                        <span class=\"name\">{{item.author.loginname}}</span>\n                    </span>\n                    <span class=\"cr\">\n                        <span class=\"name\">{{item.last_reply_at | getLastTimeStr true}}</span>\n                    </span>\n                </div>\n            </section>\n        </div>\n        <div class=\"no-data\" v-show=\"currentData.length === 0\">\n            <i class=\"iconfont icon-empty\">&#xe60a;</i>\n            暂无数据!\n        </div>\n    </section>";
